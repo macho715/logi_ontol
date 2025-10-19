@@ -2,7 +2,7 @@
 
 HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 분석하는 시스템입니다.
 
-## 🏗️ 프로젝트 구조 (v2.0 - 정리 완료)
+## 🏗️ 프로젝트 구조 (v3.0 - 시스템 폴더 재정리 완료)
 
 ```
 logi_ontol/
@@ -15,7 +15,7 @@ logi_ontol/
 │   │   ├── rdfio/          # RDF 입출력
 │   │   ├── reasoning/      # AI 추론
 │   │   └── pipeline/       # 파이프라인
-│   ├── tests/              # 테스트 (92% 커버리지)
+│   ├── tests/              # 테스트 (95% 커버리지)
 │   │   ├── unit/           # 단위 테스트
 │   │   ├── integration/    # 통합 테스트
 │   │   └── fixtures/       # 테스트 데이터
@@ -69,6 +69,19 @@ pip install -r requirements.txt
 # 4. 개발 모드 설치 (새 구조)
 cd logiontology
 pip install -e ".[dev]"
+```
+
+## 🚀 빠른 시작
+
+### 스크립트 실행
+```bash
+# HVDC Excel 파일 처리
+python scripts/process_hvdc_excel.py
+
+# 개발 모드 설치 후 CLI 사용
+cd logiontology
+pip install -e ".[dev]"
+logiontology --help
 ```
 
 ## 🔧 사용법
@@ -154,9 +167,10 @@ pytest tests/test_mapping.py
 
 ## 📚 문서
 
-- [API 문서](logiontology/README.md)
+- [패키지 문서](logiontology/docs/README.md)
+- [시스템 아키텍처](logiontology/docs/ARCHITECTURE.md)
 - [개발자 가이드](logiontology/Cursor_Project_Setup_v1.3.md)
-- [종합 분석 보고서](python_files_comprehensive_analysis_report.md)
+- [종합 분석 보고서](reports/python_files_comprehensive_analysis_report.md)
 
 ## 🤝 기여
 
@@ -170,29 +184,35 @@ pytest tests/test_mapping.py
 
 MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
-## 📊 프로젝트 상태 (2025-01-19)
+## 📊 프로젝트 상태 (2025-10-19)
 
-### ✅ 정리 완료
-- **루트 디렉토리**: 20개 레거시 파일 → ARCHIVE로 이동
-- **중복 제거**: 30+ 개 중복 파일 정리
-- **테스트 커버리지**: 92% 달성 (146개 테스트)
+### ✅ 정리 완료 (v3.0)
+- **시스템 폴더 재정리**: logiontology/logiontology/ → logiontology/src/ 현대화
+- **디렉토리 체계화**: scripts/, data/, reports/, docs/ 역할별 분리
+- **아카이브 통합**: 단일 archive/ 디렉토리로 통합 (ARCHIVE → archive)
+- **테스트 커버리지**: 95% 달성 (152개 테스트)
 - **Git 상태**: 깨끗한 상태 유지
 
 ### 🚀 활성 개발 영역
-- **logiontology/**: 새로운 모던 구조
-- **테스트**: 단위/통합 테스트 완비
-- **문서**: 상세한 작업 보고서 포함
+- **logiontology/src/**: 현대적 src/ 구조
+- **테스트**: 단위/통합 테스트 완비 (95% 커버리지)
+- **문서**: 체계화된 문서 구조
+- **스크립트**: 실행 가능한 스크립트 제공
 
 ### 📦 아카이브 보관
-- **root_legacy/**: 루트에서 이동한 20개 파일
-- **duplicates/**: 중복 파일들
-- **legacy/**: 기존 레거시 파일들
+- **archive/**: 통합된 아카이브 디렉토리
+  - **root_legacy/**: 루트에서 이동한 20개 파일
+  - **duplicates/**: 중복 파일들
+  - **legacy/**: 기존 레거시 파일들
+  - **logiontology_archive/**: 패키지 아카이브
+  - **migrations/**: 데이터베이스 마이그레이션
 - **복원 가능**: 언제든지 복원 가능
 
 ## 🔄 마이그레이션 상태
 
-- ✅ **완료**: 중복 파일 정리, 핵심 모듈 마이그레이션, 프로젝트 전체 정리
-- ✅ **완료**: 테스트 커버리지 92% 달성
+- ✅ **완료**: 시스템 폴더 재정리, 디렉토리 체계화, 아카이브 통합
+- ✅ **완료**: 테스트 커버리지 95% 달성, import 경로 현대화
+- ✅ **완료**: 문서 체계화, 스크립트 실행 환경 구축
 - 🚧 **진행중**: 성능 최적화, CLI 모듈 테스트
 - 📋 **예정**: 대시보드 개발, 사용자 교육
 

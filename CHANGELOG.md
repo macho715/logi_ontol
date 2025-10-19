@@ -1,5 +1,38 @@
 # Changelog
 
+## [3.0.0] - 2025-10-19
+
+### System Folder Reorganization
+- **logiontology/logiontology/** → **logiontology/src/** 이름 변경
+- **scripts/** 디렉토리 생성 및 실행 스크립트 이동
+- **data/** 디렉토리 생성 및 Excel 파일 이동
+- **reports/** 디렉토리 생성 및 보고서 이동
+- **archive/** 통합 (ARCHIVE → archive, logiontology/ARCHIVE 통합)
+- **migrations/** → archive/migrations/ 이동
+
+### Import Path Updates
+- All Python imports: `logiontology.xxx` → `src.xxx` (within package)
+- External imports: `logiontology.src.xxx`
+- Test imports updated across all test files
+- pyproject.toml configuration updated
+
+### Test Coverage Improvement
+- Coverage: 92% → 95% (+3%)
+- Total tests: 146 → 152 (+6 tests)
+
+### Breaking Changes
+- Import paths changed for external users
+- Script locations moved to scripts/
+- Data files expected in data/
+- Reports generated to reports/
+
+### Migration Guide
+- **Old import**: `from logiontology.mapping.registry import MappingRegistry`
+- **New import**: `from logiontology.src.mapping.registry import MappingRegistry`
+- **Script execution**: `python process_hvdc_excel.py` → `python scripts/process_hvdc_excel.py`
+- **Data location**: Root directory → `data/` directory
+- **Reports location**: Root directory → `reports/` directory
+
 ## [2.1.0] - 2025-01-19
 
 ### 🧹 Project Cleanup
