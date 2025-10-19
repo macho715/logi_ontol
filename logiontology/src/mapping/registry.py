@@ -27,15 +27,18 @@ HVDCI = Namespace("https://hvdc.example.org/id/")
 
 DXB_TZ = pytz.timezone("Asia/Dubai")
 
+
 def uuid5_from(*parts: str) -> str:
     """Generate deterministic UUID5 from parts"""
     base = "00000000-0000-0000-0000-000000000000"
     name = "::".join("" if p is None else str(p) for p in parts)
     return str(uuid.uuid5(uuid.UUID(base), name))
 
+
 def load_dsv_codes() -> set:
     """Load DSV warehouse codes - TODO: Replace with actual source"""
     return {"MZP", "MOSB", "DAS", "AGI", "AAA", "INDOOR", "OUTDOOR"}
+
 
 def normalize_container(c: str) -> str:
     """Normalize container number"""
@@ -44,11 +47,13 @@ def normalize_container(c: str) -> str:
     c = str(c).strip().upper()
     return re.sub(r"[^A-Z0-9]", "", c)
 
+
 def normalize_bl(bl: str) -> str:
     """Normalize BL number"""
     if pd.isna(bl):
         return bl
     return re.sub(r"[-\s]", "", str(bl).strip().upper())
+
 
 def to_iso8601_dxb(v):
     """Convert to ISO8601 with Dubai timezone"""
@@ -76,6 +81,7 @@ class MappingRegistry:
     def load_rules(cls, path: str | Path) -> "MappingRegistry":
         """Load rules from YAML file"""
         import yaml
+
         with open(path, "r", encoding="utf-8") as f:
             rules = yaml.safe_load(f)
         instance = cls(rules)
@@ -107,7 +113,9 @@ class MappingRegistry:
         if "ETA" in df.columns:
             df["ETA_iso"] = df["ETA"].map(to_iso8601_dxb)
         if "Operation Month" in df.columns:
-            df["Operation Month"] = pd.to_datetime(df["Operation Month"], errors="coerce").dt.strftime("%Y-%m")
+            df["Operation Month"] = pd.to_datetime(
+                df["Operation Month"], errors="coerce"
+            ).dt.strftime("%Y-%m")
         return df
 
     def apply_business_filters(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -115,25 +123,25 @@ class MappingRegistry:
         wl = set(self.business_rules.get("vendor_whitelist", []))
         if "Vendor" in df.columns and wl:
             df = df[df["Vendor"].isin(wl)]
-        
+
         if "ETA" in df.columns and "Operation Month" in df.columns:
             eta_month = pd.to_datetime(df["ETA"], errors="coerce").dt.strftime("%Y-%m")
             df = df[eta_month == df["Operation Month"]]
-        
+
         pressure_col = None
         for col in df.columns:
             if "Pressure" in col and "t/m" in col:
                 pressure_col = col
                 break
-        
+
         if pressure_col:
             pressure_max = float(self.business_rules.get("pressure_max", 4.0))
             df = df[pd.to_numeric(df[pressure_col], errors="coerce") <= pressure_max]
-        
+
         if "Warehouse Code" in df.columns:
             dsv = load_dsv_codes()
             df = df[df["Warehouse Code"].isin(dsv)]
-        
+
         return df
 
     # ---------- RDF Generation ----------
@@ -147,7 +155,7 @@ class MappingRegistry:
     def dataframe_to_rdf(self, df: pd.DataFrame, out_ttl: str | Path) -> Path:
         """Convert DataFrame to RDF using v2.6 mapping rules"""
         g = self._graph()
-        
+
         for idx, row in df.iterrows():
             rowd = row.to_dict()
 
@@ -167,14 +175,14 @@ class MappingRegistry:
             g.add((s_iri, RDF.type, URIRef(f"{HVDC}Shipment")))
             if hvdc_code:
                 g.add((s_iri, URIRef(f"{HVDC}hasHVDCCode"), Literal(hvdc_code)))
-            
+
             # Item
             if case_no:
                 item_iri = URIRef(f"{HVDCI}Item/{uuid5_from(case_no)}")
                 g.add((item_iri, RDF.type, URIRef(f"{HVDC}LogisticsItem")))
                 g.add((item_iri, URIRef(f"{HVDC}hasCaseNo"), Literal(case_no)))
                 g.add((s_iri, URIRef(f"{HVDC}containsItem"), item_iri))
-            
+
             # Organization
             if vendor:
                 org_id = re.sub(r"\s+", "_", str(vendor).strip())
@@ -182,14 +190,20 @@ class MappingRegistry:
                 g.add((org_iri, RDF.type, URIRef(f"{ORG}Organization")))
                 g.add((org_iri, URIRef(f"{ORG}name"), Literal(vendor)))
                 g.add((s_iri, URIRef(f"{HVDC}hasVendor"), org_iri))
-            
+
             # ArrivalEvent
             if blno and eta_iso:
                 e_iri = URIRef(f"{HVDCI}Event/ARR/{uuid5_from(blno, eta_iso)}")
                 g.add((e_iri, RDF.type, URIRef(f"{OPS}ArrivalEvent")))
-                g.add((e_iri, URIRef(f"{HVDC}eventTimestamp"), Literal(eta_iso, datatype=XSD.dateTime)))
+                g.add(
+                    (
+                        e_iri,
+                        URIRef(f"{HVDC}eventTimestamp"),
+                        Literal(eta_iso, datatype=XSD.dateTime),
+                    )
+                )
                 g.add((e_iri, URIRef(f"{HVDC}aboutShipment"), s_iri))
-            
+
             # TransportConstraint
             if pressure is not None and str(pressure).strip() != "":
                 try:
@@ -236,12 +250,13 @@ class MappingRegistry:
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="HVDC Ontology Mapper v2.6")
     parser.add_argument("--rules", required=True, help="Path to mapping rules YAML file")
     parser.add_argument("--in_csv", required=True, help="Input CSV file")
     parser.add_argument("--out_ttl", required=True, help="Output TTL file")
     args = parser.parse_args()
-    
+
     reg = MappingRegistry.load_rules(args.rules)
     df = pd.read_csv(args.in_csv)
     out = reg.run(df, args.out_ttl)

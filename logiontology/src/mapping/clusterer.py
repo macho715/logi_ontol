@@ -15,10 +15,12 @@ OPS = Namespace("https://hvdc.example.org/ops#")
 HVDCI = Namespace("https://hvdc.example.org/id/")
 OWL = Namespace("http://www.w3.org/2002/07/owl#")
 
+
 def uuid5_from(*parts: str) -> str:
     base = "00000000-0000-0000-0000-000000000000"
     name = "::".join("" if p is None else str(p) for p in parts)
     return str(uuid.uuid5(uuid.UUID(base), name))
+
 
 @dataclass
 class ClusterRule:
@@ -28,6 +30,7 @@ class ClusterRule:
     window_days: Optional[int] = None
     same_port: Optional[bool] = None
 
+
 class IdentityClusterer:
     def __init__(self, rules: Dict[str, Any]):
         self.raw_rules = rules.get("identity_rules", [])
@@ -36,11 +39,14 @@ class IdentityClusterer:
     @classmethod
     def from_yaml(cls, path: str | Path) -> "IdentityClusterer":
         import yaml
+
         with open(path, "r", encoding="utf-8") as f:
             rules = yaml.safe_load(f)
         return cls(rules)
 
-    def _cluster_by_simple_keys(self, df: pd.DataFrame, keys: List[str], as_type: str) -> pd.DataFrame:
+    def _cluster_by_simple_keys(
+        self, df: pd.DataFrame, keys: List[str], as_type: str
+    ) -> pd.DataFrame:
         present = [k for k in keys if k in df.columns]
         if not present:
             return pd.DataFrame(columns=["ClusterID", "ClusterType", "RowIndex"])
@@ -63,7 +69,9 @@ class IdentityClusterer:
         # Bucket by rotation + week window (±window_days collapsed to week index)
         w = max(rule.window_days or 7, 1)
         # Use ISO week start as bucket; different windows approximate by floor to w-day bins
-        tmp["bucket"] = (tmp["ETA"].dt.floor("D") - pd.to_timedelta(tmp["ETA"].dt.dayofyear % w, unit="D")).astype("datetime64[ns]")
+        tmp["bucket"] = (
+            tmp["ETA"].dt.floor("D") - pd.to_timedelta(tmp["ETA"].dt.dayofyear % w, unit="D")
+        ).astype("datetime64[ns]")
         ids = []
         for i, r in tmp.iterrows():
             parts = [str(r.get("RotationNo") or ""), str(r.get("bucket") or "")]

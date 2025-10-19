@@ -9,12 +9,13 @@ from rdflib import Graph
 from ..mapping.registry import MappingRegistry
 from ..mapping.clusterer import IdentityClusterer
 
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rules", required=True)
     ap.add_argument("--in_csv", required=True)
     ap.add_argument("--out_entities", required=True)  # TTL
-    ap.add_argument("--out_linkset", required=True)   # TTL
+    ap.add_argument("--out_linkset", required=True)  # TTL
     ap.add_argument("--publish", action="store_true")
     ap.add_argument("--fuseki", help="http://localhost:3030")
     ap.add_argument("--dataset", help="dataset name")
@@ -39,11 +40,13 @@ def main():
     # Optional publish
     if args.publish:
         from ..rdfio.publish import publish_turtle
+
         if not args.fuseki or not args.dataset:
             raise SystemExit("--publish requires --fuseki and --dataset")
         c1 = publish_turtle(ent_ttl, args.fuseki, args.dataset)
         c2 = publish_turtle(linkset_path, args.fuseki, args.dataset)
         print(f"Publish status: entities={c1}, linkset={c2}")
+
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,10 @@ import requests
 from pathlib import Path
 import sys
 
-def publish_turtle(ttl_path: str | Path, fuseki_base_url: str, dataset: str, graph: str | None = None) -> int:
+
+def publish_turtle(
+    ttl_path: str | Path, fuseki_base_url: str, dataset: str, graph: str | None = None
+) -> int:
     """
     Publish a TTL file to Apache Jena Fuseki.
     - fuseki_base_url: e.g., http://localhost:3030
@@ -20,9 +23,12 @@ def publish_turtle(ttl_path: str | Path, fuseki_base_url: str, dataset: str, gra
         r = requests.post(url, params=params, data=f.read(), headers=headers, timeout=60)
     return r.status_code
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print("Usage: python -m logiontology.rdfio.publish <ttl_path> <fuseki_base_url> <dataset> [graphIRI]")
+        print(
+            "Usage: python -m logiontology.rdfio.publish <ttl_path> <fuseki_base_url> <dataset> [graphIRI]"
+        )
         sys.exit(2)
     ttl_path, base, dataset = sys.argv[1], sys.argv[2], sys.argv[3]
     graph = sys.argv[4] if len(sys.argv) > 4 else None
