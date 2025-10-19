@@ -6,7 +6,7 @@ Active File: ontology_mapper.py (v2.6, 476줄)
 
 ## 파일 목록
 - ontology_mapper_1.py
-- ontology_mapper_2.py  
+- ontology_mapper_2.py
 - ontology_mapper_3.py
 - ontology_mapper_4.py
 - ontology_mapper_5.py

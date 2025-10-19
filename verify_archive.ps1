@@ -8,13 +8,15 @@ Write-Host "  총 파일: $($activeCount + $archiveCount)개"
 
 if ($archiveCount -ge 20) {
     Write-Host "✅ ARCHIVE 파일 수 정상 (26개)"
-} else {
+}
+else {
     Write-Host "⚠️  ARCHIVE 파일 수 불일치 (예상: ~26개, 실제: $archiveCount개)"
 }
 
 if ($activeCount -le 30) {
     Write-Host "✅ 활성 파일 수 정상 (26개)"
-} else {
+}
+else {
     Write-Host "⚠️  활성 파일 수 불일치 (예상: ~26개, 실제: $activeCount개)"
 }
 

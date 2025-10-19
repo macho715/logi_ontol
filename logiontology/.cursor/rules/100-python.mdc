@@ -1,0 +1,6 @@
+---
+description: Python Excel IO rules
+globs: ["**/*.py"]
+alwaysApply: true
+---
+* Excel new: XlsxWriter; edit: openpyxl; pandas=IO; if_sheet_exists="replace".

@@ -1,0 +1,39 @@
+# Core dependencies
+pandas>=2.2.0,<3.0.0
+numpy>=1.20.0,<2.0.0
+openpyxl>=3.1.0
+XlsxWriter>=3.2.0
+
+# RDF/Ontology
+rdflib>=7.0.0
+owlrl>=6.0.2
+SPARQLWrapper>=2.0.0
+
+# Machine Learning
+scikit-learn>=1.1.0
+scipy>=1.7.0
+
+# Data processing
+pyyaml>=6.0.1
+pathlib2>=2.3.0
+
+# CLI and configuration
+typer>=0.12.5
+pydantic>=2.7.0
+
+# Development tools
+pytest>=8.2.0
+pytest-cov>=5.0.0
+ruff>=0.6.5
+black>=24.8.0
+isort>=5.13.2
+bandit>=1.7.9
+pip-audit>=2.7.3
+pyupgrade>=3.19.0
+mypy>=1.11.0
+
+# Optional: SHACL validation
+pyshacl>=0.23.0
+
+# Logging and monitoring
+loguru>=0.6.0
