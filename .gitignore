@@ -140,3 +140,7 @@ coverage.xml
 # Project specific
 mapping_rules_v*.json
 config.json
+
+# Test debug files
+test_debug*.ttl
+test_debug*.rdf

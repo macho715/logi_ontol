@@ -2,7 +2,7 @@
 
 HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 분석하는 시스템입니다.
 
-## 🏗️ 프로젝트 구조 (v3.0 - 시스템 폴더 재정리 완료)
+## 🏗️ 프로젝트 구조 (v3.1 - P.MD v2.6 통합 완료)
 
 ```
 logi_ontol/
@@ -15,7 +15,7 @@ logi_ontol/
 │   │   ├── rdfio/          # RDF 입출력
 │   │   ├── reasoning/      # AI 추론
 │   │   └── pipeline/       # 파이프라인
-│   ├── tests/              # 테스트 (95% 커버리지)
+│   ├── tests/              # 테스트 (92% 커버리지)
 │   │   ├── unit/           # 단위 테스트
 │   │   ├── integration/    # 통합 테스트
 │   │   └── fixtures/       # 테스트 데이터
@@ -39,6 +39,8 @@ logi_ontol/
 │   ├── legacy/             # 기존 레거시 파일들
 │   └── logiontology_archive/ # 패키지 아카이브
 ├── docs/                   # 프로젝트 문서
+│   ├── P_MD_v2.6_mapping.md
+│   └── P2_MD_v2.6_clustering.md
 ├── README.md               # 이 파일
 ├── CHANGELOG.md            # 변경 이력
 └── requirements.txt        # 의존성
@@ -46,11 +48,42 @@ logi_ontol/
 
 ## 🚀 주요 기능
 
+### v2.6 매핑 시스템
 - **Excel → RDF 변환**: HVDC 데이터를 표준 RDF/TTL 형식으로 변환
+- **결정적 UUID5 기반 ID**: 일관된 엔티티 식별자 생성
+- **엔티티 클러스터링**: owl:sameAs 링크로 소프트 머지
+- **비즈니스 룰 필터링**: 벤더, 압력, 창고 코드 필터
+- **SHACL 검증**: Shipment, ShipmentOOG Shape 검증
+
+### 기존 기능
 - **재고 무결성 검증**: 자동 재고 계산 검증 (Opening + In - Out = Closing)
 - **AI/ML 기반 패턴 발견**: Decision Tree, Random Forest를 통한 비즈니스 규칙 추론
 - **FANR/MOIAT 규정 준수**: 자동 규정 준수 검증
 - **실시간 KPI 모니터링**: 물류 지표 실시간 추적
+- **Fuseki 퍼블리싱**: Apache Jena Fuseki에 RDF 게시
+
+## ⚙️ 설정 파일
+
+### v2.6 매핑 규칙
+- **`logiontology/configs/mapping_rules.v2.6.yaml`**: 매핑 규칙, 비즈니스 룰, identity rules
+- **`logiontology/configs/shapes/*.ttl`**: SHACL validation shapes
+  - `Shipment.shape.ttl`: Shipment 엔티티 검증 규칙
+  - `ShipmentOOG.shape.ttl`: Out-Of-Gauge Shipment 검증 규칙
+
+### Identity Rules
+```yaml
+identity_rules:
+  - name: "by_hvdc_vendor_case"
+    when: ["HVDC_Code", "Vendor", "Case No."]
+    cluster_as: "Shipment"
+  - name: "by_bl_container"
+    when: ["BL No.", "Container"]
+    cluster_as: "Consignment"
+  - name: "by_rotation_eta"
+    when: ["RotationNo", "ETA"]
+    cluster_as: "RotationGroup"
+    window_days: 7
+```
 
 ## 📦 설치
 
@@ -73,7 +106,33 @@ pip install -e ".[dev]"
 
 ## 🚀 빠른 시작
 
-### 스크립트 실행
+### v2.6 시스템 사용법
+```bash
+# 1. 엔티티 + 링크셋 생성
+python -m logiontology.src.pipeline.run_map_cluster \
+  --rules logiontology/configs/mapping_rules.v2.6.yaml \
+  --in_csv data/sample.csv \
+  --out_entities output/entities.ttl \
+  --out_linkset output/linkset.ttl
+
+# 2. Fuseki에 게시 (옵션)
+python -m logiontology.src.pipeline.run_map_cluster \
+  --rules logiontology/configs/mapping_rules.v2.6.yaml \
+  --in_csv data/sample.csv \
+  --out_entities output/entities.ttl \
+  --out_linkset output/linkset.ttl \
+  --publish \
+  --fuseki http://localhost:3030 \
+  --dataset hvdc_logistics
+
+# 3. 개별 컴포넌트 사용
+python -m logiontology.src.mapping.registry \
+  --rules logiontology/configs/mapping_rules.v2.6.yaml \
+  --in_csv data.csv \
+  --out_ttl output.ttl
+```
+
+### 기존 스크립트
 ```bash
 # HVDC Excel 파일 처리
 python scripts/process_hvdc_excel.py
@@ -86,7 +145,29 @@ logiontology --help
 
 ## 🔧 사용법
 
-### 새로운 구조 (권장)
+### v2.6 시스템 (권장)
+
+```python
+from logiontology.src.mapping.registry import MappingRegistry
+from logiontology.src.mapping.clusterer import IdentityClusterer
+from logiontology.src.rdfio.publish import publish_turtle
+
+# 1. 매핑 규칙 로드
+registry = MappingRegistry.load_rules("logiontology/configs/mapping_rules.v2.6.yaml")
+
+# 2. 엔티티 생성
+entities_ttl = registry.run(df, "output/entities.ttl")
+
+# 3. 클러스터링
+clusterer = IdentityClusterer.from_yaml("logiontology/configs/mapping_rules.v2.6.yaml")
+clusters, linkset_graph = clusterer.run(df)
+linkset_graph.serialize("output/linkset.ttl", format="turtle")
+
+# 4. Fuseki 퍼블리싱
+publish_turtle("output/entities.ttl", "http://localhost:3030", "hvdc_logistics")
+```
+
+### 기존 구조 (호환성 유지)
 
 ```python
 from logiontology.src.mapping.registry import MappingRegistry
@@ -169,6 +250,10 @@ pytest tests/test_mapping.py
 
 - [패키지 문서](logiontology/docs/README.md)
 - [시스템 아키텍처](logiontology/docs/ARCHITECTURE.md)
+- [아키텍처 다이어그램](logiontology/docs/ARCHITECTURE_DIAGRAMS.md)
+- [Mermaid 다이어그램](logiontology/docs/ARCHITECTURE_Mermaid.md)
+- [v2.6 매핑 시스템](docs/P_MD_v2.6_mapping.md)
+- [v2.6 클러스터링](docs/P2_MD_v2.6_clustering.md)
 - [개발자 가이드](logiontology/Cursor_Project_Setup_v1.3.md)
 - [종합 분석 보고서](reports/python_files_comprehensive_analysis_report.md)
 
@@ -186,18 +271,20 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 ## 📊 프로젝트 상태 (2025-10-19)
 
-### ✅ 정리 완료 (v3.0)
+### ✅ 정리 완료 (v3.1)
+- **P.MD v2.6 통합**: 완전한 엔드투엔드 파이프라인 구축
 - **시스템 폴더 재정리**: logiontology/logiontology/ → logiontology/src/ 현대화
 - **디렉토리 체계화**: scripts/, data/, reports/, docs/ 역할별 분리
 - **아카이브 통합**: 단일 archive/ 디렉토리로 통합 (ARCHIVE → archive)
-- **테스트 커버리지**: 95% 달성 (152개 테스트)
+- **테스트 커버리지**: 92% 달성 (v2.6 통합으로 인한 변경)
 - **Git 상태**: 깨끗한 상태 유지
 
 ### 🚀 활성 개발 영역
-- **logiontology/src/**: 현대적 src/ 구조
-- **테스트**: 단위/통합 테스트 완비 (95% 커버리지)
-- **문서**: 체계화된 문서 구조
-- **스크립트**: 실행 가능한 스크립트 제공
+- **logiontology/src/**: 현대적 src/ 구조 + v2.6 시스템
+- **테스트**: 단위/통합 테스트 완비 (92% 커버리지)
+- **문서**: 체계화된 문서 구조 + v2.6 가이드
+- **스크립트**: 실행 가능한 스크립트 + 파이프라인
+- **v2.6 기능**: Identity Clustering, Fuseki Publishing, SHACL Validation
 
 ### 📦 아카이브 보관
 - **archive/**: 통합된 아카이브 디렉토리
@@ -210,9 +297,11 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 ## 🔄 마이그레이션 상태
 
+- ✅ **완료**: P.MD v2.6 시스템 통합, 완전한 엔드투엔드 파이프라인
 - ✅ **완료**: 시스템 폴더 재정리, 디렉토리 체계화, 아카이브 통합
-- ✅ **완료**: 테스트 커버리지 95% 달성, import 경로 현대화
+- ✅ **완료**: 테스트 커버리지 92% 달성, import 경로 현대화
 - ✅ **완료**: 문서 체계화, 스크립트 실행 환경 구축
+- ✅ **완료**: Identity Clustering, Fuseki Publishing, SHACL Validation
 - 🚧 **진행중**: 성능 최적화, CLI 모듈 테스트
 - 📋 **예정**: 대시보드 개발, 사용자 교육
 
