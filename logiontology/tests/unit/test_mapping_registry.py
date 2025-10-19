@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 from unittest.mock import patch, mock_open
 
-from logiontology.mapping.registry import MappingRegistry
+from src.mapping.registry import MappingRegistry
 
 
 class TestMappingRegistry:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 import typer
-from logiontology.pipeline.main import run_pipeline_excel_to_ttl
-from logiontology.core.ids import deterministic_id
+from ..pipeline.main import run_pipeline_excel_to_ttl
+from ..core.ids import deterministic_id
 
 app = typer.Typer(help="Logiontology CLI: ingest/map/validate/reason/report")
 

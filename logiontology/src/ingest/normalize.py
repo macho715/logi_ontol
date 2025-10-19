@@ -1,7 +1,7 @@
 from __future__ import annotations
 import pandas as pd
 from typing import Mapping
-from logiontology.core.contracts import DEFAULT_RENAME_MAP
+from ..core.contracts import DEFAULT_RENAME_MAP
 
 def normalize_columns(df: pd.DataFrame, rename_map: Mapping[str, str] | None = None) -> pd.DataFrame:
     mapping = {k.lower(): v for k, v in (rename_map or DEFAULT_RENAME_MAP).items()}

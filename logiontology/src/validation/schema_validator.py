@@ -11,7 +11,7 @@ from typing import Dict, List, Tuple, Any, Iterable
 import logging
 import re
 from datetime import datetime
-from logiontology.core.models import TransportEvent, StockSnapshot, DeadStock
+from ..core.models import TransportEvent, StockSnapshot, DeadStock
 
 
 class SchemaValidator:

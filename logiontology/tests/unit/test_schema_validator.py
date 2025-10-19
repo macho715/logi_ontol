@@ -9,7 +9,7 @@ import pytest
 from datetime import datetime
 from unittest.mock import patch
 
-from logiontology.validation.schema_validator import (
+from src.validation.schema_validator import (
     SchemaValidator,
     validate_transport_events,
     validate_stock_snapshots,

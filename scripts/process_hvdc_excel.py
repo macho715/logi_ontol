@@ -16,9 +16,9 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 # LogiOntology 모듈 import
 sys.path.append("logiontology")
-from logiontology.ingest.excel import load_excel, convert_excel_to_rdf
-from logiontology.mapping.registry import MappingRegistry
-from logiontology.validation.schema_validator import SchemaValidator
+from logiontology.src.ingest.excel import load_excel, convert_excel_to_rdf
+from logiontology.src.mapping.registry import MappingRegistry
+from logiontology.src.validation.schema_validator import SchemaValidator
 
 
 def analyze_excel_structure(file_path: str):

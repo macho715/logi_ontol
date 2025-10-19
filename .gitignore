@@ -83,12 +83,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Data files
-*.xlsx
-*.xls
-*.csv
-*.ttl
-*.rdf
+# Data files (allow in specific directories)
+data/*.xlsx
+data/*.xls
+data/*.csv
+output/*.ttl
+output/*.rdf
 *.json
 *.yaml
 *.yml
@@ -120,7 +120,7 @@ Thumbs.db
 # Output directories
 rdf_output/
 sparql_queries/
-output/
+# output/ - allow output files but ignore generated content
 results/
 
 # Test coverage

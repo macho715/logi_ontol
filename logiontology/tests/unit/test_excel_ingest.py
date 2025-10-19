@@ -13,7 +13,7 @@ from unittest.mock import patch, mock_open, MagicMock
 import tempfile
 import os
 
-from logiontology.ingest.excel import (
+from src.ingest.excel import (
     load_excel,
     convert_excel_to_rdf,
     batch_convert_excel_to_rdf,
@@ -239,7 +239,7 @@ class TestBatchConvertExcelToRdf:
 
         output_dir = tmp_path / "output"
 
-        with patch("logiontology.ingest.excel.convert_excel_to_rdf") as mock_convert:
+        with patch("src.ingest.excel.convert_excel_to_rdf") as mock_convert:
             mock_convert.return_value = "converted.ttl"
 
             result = batch_convert_excel_to_rdf(str(input_dir), str(output_dir))
@@ -272,7 +272,7 @@ class TestBatchConvertExcelToRdf:
 
         output_dir = tmp_path / "output"
 
-        with patch("logiontology.ingest.excel.convert_excel_to_rdf") as mock_convert:
+        with patch("src.ingest.excel.convert_excel_to_rdf") as mock_convert:
             mock_convert.return_value = "converted.ttl"
 
             result = batch_convert_excel_to_rdf(str(input_dir), str(output_dir))
@@ -293,7 +293,7 @@ class TestBatchConvertExcelToRdf:
 
         output_dir = tmp_path / "output"
 
-        with patch("logiontology.ingest.excel.convert_excel_to_rdf") as mock_convert:
+        with patch("src.ingest.excel.convert_excel_to_rdf") as mock_convert:
             mock_convert.side_effect = Exception("Conversion error")
 
             result = batch_convert_excel_to_rdf(str(input_dir), str(output_dir))
@@ -312,7 +312,7 @@ class TestBatchConvertExcelToRdf:
 
         output_dir = tmp_path / "new_output"
 
-        with patch("logiontology.ingest.excel.convert_excel_to_rdf") as mock_convert:
+        with patch("src.ingest.excel.convert_excel_to_rdf") as mock_convert:
             mock_convert.return_value = "converted.ttl"
 
             result = batch_convert_excel_to_rdf(str(input_dir), str(output_dir))

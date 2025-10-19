@@ -10,8 +10,8 @@ from pathlib import Path
 from datetime import datetime, date
 from typing import Dict, Any
 
-from logiontology.mapping.registry import MappingRegistry
-from logiontology.validation.schema_validator import SchemaValidator
+from src.mapping.registry import MappingRegistry
+from src.validation.schema_validator import SchemaValidator
 
 
 @pytest.fixture

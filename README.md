@@ -6,8 +6,8 @@ HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 
 
 ```
 logi_ontol/
-├── logiontology/           # 🚀 새로운 모던 구조 (활성 개발)
-│   ├── logiontology/       # 핵심 모듈
+├── logiontology/           # 🚀 메인 패키지 (활성 개발)
+│   ├── src/                # 소스 코드
 │   │   ├── core/           # 핵심 모델 및 계약
 │   │   ├── mapping/        # 온톨로지 매핑 (v2.6)
 │   │   ├── validation/     # 스키마 검증
@@ -20,20 +20,28 @@ logi_ontol/
 │   │   ├── integration/    # 통합 테스트
 │   │   └── fixtures/       # 테스트 데이터
 │   ├── configs/            # 설정 파일
+│   ├── docs/               # 패키지 문서
 │   └── .github/            # CI/CD
-├── ARCHIVE/                # 📦 아카이브 (정리 완료)
-│   ├── root_legacy/        # 루트 레거시 파일들 (2025-01-19)
+├── scripts/                # 실행 스크립트
+│   └── process_hvdc_excel.py
+├── data/                   # 입력 데이터
+│   └── *.xlsx
+├── output/                 # 출력 결과
+│   └── *.ttl
+├── reports/                # 보고서
+│   ├── WORK_SUMMARY.md
+│   ├── PROJECT_CLEANUP_REPORT.md
+│   └── HVDC_PROCESSING_REPORT.md
+├── examples/               # 예제 코드
+├── archive/                # 통합 아카이브
+│   ├── root_legacy/        # 루트 레거시 파일들
 │   ├── duplicates/         # 중복 파일들
 │   ├── legacy/             # 기존 레거시 파일들
-│   ├── old_versions/       # 이전 버전들
-│   ├── python_files_backup/ # 정리된 백업
-│   └── tests_backup/       # 테스트 백업
-├── examples/               # 예제 코드
-├── migrations/             # 데이터베이스 마이그레이션
-└── docs/                   # 프로젝트 문서
-    ├── README.md           # 이 파일
-    ├── WORK_SUMMARY.md     # 작업 요약 보고서
-    └── CHANGELOG.md        # 변경 이력
+│   └── logiontology_archive/ # 패키지 아카이브
+├── docs/                   # 프로젝트 문서
+├── README.md               # 이 파일
+├── CHANGELOG.md            # 변경 이력
+└── requirements.txt        # 의존성
 ```
 
 ## 🚀 주요 기능
@@ -68,8 +76,8 @@ pip install -e ".[dev]"
 ### 새로운 구조 (권장)
 
 ```python
-from logiontology.mapping.registry import MappingRegistry
-from logiontology.ingest.excel import convert_excel_to_rdf
+from logiontology.src.mapping.registry import MappingRegistry
+from logiontology.src.ingest.excel import convert_excel_to_rdf
 
 # Excel 파일을 RDF로 변환
 rdf_path = convert_excel_to_rdf("data/warehouse_data.xlsx")
@@ -124,7 +132,7 @@ RDF/TTL 파일 출력
 pytest
 
 # 커버리지 포함
-pytest --cov=logiontology
+pytest --cov=src
 
 # 특정 모듈 테스트
 pytest tests/test_mapping.py

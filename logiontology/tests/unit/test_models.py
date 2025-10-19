@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 from typing import Dict, Any
 
-from logiontology.core.models import TransportEvent, StockSnapshot, DeadStock
+from src.core.models import TransportEvent, StockSnapshot, DeadStock
 
 
 class TestTransportEvent:

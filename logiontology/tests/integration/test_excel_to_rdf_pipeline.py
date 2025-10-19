@@ -13,9 +13,9 @@ from unittest.mock import patch, MagicMock
 import tempfile
 import os
 
-from logiontology.ingest.excel import load_excel, convert_excel_to_rdf
-from logiontology.mapping.registry import MappingRegistry
-from logiontology.validation.schema_validator import SchemaValidator
+from src.ingest.excel import load_excel, convert_excel_to_rdf
+from src.mapping.registry import MappingRegistry
+from src.validation.schema_validator import SchemaValidator
 
 
 class TestExcelToRdfPipeline:

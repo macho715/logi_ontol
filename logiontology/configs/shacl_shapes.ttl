@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/lo/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:RecordShape a sh:NodeShape ;
+  sh:targetClass ex:Record ;
+  sh:property [
+    sh:path ex:shipment_id ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+  ] .
