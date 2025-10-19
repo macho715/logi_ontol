@@ -2,27 +2,38 @@
 
 HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 분석하는 시스템입니다.
 
-## 🏗️ 프로젝트 구조
+## 🏗️ 프로젝트 구조 (v2.0 - 정리 완료)
 
 ```
 logi_ontol/
-├── logiontology/           # 새로운 모던 구조 (권장)
+├── logiontology/           # 🚀 새로운 모던 구조 (활성 개발)
 │   ├── logiontology/       # 핵심 모듈
-│   │   ├── mapping/        # 온톨로지 매핑
+│   │   ├── core/           # 핵심 모델 및 계약
+│   │   ├── mapping/        # 온톨로지 매핑 (v2.6)
 │   │   ├── validation/     # 스키마 검증
-│   │   ├── ingest/         # 데이터 수집
+│   │   ├── ingest/         # 데이터 수집 (Excel)
 │   │   ├── rdfio/          # RDF 입출력
 │   │   ├── reasoning/      # AI 추론
 │   │   └── pipeline/       # 파이프라인
-│   ├── tests/              # 테스트
+│   ├── tests/              # 테스트 (92% 커버리지)
+│   │   ├── unit/           # 단위 테스트
+│   │   ├── integration/    # 통합 테스트
+│   │   └── fixtures/       # 테스트 데이터
 │   ├── configs/            # 설정 파일
 │   └── .github/            # CI/CD
-├── archive/                # 레거시 코드 아카이브
-│   ├── python_files_backup/
-│   └── tests_backup/
-└── ARCHIVE/               # 기존 아카이브
-    ├── duplicates/        # 중복 파일들
-    └── legacy/           # 레거시 파일들
+├── ARCHIVE/                # 📦 아카이브 (정리 완료)
+│   ├── root_legacy/        # 루트 레거시 파일들 (2025-01-19)
+│   ├── duplicates/         # 중복 파일들
+│   ├── legacy/             # 기존 레거시 파일들
+│   ├── old_versions/       # 이전 버전들
+│   ├── python_files_backup/ # 정리된 백업
+│   └── tests_backup/       # 테스트 백업
+├── examples/               # 예제 코드
+├── migrations/             # 데이터베이스 마이그레이션
+└── docs/                   # 프로젝트 문서
+    ├── README.md           # 이 파일
+    ├── WORK_SUMMARY.md     # 작업 요약 보고서
+    └── CHANGELOG.md        # 변경 이력
 ```
 
 ## 🚀 주요 기능
@@ -151,13 +162,33 @@ pytest tests/test_mapping.py
 
 MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
+## 📊 프로젝트 상태 (2025-01-19)
+
+### ✅ 정리 완료
+- **루트 디렉토리**: 20개 레거시 파일 → ARCHIVE로 이동
+- **중복 제거**: 30+ 개 중복 파일 정리
+- **테스트 커버리지**: 92% 달성 (146개 테스트)
+- **Git 상태**: 깨끗한 상태 유지
+
+### 🚀 활성 개발 영역
+- **logiontology/**: 새로운 모던 구조
+- **테스트**: 단위/통합 테스트 완비
+- **문서**: 상세한 작업 보고서 포함
+
+### 📦 아카이브 보관
+- **root_legacy/**: 루트에서 이동한 20개 파일
+- **duplicates/**: 중복 파일들
+- **legacy/**: 기존 레거시 파일들
+- **복원 가능**: 언제든지 복원 가능
+
 ## 🔄 마이그레이션 상태
 
-- ✅ **완료**: 중복 파일 정리, 핵심 모듈 마이그레이션
-- 🚧 **진행중**: 테스트 커버리지 확대, 성능 최적화
+- ✅ **완료**: 중복 파일 정리, 핵심 모듈 마이그레이션, 프로젝트 전체 정리
+- ✅ **완료**: 테스트 커버리지 92% 달성
+- 🚧 **진행중**: 성능 최적화, CLI 모듈 테스트
 - 📋 **예정**: 대시보드 개발, 사용자 교육
 
 ---
 
-**개발**: MACHO-GPT v3.4-mini Analysis Engine  
+**개발**: MACHO-GPT v3.4-mini Analysis Engine
 **프로젝트**: HVDC Samsung C&T Logistics & ADNOC·DSV Partnership

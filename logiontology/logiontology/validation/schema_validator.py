@@ -86,15 +86,13 @@ class SchemaValidator:
         """Setup logger for validation"""
         logger = logging.getLogger(__name__)
         logger.setLevel(getattr(logging, log_level.upper()))
-        
+
         if not logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
             handler.setFormatter(formatter)
             logger.addHandler(handler)
-        
+
         return logger
 
     def validate(self, document: Dict[str, Any]) -> Tuple[bool, List[str]]:
@@ -108,7 +106,7 @@ class SchemaValidator:
             Tuple[bool, List[str]]: (is_valid, list_of_errors)
         """
         errors = []
-        
+
         # Check document type
         doc_type = document.get("type")
         if not doc_type:
@@ -255,19 +253,19 @@ class SchemaValidator:
 
         for doc in documents:
             is_valid, errors = self.validate(doc)
-            
+
             if is_valid:
                 results["valid"] += 1
             else:
                 results["invalid"] += 1
-                
+
                 # Categorize errors
                 for error in errors:
                     if "confidence" in error.lower():
                         results["confidence_failures"] += 1
                     elif "pattern" in error.lower():
                         results["pattern_failures"] += 1
-                    
+
                     # Count by document type
                     doc_type = doc.get("type", "unknown")
                     if doc_type not in results["errors_by_type"]:
