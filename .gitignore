@@ -92,6 +92,9 @@ output/*.rdf
 *.json
 *.yaml
 *.yml
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
 
 # Logs
 *.log
