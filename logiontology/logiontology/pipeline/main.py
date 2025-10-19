@@ -1,9 +1,7 @@
 from __future__ import annotations
-from typing import Iterable, Any
 from logiontology.ingest.excel import load_excel
-from logiontology.mapping.registry import MappingRegistry
 from logiontology.validation.schema_validator import (
-    validate_transport_events, validate_stock_snapshots, validate_dead_stock
+    validate_transport_events
 )
 from logiontology.reasoning.engine import reason
 from logiontology.rdfio.writer import write_ttl

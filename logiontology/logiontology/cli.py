@@ -1,6 +1,5 @@
 from __future__ import annotations
-import typer, sys
-from pathlib import Path
+import typer
 from logiontology.pipeline.main import run_pipeline_excel_to_ttl
 from logiontology.core.ids import deterministic_id
 

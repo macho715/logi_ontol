@@ -7,11 +7,10 @@ Enforces confidence thresholds and field completeness for HVDC requirements.
 """
 
 from __future__ import annotations
-from typing import Dict, List, Tuple, Any, Optional, Iterable
+from typing import Dict, List, Tuple, Any, Iterable
 import logging
 import re
 from datetime import datetime
-from pydantic import ValidationError
 from logiontology.core.models import TransportEvent, StockSnapshot, DeadStock
 
 

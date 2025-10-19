@@ -1,6 +1,5 @@
 from __future__ import annotations
 # Placeholder client abstraction. Implement specific store client as needed.
-from typing import Iterable
 
 class TripleStoreClient:
     def __init__(self, endpoint: str) -> None:

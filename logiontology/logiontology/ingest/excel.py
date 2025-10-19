@@ -7,18 +7,14 @@ Excel 파일을 RDF/TTL 형식으로 변환하는 스크립트
 from __future__ import annotations
 import pandas as pd
 import numpy as np
-from rdflib import Graph, Namespace, URIRef, Literal, RDF, RDFS, OWL, XSD
-from rdflib.plugins.sparql import prepareQuery
-import json
-import os
+from rdflib import Graph, Namespace, Literal, RDF, XSD
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Mapping
 import warnings
+from .normalize import normalize_columns
 
 warnings.filterwarnings("ignore")
-
-from .normalize import normalize_columns
 
 # 네임스페이스 정의
 EX = Namespace("http://samsung.com/project-logistics#")

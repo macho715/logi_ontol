@@ -1,6 +1,6 @@
 from __future__ import annotations
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF, RDFS, XSD
+from rdflib.namespace import RDF
 from typing import Iterable, Any
 
 EX = Namespace("http://example.org/lo/")

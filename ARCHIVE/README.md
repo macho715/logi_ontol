@@ -100,5 +100,5 @@ find ARCHIVE/ -name "*.py" -type f | wc -l
 
 ---
 
-**마지막 업데이트**: 2025-01-19  
+**마지막 업데이트**: 2025-01-19
 **관리자**: MACHO-GPT v3.4-mini

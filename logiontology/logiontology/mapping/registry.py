@@ -7,12 +7,11 @@ mapping_rules_v2.6.json 기반으로 DataFrame을 RDF로 변환하는 최신 실
 
 from __future__ import annotations
 import pandas as pd
-from rdflib import Graph, Namespace, Literal, RDF, RDFS, XSD
+from rdflib import Graph, Namespace, Literal, RDF, XSD
 import json
 import yaml
 from pathlib import Path
 import logging
-from datetime import datetime
 from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
@@ -119,7 +118,7 @@ class MappingRegistry:
 
             # 매칭되지 않는 행 필터링
             original_count = len(df)
-            df = df[df["CODE_MATCH"] == True]
+            df = df[df["CODE_MATCH"]]
             filtered_count = len(df)
             print(
                 f"  ✅ HVDC CODE 매칭: {original_count} → {filtered_count} (필터링: {original_count - filtered_count}건)"
