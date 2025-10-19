@@ -22,13 +22,12 @@ class TestMappingRegistry:
         registry = MappingRegistry()
 
         assert registry.rules == {}
-        assert registry.ns == {}
-        assert registry.field_map == {}
+        assert registry.ns_map == {}
+        assert registry.header_map == {}
+        assert registry.business_rules == {}
+        assert registry.identity_rules == {}
         assert registry.property_mappings == {}
         assert registry.class_mappings == {}
-        assert registry.hvdc_code3_valid == ["HE", "SIM"]
-        assert registry.warehouse_codes == ["DSV Outdoor", "DSV Indoor", "DSV Al Markaz", "DSV MZP"]
-        assert registry.month_matching == "operation_month_eq_eta_month"
 
     def test_load_json_file(self, tmp_path):
         """Test loading mapping rules from JSON file"""

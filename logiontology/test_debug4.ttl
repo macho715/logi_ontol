@@ -1,0 +1,22 @@
+@prefix hvdc: <https://hvdc.example.org/ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://hvdc.example.org/id/Constraint/b0d83e52-8738-584f-9a92-ca236b966a4d> a hvdc:TransportConstraint ;
+    hvdc:deckPressure 3.5e+00 .
+
+<https://hvdc.example.org/id/Event/ARR/837e3653-d0d7-526a-8a2f-fd1dd4d63cab> a <https://hvdc.example.org/ops#ArrivalEvent> ;
+    hvdc:aboutShipment <https://hvdc.example.org/id/Shipment/ca84c2a2-ba21-57be-9f33-a5a7595e8d66> ;
+    hvdc:eventTimestamp "2024-01-15T00:00:00+04:00"^^xsd:dateTime .
+
+<https://hvdc.example.org/id/Item/bde8221f-6d25-545d-9c76-c6e767c052e8> a hvdc:LogisticsItem ;
+    hvdc:hasCaseNo "CASE001" .
+
+<https://hvdc.example.org/id/Org/HE> a schema:Organization ;
+    schema:name "HE" .
+
+<https://hvdc.example.org/id/Shipment/ca84c2a2-ba21-57be-9f33-a5a7595e8d66> a hvdc:Shipment ;
+    hvdc:containsItem <https://hvdc.example.org/id/Item/bde8221f-6d25-545d-9c76-c6e767c052e8> ;
+    hvdc:hasHVDCCode "HE-001" ;
+    hvdc:hasVendor <https://hvdc.example.org/id/Org/HE> .
+

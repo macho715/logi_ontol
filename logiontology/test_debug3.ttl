@@ -1,0 +1,10 @@
+@prefix hvdc: <https://hvdc.example.org/ns#> .
+@prefix schema: <https://schema.org/> .
+
+<https://hvdc.example.org/id/Shipment/0e11dbb2-2f0a-5d09-aa00-a28bbc70d65d> a hvdc:Shipment ;
+    hvdc:hasHVDCCode "HE-001" ;
+    hvdc:hasVendor <https://hvdc.example.org/id/Org/HE> .
+
+<https://hvdc.example.org/id/Org/HE> a schema:Organization ;
+    schema:name "HE" .
+
