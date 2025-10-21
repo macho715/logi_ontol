@@ -1,0 +1,11 @@
+---
+description: Always read Ontology Unified docs first before any task
+globs: ["**/*"]
+alwaysApply: true
+---
+- Primary context dir: ${ONTOLOGY_DOCS_DIR:-docs/ontology_unified}
+- Preflight: enumerate & index files (*.md, *.pdf, *.docx, *.xlsx, *.yaml) under that dir.
+- Before answering or running any command: skim titles/TOCs; cite filenames used.
+- If the dir is unreachable or empty → stop and request a valid path (ZERO fail-safe).
+- Priority: 1) README/overview 2) *guide* 3) *.md/*.pdf 4) others.
+- No assumptions: if info missing, mark with "가정:".

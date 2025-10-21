@@ -1,0 +1,203 @@
+# ABU 통합 시스템 SPARQL 쿼리 예제
+# Abu Dhabi Logistics WhatsApp 방 통합 데이터 쿼리
+
+# Q1: 특정 LPO의 전체 이력 조회
+# LPO-1607의 모든 관련 정보를 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+PREFIX hvdci: <https://hvdc.example.org/id/>
+
+SELECT ?lpo ?message ?person ?location ?vessel ?image ?date WHERE {
+  ?lpo lpo:lpoNumber "LPO-1607" .
+  ?message abu:mentionsLPO ?lpo .
+  ?message abu:sender ?person .
+  ?message abu:hasAttachment ?image .
+  ?lpo lpo:hasDeliveryLocation ?location .
+  ?lpo lpo:transportedBy ?vessel .
+  ?lpo lpo:issueDate ?date .
+}
+
+# Q2: 담당자별 처리한 LPO 목록
+# Friday D 13th가 처리한 모든 LPO 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?person ?lpo ?date ?location ?vendor WHERE {
+  ?message abu:sender "Friday D 13th" .
+  ?message abu:mentionsLPO ?lpo .
+  ?lpo lpo:issueDate ?date .
+  ?lpo lpo:hasDeliveryLocation ?location .
+  ?lpo lpo:vendorName ?vendor .
+  BIND("Friday D 13th" AS ?person)
+} ORDER BY ?date
+
+# Q3: 특정 날짜의 모든 활동 조회
+# 2024-08-22의 모든 활동 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?entity ?type ?time ?description WHERE {
+  ?entity a ?type .
+  ?entity abu:timestamp ?time .
+  FILTER(STRSTARTS(STR(?time), "2024-08-22"))
+  OPTIONAL {
+    ?entity abu:content ?description .
+  }
+} ORDER BY ?time
+
+# Q4: 선박별 운송한 LPO 목록
+# Thuraya 선박이 운송한 모든 LPO 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?vessel ?lpo ?location ?date ?vendor WHERE {
+  ?vessel abu:vesselName "Thuraya" .
+  ?vessel abu:transportsLPO ?lpo .
+  ?lpo lpo:hasDeliveryLocation ?location .
+  ?lpo lpo:issueDate ?date .
+  ?lpo lpo:vendorName ?vendor .
+} ORDER BY ?date
+
+# Q5: 위치별 LPO 처리 현황
+# AGI 위치에서 처리된 LPO 통계
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?location (COUNT(?lpo) AS ?lpo_count) (COUNT(DISTINCT ?person) AS ?person_count) WHERE {
+  ?location abu:locationName "AGI" .
+  ?location abu:receivesLPO ?lpo .
+  ?lpo lpo:handledBy ?person .
+} GROUP BY ?location
+
+# Q6: 담당자별 업무량 통계
+# 각 담당자가 처리한 LPO 수와 관련 선박 수
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?person (COUNT(DISTINCT ?lpo) AS ?lpo_count) (COUNT(DISTINCT ?vessel) AS ?vessel_count) WHERE {
+  ?person abu:handlesLPO ?lpo .
+  ?lpo lpo:transportedBy ?vessel .
+} GROUP BY ?person ORDER BY DESC(?lpo_count)
+
+# Q7: 이미지가 포함된 메시지 조회
+# 이미지가 첨부된 메시지와 관련 LPO 정보
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?message ?image ?lpo ?person ?date WHERE {
+  ?message abu:hasAttachment ?image .
+  ?message abu:mentionsLPO ?lpo .
+  ?message abu:sender ?person .
+  ?message abu:timestamp ?date .
+} ORDER BY ?date
+
+# Q8: 특정 공급업체의 LPO 현황
+# Union 공급업체의 모든 LPO 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?lpo ?date ?location ?person ?amount WHERE {
+  ?lpo lpo:vendorName "Union" .
+  ?lpo lpo:issueDate ?date .
+  ?lpo lpo:hasDeliveryLocation ?location .
+  ?lpo lpo:handledBy ?person .
+  OPTIONAL {
+    ?lpo lpo:totalAmount ?amount .
+  }
+} ORDER BY ?date
+
+# Q9: 시간대별 메시지 활동 분석
+# 시간대별 메시지 수와 LPO 언급 수
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?hour (COUNT(?message) AS ?message_count) (COUNT(?lpo) AS ?lpo_mentions) WHERE {
+  ?message abu:timestamp ?timestamp .
+  BIND(HOURS(?timestamp) AS ?hour)
+  OPTIONAL {
+    ?message abu:mentionsLPO ?lpo .
+  }
+} GROUP BY ?hour ORDER BY ?hour
+
+# Q10: 선박-위치-담당자 네트워크 분석
+# 선박, 위치, 담당자 간의 연결 관계 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?vessel ?location ?person (COUNT(?lpo) AS ?connection_strength) WHERE {
+  ?vessel abu:servesLocation ?location .
+  ?location abu:receivesLPO ?lpo .
+  ?lpo lpo:handledBy ?person .
+} GROUP BY ?vessel ?location ?person ORDER BY DESC(?connection_strength)
+
+# Q11: LPO 처리 시간 분석
+# LPO 발주일과 메시지 언급일 간의 시간 차이 분석
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?lpo ?issue_date ?mention_date ?time_diff WHERE {
+  ?lpo lpo:lpoNumber ?lpo_number .
+  ?lpo lpo:issueDate ?issue_date .
+  ?message abu:mentionsLPO ?lpo .
+  ?message abu:timestamp ?mention_date .
+  BIND(DAYS(?mention_date - ?issue_date) AS ?time_diff)
+} ORDER BY ?time_diff
+
+# Q12: 이미지 메타데이터 분석
+# WhatsApp 이미지의 메타데이터와 관련 엔티티 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?image ?filename ?size ?date ?related_lpo ?related_message WHERE {
+  ?image a abu:WhatsAppImage .
+  ?image abu:fileName ?filename .
+  ?image abu:fileSize ?size .
+  ?image abu:captureDate ?date .
+  OPTIONAL {
+    ?related_message abu:hasAttachment ?image .
+    ?related_message abu:mentionsLPO ?related_lpo .
+  }
+} ORDER BY ?date
+
+# Q13: 위치별 선박 서비스 현황
+# 각 위치에서 서비스하는 선박과 처리된 LPO 수
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?location ?vessel (COUNT(?lpo) AS ?lpo_count) WHERE {
+  ?location abu:servedByVessel ?vessel .
+  ?vessel abu:transportsLPO ?lpo .
+  ?lpo lpo:hasDeliveryLocation ?location .
+} GROUP BY ?location ?vessel ORDER BY ?location DESC(?lpo_count)
+
+# Q14: 담당자별 선박 운용 현황
+# 각 담당자가 관련된 선박과 위치 조회
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT ?person ?vessel ?location (COUNT(?lpo) AS ?lpo_count) WHERE {
+  ?person abu:handlesLPO ?lpo .
+  ?lpo lpo:transportedBy ?vessel .
+  ?lpo lpo:hasDeliveryLocation ?location .
+} GROUP BY ?person ?vessel ?location ORDER BY ?person DESC(?lpo_count)
+
+# Q15: 전체 시스템 통계 요약
+# 통합 시스템의 전체 통계 정보
+PREFIX lpo: <https://hvdc.example.org/ns/lpo#>
+PREFIX abu: <https://abu-dhabi.example.org/ns#>
+
+SELECT
+  (COUNT(DISTINCT ?lpo) AS ?total_lpos)
+  (COUNT(DISTINCT ?person) AS ?total_persons)
+  (COUNT(DISTINCT ?vessel) AS ?total_vessels)
+  (COUNT(DISTINCT ?location) AS ?total_locations)
+  (COUNT(DISTINCT ?message) AS ?total_messages)
+  (COUNT(DISTINCT ?image) AS ?total_images)
+WHERE {
+  OPTIONAL { ?lpo a lpo:LocalPurchaseOrder }
+  OPTIONAL { ?person a abu:Person }
+  OPTIONAL { ?vessel a abu:Vessel }
+  OPTIONAL { ?location a abu:AbuDhabiLocation }
+  OPTIONAL { ?message a abu:WhatsAppMessage }
+  OPTIONAL { ?image a abu:WhatsAppImage }
+}

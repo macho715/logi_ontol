@@ -1,104 +1,195 @@
 # Changelog
 
-## [3.0.0] - 2025-10-19
+All notable changes to this project will be documented in this file.
 
-### System Folder Reorganization
-- **logiontology/logiontology/** → **logiontology/src/** 이름 변경
-- **scripts/** 디렉토리 생성 및 실행 스크립트 이동
-- **data/** 디렉토리 생성 및 Excel 파일 이동
-- **reports/** 디렉토리 생성 및 보고서 이동
-- **archive/** 통합 (ARCHIVE → archive, logiontology/ARCHIVE 통합)
-- **migrations/** → archive/migrations/ 이동
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Import Path Updates
-- All Python imports: `logiontology.xxx` → `src.xxx` (within package)
-- External imports: `logiontology.src.xxx`
-- Test imports updated across all test files
-- pyproject.toml configuration updated
+## [Unreleased]
 
-### Test Coverage Improvement
-- Coverage: 92% → 95% (+3%)
-- Total tests: 146 → 152 (+6 tests)
+### Planned
+- Real-time monitoring system for new LPO and messages
+- Machine learning-based logistics pattern analysis and prediction
+- RESTful API for external system integration
+- Web-based real-time monitoring dashboard
+- Multi-language support
+- Cloud-based scalable architecture
 
-### Breaking Changes
-- Import paths changed for external users
-- Script locations moved to scripts/
-- Data files expected in data/
-- Reports generated to reports/
-
-### Migration Guide
-- **Old import**: `from logiontology.mapping.registry import MappingRegistry`
-- **New import**: `from logiontology.src.mapping.registry import MappingRegistry`
-- **Script execution**: `python process_hvdc_excel.py` → `python scripts/process_hvdc_excel.py`
-- **Data location**: Root directory → `data/` directory
-- **Reports location**: Root directory → `reports/` directory
-
-## [2.1.0] - 2025-01-19
-
-### 🧹 Project Cleanup
-- **루트 디렉토리 정리**: 20개 레거시 Python 파일을 ARCHIVE/root_legacy/로 이동
-- **중복 구조 제거**: ARCHIVE/python_files_backup 내부 중복 ARCHIVE 폴더 삭제
-- **Git 상태 정리**: 모든 변경사항 스테이징 및 커밋 준비
-
-### 📦 Archived Files (ARCHIVE/root_legacy/)
-- `_schema_validator.py` - 스키마 검증기 (레거시)
-- `full_data_ontology_mapping.py` - 전체 데이터 온톨로지 매핑
-- `hvdc_enhanced_ontology_with_invoice.py` - HVDC 향상된 온톨로지 (송장 포함)
-- `hvdc_excel_to_rdf_converter.py` - HVDC Excel to RDF 변환기
-- `hvdc_ontology_engine_v2.py` - HVDC 온톨로지 엔진 v2
-- `hvdc_ontology_engine.py` - HVDC 온톨로지 엔진 v1
-- `hvdc_ontology_pipeline.py` - HVDC 온톨로지 파이프라인
-- `hvdc_rdf_analyzer.py` - HVDC RDF 분석기
-- `hvdc_simple_rdf_converter.py` - HVDC 간단 RDF 변환기
-- `inference.py` - 추론 엔진
-- `knowledge.py` - 지식 베이스
-- `logi_master_ontology.py` - 물류 마스터 온톨로지
-- `lowlevel.py` - 저수준 함수들
-- `ontology_mapper.py` - 온톨로지 매퍼 (v2.6)
-- `ontology_reasoning_engine.py` - 온톨로지 추론 엔진
-- `ontology.py` - 온톨로지 핵심
-- `real_data_ontology_mapping.py` - 실제 데이터 온톨로지 매핑
-- `schema_validator.py` - 스키마 검증기
-- `tools_ontology_mapper.py` - 온톨로지 매퍼 도구
-- `tools_validate_yaml_ontology.py` - YAML 온톨로지 검증 도구
-- `validate_ontology.py` - 온톨로지 검증
-
-### 📚 Documentation Updates
-- **ARCHIVE/README.md**: 아카이브 구조 및 복원 방법 상세 설명
-- **루트 README.md**: 프로젝트 상태 섹션 추가, 정리 후 구조 반영
-- **프로젝트 구조**: v2.0으로 업데이트, 정리 완료 상태 명시
-
-### 🔄 Archive Management
-- **복원 가능**: 모든 아카이브된 파일은 언제든지 복원 가능
-- **구조 정리**: ARCHIVE 내부 중복 제거 및 최적화
-- **메타데이터**: 각 파일의 이동 이유 및 날짜 기록
-
-## [2.0.0] - 2025-10-18
-
-### Changed
-- Reorganized 52 files into 26 active + 26 archived
-- All files preserved in ARCHIVE/ folder (no deletions)
-- Structured directory layout with categories
-
-### Archived (ARCHIVE/)
-- 5x ontology_mapper_*.py → ARCHIVE/duplicates/mapper/
-- 2x RDF analyzer variants → ARCHIVE/duplicates/analyzers/
-- 17x legacy files → ARCHIVE/legacy/
-- 1x test duplicate → ARCHIVE/duplicates/tests/
-- 1x old test_inference → ARCHIVE/old_versions/
+## [3.1.0] - 2025-10-21
 
 ### Added
-- Git version control with tags
-- ARCHIVE/ with full metadata and recovery docs
-- README.md with project overview
-- examples/ and migrations/ directories
-- .gitignore for Python projects
+- **Final Integration Report**: `reports/final/LOGIONTOLOGY_FINAL_REPORT.md` - Comprehensive project overview and key achievements
+- **Reports Structure**: Organized reports folder into 4 categories (final, data, analysis, archive)
+- **README Guide**: `reports/README.md` - Complete folder structure and usage guide
+- **File Organization**: Systematic reclassification of 24 files by purpose
 
-### Migration Guide
-- Import paths unchanged for active files
-- Archived files recoverable anytime
-- See ARCHIVE/README.md for recovery procedures
+### Changed
+- **Reports Consolidation**: Moved 24 files to appropriate directories
+- **Documentation Structure**: Improved accessibility and navigation
 
-## [1.0.0] - Legacy
-- Initial 52-file structure
+### Removed
+- **Temporary Files**: Deleted 5 temporary processing reports
+  - `abu_processing_report_20251020_003702.md`
+  - `abu_processing_report_20251020_005113.md`
+  - `invoice_processing_report_20251020_000805.md`
+  - `invoice_processing_report_20251020_000831.md`
+  - `invoice_processing_report_20251020_002514.md`
 
+## [3.0.0] - 2025-10-20
+
+### Added
+- **SPARQL Query System**: `scripts/execute_abu_sparql_queries.py` - Optimized query execution and analysis
+- **Mermaid Diagram Generation**: 4 types of visualization diagrams
+  - Entity relationship graph
+  - Person workload bar chart
+  - Location activity pie chart
+  - Process flow diagram
+- **Performance Optimization**: Query execution time reduced from 5+ minutes to 0.7 seconds
+- **Analysis Reports**: `reports/final/abu_sparql_analysis_report.md` with comprehensive statistics
+
+### Improved
+- **Query Performance**: Individual COUNT queries instead of complex JOINs
+- **Error Handling**: Enhanced try-except blocks for stability
+- **Data Integration**: Leveraged existing statistics for Mermaid diagrams
+
+### Statistics
+- **Total LPOs**: 442
+- **Persons**: 7
+- **Vessels**: 5
+- **Locations**: 3
+- **Messages**: 570
+- **Images**: 282
+
+## [2.5.0] - 2025-10-20
+
+### Added
+- **Integrated Visualization Dashboard**: `reports/final/abu_integrated_visualization.md`
+- **Entity Relationship Diagram**: Mermaid graph showing connections between entities
+- **Timeline Visualization**: Chronological event tracking
+- **Network Diagram**: Complex relationship mapping
+- **Person Workflow Diagram**: Individual responsibility tracking
+- **Statistical Analysis**: `reports/abu_integrated_stats.json`
+
+### Features
+- **Interactive Diagrams**: Mermaid-based visualizations
+- **Comprehensive Statistics**: Entity counts and relationship analysis
+- **Workflow Tracking**: Person-specific activity patterns
+
+## [2.0.0] - 2025-10-20
+
+### Added
+- **Cross-Reference Mapping**: `scripts/build_abu_cross_references.py`
+- **LPO-Message Links**: 706 LPO mentions extracted and connected to messages
+- **Person-LPO Connections**: Complete tracking of person responsibilities
+- **Location-Vessel-LPO Triangle**: Integrated tracking of delivery relationships
+- **Graph Merging**: Combined ABU and LPO RDF graphs (17,099 triples)
+- **Integration Report**: `reports/abu_cross_references_report.md`
+
+### Statistics
+- **LPO-Message Connections**: 606
+- **Person-LPO Connections**: 455
+- **Location-Vessel-LPO Connections**: 1,326
+- **Total RDF Triples**: 17,099
+
+## [1.5.0] - 2025-10-20
+
+### Added
+- **WhatsApp Image Integration**: `scripts/integrate_whatsapp_images.py`
+- **Image Metadata**: 282 WhatsApp images with complete metadata
+- **Date-based Linking**: Images connected to messages based on timestamps
+- **Image Analysis Data**: `reports/whatsapp_images_analysis.json` (92KB)
+- **Integration Report**: `reports/whatsapp_images_integration_report.md`
+
+### Features
+- **Metadata Extraction**: Filename, size, date, path information
+- **Contextual Linking**: Image sharing context with conversation flow
+- **Evidence Documentation**: Document proof connected to actual work
+
+## [1.0.0] - 2025-10-20
+
+### Added
+- **LPO Data Extraction**: `scripts/analyze_lpo_data.py`
+- **WhatsApp Text Analysis**: 550 LPO numbers extracted from conversations
+- **RDF Conversion**: 442 LPO entities converted to RDF format
+- **Person Mapping**: 7 responsible persons identified and mapped
+- **Vessel Information**: 5 vessels (Tamarah, Thuraya, Bushra, JPT71, JPT62)
+- **Location Information**: 3 locations (MOSB, DAS, AGI)
+- **Analysis Data**: `reports/abu_lpo_analysis.json` (127KB)
+
+### Features
+- **Regex Pattern Matching**: Automatic LPO number recognition
+- **Entity Relationship Mapping**: Complete person-vessel-location network
+- **Data Validation**: Comprehensive data quality checks
+
+## [0.5.0] - 2025-10-20
+
+### Added
+- **Invoice Visualization System**: `reports/final/INVOICE_VISUALIZATION_REPORT.md`
+- **Invoice Data Analysis**: 29 invoice entities processed
+- **Mermaid Diagrams**: 5 types of visualization diagrams
+  - Entity Relationship (ER)
+  - Pie Chart (Currency distribution)
+  - Bar Chart (Amount analysis)
+  - Flow Chart (Process flow)
+  - Class Diagram (Data structure)
+- **Statistical Analysis**: `reports/invoice_analysis_report.json` (183KB)
+
+### Statistics
+- **Total Invoices**: 29
+- **Total Amount**: 1,171.00
+- **Average Amount**: 46.84
+- **Completion Rate**: 87.9%
+
+## [0.1.0] - 2025-10-19
+
+### Added
+- **Project Initial Setup**: Basic project structure
+- **HVDC Processing System**: `reports/analysis/HVDC_PROCESSING_REPORT.md`
+- **Python Script Analysis**: `reports/analysis/python_files_comprehensive_analysis_report.md`
+- **Project Cleanup**: `reports/archive/PROJECT_CLEANUP_REPORT.md`
+- **Work Summary**: `reports/archive/WORK_SUMMARY.md`
+
+### Features
+- **Code Analysis**: Comprehensive Python script analysis
+- **Project Documentation**: Initial project setup and guidelines
+- **File Organization**: Basic project structure establishment
+
+---
+
+## Development Statistics
+
+### Overall Project Metrics
+- **Total RDF Triples**: 17,099
+- **LPO Entities**: 442
+- **Person Entities**: 7
+- **Vessel Entities**: 5
+- **Location Entities**: 3
+- **Message Entities**: 570
+- **Image Entities**: 282
+- **Invoice Entities**: 29
+
+### File Organization
+- **Final Reports**: 5 files
+- **JSON Data Files**: 11 files (500KB+)
+- **Analysis Reports**: 5 files
+- **Archive Files**: 4 files
+- **Total Files**: 25 files (after cleanup)
+
+### Performance Improvements
+- **SPARQL Query Time**: 5+ minutes → 0.7 seconds (99% improvement)
+- **File Organization**: 29 files → 25 files (systematic cleanup)
+- **Documentation**: Single comprehensive final report
+
+---
+
+## Links
+
+- **Main Report**: [reports/final/LOGIONTOLOGY_FINAL_REPORT.md](reports/final/LOGIONTOLOGY_FINAL_REPORT.md)
+- **Reports Guide**: [reports/README.md](reports/README.md)
+- **ABU Integration**: [reports/final/abu_integration_final_report.md](reports/final/abu_integration_final_report.md)
+- **SPARQL Analysis**: [reports/final/abu_sparql_analysis_report.md](reports/final/abu_sparql_analysis_report.md)
+- **Invoice Visualization**: [reports/final/INVOICE_VISUALIZATION_REPORT.md](reports/final/INVOICE_VISUALIZATION_REPORT.md)
+
+---
+
+*This changelog follows the [Keep a Changelog](https://keepachangelog.com/) format and uses [Semantic Versioning](https://semver.org/) for version numbering.*

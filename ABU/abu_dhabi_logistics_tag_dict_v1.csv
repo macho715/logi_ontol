@@ -1,0 +1,50 @@
+category,key,synonyms,regex,priority
+VESSEL,JPTW71,jpt71|jpt-71|jptw71|jptw-71|jopetwil 71|jopetwil-71|jpt 71,\b(?:jpt71|jpt\-71|jptw71|jptw\-71|jopetwil\s+71|jopetwil\-71|jpt\s+71)\b,80
+VESSEL,JPTW62,jpt62|jpt-62|jptw62|jptw-62|jpt 62,\b(?:jpt62|jpt\-62|jptw62|jptw\-62|jpt\s+62)\b,80
+VESSEL,SEA_PIONEER,sea pioneer|seapioneer|pioneer,\b(?:sea\s+pioneer|seapioneer|pioneer)\b,80
+VESSEL,THURAYA,thuraya,\b(?:thuraya)\b,80
+VESSEL,BUSHRA,bushra,\b(?:bushra)\b,80
+VESSEL,TAIBAH,taibah,\b(?:taibah)\b,80
+VESSEL,RAZAN,razan,\b(?:razan)\b,80
+VESSEL,WARDEH,wardeh,\b(?:wardeh)\b,80
+VESSEL,JEWAHER,jewaher,\b(?:jewaher)\b,80
+VESSEL,TAIYA,taya|tayah|allianz taya|allianztaya,\b(?:taya|tayah|allianz\s+taya|allianztaya)\b,80
+VESSEL,LCT,lct|landing craft,\b(?:lct|landing\s+craft)\b,80
+LOCATION,AGI,agi|al ghallan island|al ghallan,\b(?:agi|al\s+ghallan\s+island|al\s+ghallan)\b,80
+LOCATION,DAS,das|das island,\b(?:das|das\s+island)\b,80
+LOCATION,MW4,mw4,\b(?:mw4)\b,80
+LOCATION,MOSB,mosb|mussafah|mussafah wh|mosb yard,\b(?:mosb|mussafah|mussafah\s+wh|mosb\s+yard)\b,80
+LOCATION,AL_JABER_BASE,al jaber base|als base|aljaber base|als,\b(?:al\s+jaber\s+base|als\s+base|aljaber\s+base|als)\b,80
+LOCATION,BUSKEEN,buskeen|buskin,\b(?:buskeen|buskin)\b,80
+LOCATION,ETTOCK,ettock|ettok,\b(?:ettock|ettok)\b,80
+LOCATION,UMM_AL_ANBAR,umm alanbar|umm al anbar|umm al-anbar,\b(?:umm\s+alanbar|umm\s+al\s+anbar|umm\s+al\-anbar)\b,80
+LOCATION,MIRFA,mirfa,\b(?:mirfa)\b,80
+LOCATION,SHU,shu,\b(?:shu)\b,80
+LOCATION,PORT,port|jetty|berth|anchorage,\b(?:port|jetty|berth|anchorage)\b,80
+DOC_APPROVAL,GATE_PASS,gate pass|gate-pass|exit pass|entry pass|pass,\b(?:gate\s+pass|gate\-pass|exit\s+pass|entry\s+pass|pass)\b,80
+DOC_APPROVAL,DO,delivery order|do copy|do|master do,\b(?:delivery\s+order|do\s+copy|do|master\s+do)\b,80
+DOC_APPROVAL,BL,bl|bill of lading|b/l,\b(?:bl|bill\s+of\s+lading|b/l)\b,80
+DOC_APPROVAL,MANIFEST,manifest,\b(?:manifest)\b,80
+DOC_APPROVAL,CICPA,cicpa|id pass,\b(?:cicpa|id\s+pass)\b,80
+DOC_APPROVAL,WELLS,wells|wells id|wells inspection|wells stamping,\b(?:wells|wells\s+id|wells\s+inspection|wells\s+stamping)\b,80
+DOC_APPROVAL,EDAS,edas|e-das|das permit,\b(?:edas|e\-das|das\s+permit)\b,80
+DOC_APPROVAL,INVOICE,invoice|inv|bill|tariff,\b(?:invoice|inv|bill|tariff)\b,80
+EQUIPMENT_OPERATION,FORKLIFT,forklift|flift|fl,\b(?:forklift|flift|fl)\b,80
+EQUIPMENT_OPERATION,CRANE,crane|100t|250t|crawler|boom|mobile crane,\b(?:crane|100t|250t|crawler|boom|mobile\s+crane)\b,80
+EQUIPMENT_OPERATION,A_FRAME,a-frame|aframe|a frame,\b(?:a\-frame|aframe|a\s+frame)\b,80
+EQUIPMENT_OPERATION,SPREADER,spreader|spreader bar|spreader beam,\b(?:spreader|spreader\s+bar|spreader\s+beam)\b,80
+EQUIPMENT_OPERATION,WEBBING_SLING,webbing sling|sling|belt,\b(?:webbing\s+sling|sling|belt)\b,80
+EQUIPMENT_OPERATION,RORO,roro|ro-ro,\b(?:roro|ro\-ro)\b,80
+EQUIPMENT_OPERATION,LOLO,lolo|lo-lo,\b(?:lolo|lo\-lo)\b,80
+EQUIPMENT_OPERATION,OFFLOADING,offloading|unloading|discharging,\b(?:offloading|unloading|discharging)\b,80
+EQUIPMENT_OPERATION,ONLOADING,loading|onloading|backloading,\b(?:loading|onloading|backloading)\b,80
+EQUIPMENT_OPERATION,FUEL_FW,fw|fresh water|fuel|mgo|bunkering,\b(?:fw|fresh\s+water|fuel|mgo|bunkering)\b,80
+EQUIPMENT_OPERATION,PORT_CABIN,port cabin|cabin,\b(?:port\s+cabin|cabin)\b,80
+RISK_QUALITY,DELAY,delay|waiting|hold|pending|congested|traffic|anchorage,\b(?:delay|waiting|hold|pending|congested|traffic|anchorage)\b,80
+RISK_QUALITY,WEATHER,weather|wind|wave|swell|tide|high tide|low tide,\b(?:weather|wind|wave|swell|tide|high\s+tide|low\s+tide)\b,80
+RISK_QUALITY,DAMAGE,damage|crack|broken|leak|dent,\b(?:damage|crack|broken|leak|dent)\b,80
+RISK_QUALITY,SAFETY,tpi|mws|tuv|inspection|permit,\b(?:tpi|mws|tuv|inspection|permit)\b,80
+STATUS_ACTION,ARRIVAL,arrive|arrived|eta|etd|notice of readiness|nor,\b(?:arrive|arrived|eta|etd|notice\s+of\s+readiness|nor)\b,80
+STATUS_ACTION,DEPARTURE,depart|sailed|etd|cast off,\b(?:depart|sailed|etd|cast\s+off)\b,80
+STATUS_ACTION,READY,ready|standby|clearance granted|permit issued,\b(?:ready|standby|clearance\s+granted|permit\s+issued)\b,80
+STATUS_ACTION,COST,cost|tariff|otp|payment|invoice|charges|fee,\b(?:cost|tariff|otp|payment|invoice|charges|fee)\b,80
