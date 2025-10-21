@@ -144,3 +144,6 @@ config.json
 # Test debug files
 test_debug*.ttl
 test_debug*.rdf
+
+# Embedded git repositories
+new/logi_ontol/
