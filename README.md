@@ -134,13 +134,13 @@ identity_rules:
 ## 📚 문서
 
 ### 핵심 문서
-- **[시스템 아키텍처 종합 문서](reports/final/SYSTEM_ARCHITECTURE_COMPREHENSIVE.md)** - 전체 시스템 구조, 컴포넌트, 알고리즘, 배포 아키텍처
+- **[시스템 아키텍처 종합 문서](reports/architecture/SYSTEM_ARCHITECTURE_COMPREHENSIVE.md)** - 전체 시스템 구조, 컴포넌트, 알고리즘, 배포 아키텍처
 - **[프로젝트 구조 시각화](reports/final/PROJECT_STRUCTURE_VISUALIZATION.md)** - 폴더별 분석 및 시각화
 - **[최종 통합 보고서](reports/final/LOGIONTOLOGY_FINAL_REPORT.md)** - ABU, Invoice, HVDC 시스템 통합 요약
 - **[HVDC 마스터 통합 보고서](reports/final/HVDC_MASTER_INTEGRATION_REPORT.md)** - ABU + Lightning 통합 분석 (신규)
 
 ### ABU 시스템 문서 (신규)
-- **[ABU 시스템 아키텍처](reports/final/ABU_SYSTEM_ARCHITECTURE.md)** - 10개 다이어그램, 데이터 파이프라인, 알고리즘 구현 (1,448 lines)
+- **[ABU 시스템 아키텍처](reports/architecture/ABU_SYSTEM_ARCHITECTURE.md)** - 10개 다이어그램, 데이터 파이프라인, 알고리즘 구현 (1,448 lines)
 - **[ABU 운영 대시보드](reports/final/ABU_OPERATIONS_DASHBOARD.md)** - 실시간 KPI, 알림 규칙, 시각화 요소 (1,045 lines)
 - **[ABU 통합 요약](reports/final/ABU_INTEGRATION_SUMMARY.md)** - 비즈니스 가치 분석, 향후 확장 계획 (616 lines)
 
