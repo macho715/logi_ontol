@@ -23,6 +23,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multi-language support
 - Cloud-based scalable architecture
 
+## [4.0.0] - 2025-10-22
+
+### Added
+- **Lightning System Integration**: Complete HVDC Project Lightning data integration
+  - WhatsApp data processing: 11,517 messages, 77 images
+  - RDF graph generation: 67,000+ triples
+  - CSV entity enrichment: 331 entities (Document, Equipment, TimeTag, Quantity, Reference)
+  - Participant analysis: 26 participants with activity patterns
+- **Project Structure Reorganization**: Systematic folder restructuring
+  - `reports/` → 4 categories (final, architecture, analysis, operations)
+  - `output/` → 2 categories (final, versions)
+  - `HVDC Project Lightning/` → Complete Lightning system folder
+- **Master Integration Report**: `reports/final/HVDC_MASTER_INTEGRATION_REPORT.md`
+- **Automation Scripts**: 9 Lightning integration scripts
+  - `integrate_lightning_images.py`
+  - `build_lightning_cross_references.py`
+  - `visualize_lightning_integrated.py`
+  - `enrich_lightning_with_csv.py`
+  - `enhance_lightning_entities.py`
+  - `integrate_whatsapp_output.py`
+  - `generate_final_lightning_report.py`
+  - `compare_abu_lightning.py`
+  - `analyze_csv_entities.py`
+
+### Statistics
+- **Total RDF Triples**: 200,000+ (ABU: 18,894 + Lightning: 67,000+)
+- **Total Images**: 359 (ABU: 282 + Lightning: 77)
+- **Entity Categories**: 17 (ABU: 6 + Lightning: 11)
+- **Participants**: 76+ (ABU: 50+ + Lightning: 26)
+- **Automation Scripts**: 20+ scripts
+
+### Features
+- **Complete Data Integration**: ABU + Lightning systems unified
+- **Real-time Dashboard**: Operational KPI monitoring
+- **Cross-reference Mapping**: Entity relationship networks
+- **Visualization**: 10+ Mermaid diagrams per system
+- **Business Value**: $2.5M+ operational efficiency
+
 ## [3.1.0] - 2025-10-21
 
 ### Added
