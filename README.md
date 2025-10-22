@@ -29,9 +29,13 @@ logi_ontol/
 ├── output/                 # 출력 결과
 │   └── *.ttl
 ├── reports/                # 보고서
-│   ├── WORK_SUMMARY.md
-│   ├── PROJECT_CLEANUP_REPORT.md
-│   └── HVDC_PROCESSING_REPORT.md
+│   ├── final/              # 최종 보고서
+│   │   ├── SYSTEM_ARCHITECTURE_COMPREHENSIVE.md
+│   │   ├── PROJECT_STRUCTURE_VISUALIZATION.md
+│   │   └── LOGIONTOLOGY_FINAL_REPORT.md
+│   ├── data/               # JSON 데이터
+│   ├── analysis/           # 분석 보고서
+│   └── archive/            # 아카이브
 ├── examples/               # 예제 코드
 ├── archive/                # 통합 아카이브
 │   ├── root_legacy/        # 루트 레거시 파일들
@@ -84,6 +88,18 @@ identity_rules:
     cluster_as: "RotationGroup"
     window_days: 7
 ```
+
+## 📚 문서
+
+### 핵심 문서
+- **[시스템 아키텍처 종합 문서](reports/final/SYSTEM_ARCHITECTURE_COMPREHENSIVE.md)** - 전체 시스템 구조, 컴포넌트, 알고리즘, 배포 아키텍처
+- **[프로젝트 구조 시각화](reports/final/PROJECT_STRUCTURE_VISUALIZATION.md)** - 폴더별 분석 및 시각화
+- **[최종 통합 보고서](reports/final/LOGIONTOLOGY_FINAL_REPORT.md)** - ABU, Invoice, HVDC 시스템 통합 요약
+
+### 기술 문서
+- **[변경 이력](CHANGELOG.md)** - 버전별 변경사항 및 성과
+- **[매핑 규칙](logiontology/configs/mapping_rules.v2.6.yaml)** - v2.6 매핑 규칙 및 비즈니스 룰
+- **[SHACL 검증](logiontology/configs/shapes/)** - Shipment, ShipmentOOG 검증 규칙
 
 ## 📦 설치
 
