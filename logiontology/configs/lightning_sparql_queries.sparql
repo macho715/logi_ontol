@@ -1,0 +1,249 @@
+# HVDC Project Lightning SPARQL 쿼리 예제
+# Lightning RDF 온톨로지에서 데이터를 조회하고 분석하는 실용적인 쿼리들
+
+# 네임스페이스 정의
+PREFIX lightning: <http://example.org/lightning/>
+PREFIX lightningi: <http://example.org/lightning/instance/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# 1. 모든 선박 목록 조회
+SELECT ?vessel ?name
+WHERE {
+    ?vessel a lightning:Vessel .
+    ?vessel lightning:vesselName ?name .
+}
+ORDER BY ?name
+
+# 2. 특정 담당자가 관리하는 선박들
+SELECT ?person ?vessel ?vesselName
+WHERE {
+    ?person a lightning:Person .
+    ?person lightning:personName ?personName .
+    ?person lightning:worksWithVessel ?vessel .
+    ?vessel lightning:vesselName ?vesselName .
+    FILTER(?personName = "Khemlal")
+}
+ORDER BY ?vesselName
+
+# 3. 위치별 담당자 수 통계
+SELECT ?location ?locationName (COUNT(?person) AS ?personCount)
+WHERE {
+    ?location a lightning:Location .
+    ?location lightning:locationName ?locationName .
+    ?person lightning:worksAtLocation ?location .
+}
+GROUP BY ?location ?locationName
+ORDER BY DESC(?personCount)
+
+# 4. RORO 작업과 관련된 선박들
+SELECT ?vessel ?vesselName ?operation
+WHERE {
+    ?vessel a lightning:Vessel .
+    ?vessel lightning:vesselName ?vesselName .
+    ?operation a lightning:Operation .
+    ?operation lightning:operationType "RORO" .
+    ?operation lightning:mentionsVessel ?vessel .
+}
+ORDER BY ?vesselName
+
+# 5. 특정 날짜의 메시지들
+SELECT ?message ?sender ?content ?date
+WHERE {
+    ?message a lightning:Message .
+    ?message lightning:sender ?sender .
+    ?message lightning:content ?content .
+    ?message lightning:date ?date .
+    FILTER(?date = "2024-08-25"^^xsd:date)
+}
+ORDER BY ?sender
+
+# 6. 선박별 언급 횟수 통계
+SELECT ?vessel ?vesselName (COUNT(?message) AS ?mentionCount)
+WHERE {
+    ?vessel a lightning:Vessel .
+    ?vessel lightning:vesselName ?vesselName .
+    ?message lightning:mentionsVessel ?vessel .
+}
+GROUP BY ?vessel ?vesselName
+ORDER BY DESC(?mentionCount)
+
+# 7. AGI 위치에서 작업하는 담당자들
+SELECT ?person ?personName ?vessel ?vesselName
+WHERE {
+    ?person a lightning:Person .
+    ?person lightning:personName ?personName .
+    ?person lightning:worksAtLocation ?location .
+    ?location lightning:locationName "AGI" .
+    ?person lightning:worksWithVessel ?vessel .
+    ?vessel lightning:vesselName ?vesselName .
+}
+ORDER BY ?personName
+
+# 8. 작업 타입별 선박 수
+SELECT ?operationType (COUNT(DISTINCT ?vessel) AS ?vesselCount)
+WHERE {
+    ?operation a lightning:Operation .
+    ?operation lightning:operationType ?operationType .
+    ?operation lightning:mentionsVessel ?vessel .
+}
+GROUP BY ?operationType
+ORDER BY DESC(?vesselCount)
+
+# 9. 가장 활발한 담당자 (메시지 수 기준)
+SELECT ?person ?personName (COUNT(?message) AS ?messageCount)
+WHERE {
+    ?person a lightning:Person .
+    ?person lightning:personName ?personName .
+    ?message lightning:sender ?personName .
+}
+GROUP BY ?person ?personName
+ORDER BY DESC(?messageCount)
+LIMIT 10
+
+# 10. 선박-위치-작업 관계 조회
+SELECT ?vessel ?vesselName ?location ?locationName ?operation ?operationType
+WHERE {
+    ?vessel a lightning:Vessel .
+    ?vessel lightning:vesselName ?vesselName .
+    ?vessel lightning:mentionedInMessage ?message .
+    ?message lightning:mentionsLocation ?location .
+    ?location lightning:locationName ?locationName .
+    ?message lightning:mentionsOperation ?operation .
+    ?operation lightning:operationType ?operationType .
+}
+ORDER BY ?vesselName ?locationName
+
+# 11. JPT 시리즈 선박들만 조회
+SELECT ?vessel ?vesselName
+WHERE {
+    ?vessel a lightning:Vessel .
+    ?vessel lightning:vesselName ?vesselName .
+    FILTER(REGEX(?vesselName, "JPT", "i"))
+}
+ORDER BY ?vesselName
+
+# 12. 자재/장비별 언급 횟수
+SELECT ?cargo ?cargoType (COUNT(?message) AS ?mentionCount)
+WHERE {
+    ?cargo a lightning:Cargo .
+    ?cargo lightning:cargoType ?cargoType .
+    ?message lightning:mentionsCargo ?cargo .
+}
+GROUP BY ?cargo ?cargoType
+ORDER BY DESC(?mentionCount)
+
+# 13. 특정 담당자의 작업 패턴 분석
+SELECT ?personName ?operationType (COUNT(?operation) AS ?operationCount)
+WHERE {
+    ?person a lightning:Person .
+    ?person lightning:personName ?personName .
+    ?person lightning:worksWithVessel ?vessel .
+    ?operation lightning:mentionsVessel ?vessel .
+    ?operation lightning:operationType ?operationType .
+    FILTER(?personName = "정상욱")
+}
+GROUP BY ?personName ?operationType
+ORDER BY DESC(?operationCount)
+
+# 14. 위치별 작업 빈도
+SELECT ?location ?locationName ?operationType (COUNT(?operation) AS ?operationCount)
+WHERE {
+    ?location a lightning:Location .
+    ?location lightning:locationName ?locationName .
+    ?operation lightning:mentionsLocation ?location .
+    ?operation lightning:operationType ?operationType .
+}
+GROUP BY ?location ?locationName ?operationType
+ORDER BY ?locationName DESC(?operationCount)
+
+# 15. 시간대별 메시지 분포 (시간 패턴 분석)
+SELECT ?hour (COUNT(?message) AS ?messageCount)
+WHERE {
+    ?message a lightning:Message .
+    ?message lightning:content ?content .
+    BIND(SUBSTR(?content, 1, 2) AS ?hour)
+    FILTER(REGEX(?hour, "^[0-9]{2}$"))
+}
+GROUP BY ?hour
+ORDER BY ?hour
+
+# 16. 선박별 최근 활동 (메시지 기반)
+SELECT ?vessel ?vesselName ?lastMessage ?lastSender ?lastDate
+WHERE {
+    ?vessel a lightning:Vessel .
+    ?vessel lightning:vesselName ?vesselName .
+    ?message lightning:mentionsVessel ?vessel .
+    ?message lightning:sender ?lastSender .
+    ?message lightning:date ?lastDate .
+    {
+        SELECT ?vessel (MAX(?date) AS ?maxDate)
+        WHERE {
+            ?msg lightning:mentionsVessel ?vessel .
+            ?msg lightning:date ?date .
+        }
+        GROUP BY ?vessel
+    }
+    FILTER(?lastDate = ?maxDate)
+}
+ORDER BY ?vesselName
+
+# 17. 작업 연관성 분석 (같은 메시지에서 언급된 작업들)
+SELECT ?operation1 ?operation2 (COUNT(?message) AS ?coOccurrenceCount)
+WHERE {
+    ?message lightning:mentionsOperation ?operation1 .
+    ?message lightning:mentionsOperation ?operation2 .
+    ?operation1 lightning:operationType ?type1 .
+    ?operation2 lightning:operationType ?type2 .
+    FILTER(?operation1 != ?operation2)
+}
+GROUP BY ?operation1 ?operation2
+ORDER BY DESC(?coOccurrenceCount)
+LIMIT 20
+
+# 18. 담당자별 선박 관리 다양성
+SELECT ?person ?personName (COUNT(DISTINCT ?vessel) AS ?vesselCount) (COUNT(DISTINCT ?location) AS ?locationCount)
+WHERE {
+    ?person a lightning:Person .
+    ?person lightning:personName ?personName .
+    ?person lightning:worksWithVessel ?vessel .
+    ?person lightning:worksAtLocation ?location .
+}
+GROUP BY ?person ?personName
+ORDER BY DESC(?vesselCount) DESC(?locationCount)
+
+# 19. 이미지와 연관된 메시지들
+SELECT ?image ?imageName ?message ?sender ?content
+WHERE {
+    ?image a lightning:Image .
+    ?image lightning:filename ?imageName .
+    ?image lightning:relatedToMessage ?message .
+    ?message lightning:sender ?sender .
+    ?message lightning:content ?content .
+}
+ORDER BY ?imageName
+
+# 20. 시스템 전체 통계 요약
+SELECT
+    (COUNT(DISTINCT ?vessel) AS ?totalVessels)
+    (COUNT(DISTINCT ?person) AS ?totalPersons)
+    (COUNT(DISTINCT ?location) AS ?totalLocations)
+    (COUNT(DISTINCT ?operation) AS ?totalOperations)
+    (COUNT(DISTINCT ?message) AS ?totalMessages)
+    (COUNT(DISTINCT ?image) AS ?totalImages)
+WHERE {
+    {
+        ?vessel a lightning:Vessel .
+    } UNION {
+        ?person a lightning:Person .
+    } UNION {
+        ?location a lightning:Location .
+    } UNION {
+        ?operation a lightning:Operation .
+    } UNION {
+        ?message a lightning:Message .
+    } UNION {
+        ?image a lightning:Image .
+    }
+}
