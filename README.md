@@ -32,9 +32,13 @@ logi_ontol/
 │   ├── final/              # 최종 보고서
 │   │   ├── SYSTEM_ARCHITECTURE_COMPREHENSIVE.md
 │   │   ├── PROJECT_STRUCTURE_VISUALIZATION.md
-│   │   └── LOGIONTOLOGY_FINAL_REPORT.md
+│   │   ├── LOGIONTOLOGY_FINAL_REPORT.md
+│   │   ├── ABU_SYSTEM_ARCHITECTURE.md         # 신규
+│   │   ├── ABU_OPERATIONS_DASHBOARD.md        # 신규
+│   │   └── ABU_INTEGRATION_SUMMARY.md         # 신규
 │   ├── data/               # JSON 데이터
 │   ├── analysis/           # 분석 보고서
+│   │   └── duplicate_cleanup_execution_log.md # 신규
 │   └── archive/            # 아카이브
 ├── examples/               # 예제 코드
 ├── archive/                # 통합 아카이브
@@ -66,6 +70,13 @@ logi_ontol/
 - **실시간 KPI 모니터링**: 물류 지표 실시간 추적
 - **Fuseki 퍼블리싱**: Apache Jena Fuseki에 RDF 게시
 
+### ABU 시스템 (신규)
+- **WhatsApp 데이터 통합**: 67,499개 메시지, 706개 LPO 추출
+- **RDF 그래프 생성**: 23,331개 트리플, 97.8% 통합률
+- **실시간 운영 대시보드**: 6개 핵심 KPI, 자동 알림 시스템
+- **크로스 레퍼런스 매핑**: LPO-Person-Vessel-Location 관계망
+- **시각화 다이어그램**: 10개 Mermaid 다이어그램, 4개 분석 차트
+
 ## ⚙️ 설정 파일
 
 ### v2.6 매핑 규칙
@@ -95,6 +106,11 @@ identity_rules:
 - **[시스템 아키텍처 종합 문서](reports/final/SYSTEM_ARCHITECTURE_COMPREHENSIVE.md)** - 전체 시스템 구조, 컴포넌트, 알고리즘, 배포 아키텍처
 - **[프로젝트 구조 시각화](reports/final/PROJECT_STRUCTURE_VISUALIZATION.md)** - 폴더별 분석 및 시각화
 - **[최종 통합 보고서](reports/final/LOGIONTOLOGY_FINAL_REPORT.md)** - ABU, Invoice, HVDC 시스템 통합 요약
+
+### ABU 시스템 문서 (신규)
+- **[ABU 시스템 아키텍처](reports/final/ABU_SYSTEM_ARCHITECTURE.md)** - 10개 다이어그램, 데이터 파이프라인, 알고리즘 구현 (1,448 lines)
+- **[ABU 운영 대시보드](reports/final/ABU_OPERATIONS_DASHBOARD.md)** - 실시간 KPI, 알림 규칙, 시각화 요소 (1,045 lines)
+- **[ABU 통합 요약](reports/final/ABU_INTEGRATION_SUMMARY.md)** - 비즈니스 가치 분석, 향후 확장 계획 (616 lines)
 
 ### 기술 문서
 - **[변경 이력](CHANGELOG.md)** - 버전별 변경사항 및 성과
@@ -285,7 +301,7 @@ pytest tests/test_mapping.py
 
 MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
-## 📊 프로젝트 상태 (2025-10-19)
+## 📊 프로젝트 상태 (2025-10-22)
 
 ### ✅ 정리 완료 (v3.1)
 - **P.MD v2.6 통합**: 완전한 엔드투엔드 파이프라인 구축
@@ -294,6 +310,8 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 - **아카이브 통합**: 단일 archive/ 디렉토리로 통합 (ARCHIVE → archive)
 - **테스트 커버리지**: 92% 달성 (v2.6 통합으로 인한 변경)
 - **Git 상태**: 깨끗한 상태 유지
+- **ABU 시스템 문서화**: 3개 문서 (3,109 lines), RDF 통합 (23,331 triples)
+- **프로젝트 종합 정리**: 중복 파일 정리, 보고서 재구성 완료
 
 ### 🚀 활성 개발 영역
 - **logiontology/src/**: 현대적 src/ 구조 + v2.6 시스템
