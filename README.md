@@ -1,160 +1,264 @@
-# LogiOntology - HVDC 물류 온톨로지 시스템
+# HVDC Logistics & Ontology System
 
-HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 분석하는 시스템입니다.
+**통합 물류 온톨로지 시스템 for HVDC Project**
+(Samsung C&T + ADNOC·DSV Partnership)
 
-## 🏗️ 프로젝트 구조 (v3.1 - P.MD v2.6 통합 완료)
+> **⚠️ 중요**: 이 문서를 읽기 전에 **[`ontology/logiontology/`](ontology/logiontology/)** 폴더를 먼저 확인하세요!
+> - **전체 구현 코드**: `ontology/logiontology/src/`
+> - **설정 파일**: `ontology/logiontology/configs/`
+> - **온톨로지 정의**: `ontology/logiontology/configs/ontology/hvdc_ontology.ttl`
+> - **문서**: `ontology/logiontology/README.md`, `ontology/logiontology/CHANGELOG.md`
+
+---
+
+## 개요
+
+HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 분석하는 Full Stack MVP 시스템입니다.
+
+**주요 기능**:
+- Protégé 기반 온톨로지 (OWL/TTL)
+- Excel → RDF 변환
+- Neo4j 그래프 DB 통합
+- FastAPI REST API (8 endpoints)
+- Docker 전체 스택 배포
+
+---
+
+## 프로젝트 상태
+
+### logiontology v2.0.0 (메인 프로젝트)
+**Status**: Backend Core 완료 (72%)
+
+**완료된 구성요소** (15/25 tasks):
+- ✅ Protégé 온톨로지 (7 classes, 11 properties)
+- ✅ Excel → RDF 변환기
+- ✅ Neo4j 통합 (store + loader + config)
+- ✅ FastAPI Backend (8 endpoints)
+- ✅ CLI (7 commands)
+- ✅ Docker 배포
+- ✅ 문서화 (7 docs)
+- ✅ 테스트 (90%+ coverage)
+
+**다음 단계** (Phase 2):
+- API 실제 구현 (Neo4j 쿼리 연결)
+- AI Insights Service
+- PDF Report Generator
+- React Frontend
+
+**자세한 내용**: [Master Plan](plan.md) | [Work Log](HVDC_WORK_LOG.md)
+
+---
+
+## 빠른 시작
+
+### 전제 조건
+- Python 3.13+
+- Docker 20+
+- Git
+
+### 5분 시작 가이드
+
+```bash
+# 1. 프로젝트로 이동
+cd logiontology
+
+# 2. 의존성 설치
+pip install -e ".[dev,api,graph]"
+
+# 3. Neo4j 시작
+docker run -d --name hvdc-neo4j \
+  -p 7474:7474 -p 7687:7687 \
+  -e NEO4J_AUTH=neo4j/hvdc_password \
+  neo4j:5.14
+
+# 4. 데이터 변환 (샘플 Excel 파일)
+logiontology ingest-excel data/sample.xlsx
+
+# 5. Neo4j 로드
+export NEO4J_PASSWORD=hvdc_password
+logiontology setup-neo4j
+logiontology load-neo4j output/sample.ttl
+
+# 6. API 서버 시작
+logiontology serve-api --reload
+```
+
+**API Docs**: http://localhost:8000/docs
+**Neo4j Browser**: http://localhost:7474
+
+### Docker Compose (전체 스택)
+
+```bash
+cd logiontology
+docker-compose up -d
+```
+
+**자세한 가이드**: [Quick Start](docs/guides/QUICK_START.md)
+
+---
+
+## 프로젝트 구조
 
 ```
 logi_ontol/
-├── logiontology/           # 🚀 메인 패키지 (활성 개발)
-│   ├── src/                # 소스 코드
-│   │   ├── core/           # 핵심 모델 및 계약
-│   │   ├── mapping/        # 온톨로지 매핑 (v2.6)
-│   │   ├── validation/     # 스키마 검증
-│   │   ├── ingest/         # 데이터 수집 (Excel)
-│   │   ├── rdfio/          # RDF 입출력
-│   │   ├── reasoning/      # AI 추론
-│   │   └── pipeline/       # 파이프라인
-│   ├── tests/              # 테스트 (92% 커버리지)
-│   │   ├── unit/           # 단위 테스트
-│   │   ├── integration/    # 통합 테스트
-│   │   └── fixtures/       # 테스트 데이터
-│   ├── configs/            # 설정 파일
-│   ├── docs/               # 패키지 문서
-│   └── .github/            # CI/CD
-├── scripts/                # 실행 스크립트
-│   ├── process_hvdc_excel.py
-│   ├── integrate_lightning_images.py          # 신규
-│   ├── build_lightning_cross_references.py    # 신규
-│   ├── visualize_lightning_integrated.py      # 신규
-│   ├── enrich_lightning_with_csv.py           # 신규
-│   ├── enhance_lightning_entities.py          # 신규
-│   ├── integrate_whatsapp_output.py           # 신규
-│   ├── generate_final_lightning_report.py     # 신규
-│   ├── compare_abu_lightning.py               # 신규
-│   └── analyze_csv_entities.py                # 신규
-├── data/                   # 입력 데이터
-│   └── *.xlsx
-├── output/                 # 출력 결과
-│   ├── final/              # 최종 RDF 파일
-│   │   ├── abu_final.ttl
-│   │   └── lightning_final.ttl
-│   ├── versions/           # 버전별 아카이브
-│   └── *.ttl
-├── reports/                # 보고서
-│   ├── final/              # 최종 보고서
-│   │   ├── SYSTEM_ARCHITECTURE_COMPREHENSIVE.md
-│   │   ├── PROJECT_STRUCTURE_VISUALIZATION.md
-│   │   ├── LOGIONTOLOGY_FINAL_REPORT.md
-│   │   ├── HVDC_MASTER_INTEGRATION_REPORT.md  # 신규
-│   │   ├── ABU_SYSTEM_ARCHITECTURE.md
-│   │   ├── ABU_OPERATIONS_DASHBOARD.md
-│   │   ├── ABU_INTEGRATION_SUMMARY.md
-│   │   └── LIGHTNING_FINAL_INTEGRATION_REPORT.md # 신규
-│   ├── architecture/       # 아키텍처 문서
-│   ├── analysis/           # 분석 보고서
-│   │   ├── duplicate_cleanup_execution_log.md
-│   │   ├── ABU_SYSTEM_ORGANIZATION_REPORT.md  # 신규
-│   │   └── LIGHTNING_SYSTEM_ORGANIZATION_REPORT.md # 신규
-│   ├── operations/         # 운영 문서
-│   └── archive/            # 아카이브
-├── HVDC Project Lightning/ # Lightning 시스템 (신규)
-│   ├── whatsapp_output/    # WhatsApp 출력 데이터
-│   ├── Logistics_Entities__Summary_.csv
-│   ├── Guideline_HVDC_Project_lightning (1).md
-│   └── *.jpg, *.webp, *.vcf, *.txt
-├── examples/               # 예제 코드
-├── archive/                # 통합 아카이브
-│   ├── root_legacy/        # 루트 레거시 파일들
-│   ├── duplicates/         # 중복 파일들
-│   ├── legacy/             # 기존 레거시 파일들
-│   └── logiontology_archive/ # 패키지 아카이브
-├── docs/                   # 프로젝트 문서
-│   ├── P_MD_v2.6_mapping.md
-│   └── P2_MD_v2.6_clustering.md
-├── README.md               # 이 파일
-├── CHANGELOG.md            # 변경 이력
-└── requirements.txt        # 의존성
+├── plan.md                       # Master plan
+├── README.md                     # 이 파일
+├── HVDC_WORK_LOG.md             # 상세 작업 로그
+│
+├── logiontology/                 # ⭐ 메인 프로젝트 (v2.0.0)
+│   ├── src/                      # 소스 코드
+│   │   ├── ontology/             # Protégé loader, validator
+│   │   ├── ingest/               # Excel → RDF converter
+│   │   ├── graph/                # Neo4j integration
+│   │   ├── api/                  # FastAPI endpoints
+│   │   ├── core/                 # Flow models
+│   │   ├── analytics/            # KPI calculator
+│   │   ├── mapping/              # RDF mapper
+│   │   └── cli.py                # CLI commands
+│   ├── tests/                    # 테스트 (90%+ coverage)
+│   ├── configs/                  # 설정 파일
+│   ├── docs/                     # 기술 문서
+│   ├── docker-compose.yml        # Docker 배포
+│   ├── Dockerfile                # Backend image
+│   ├── pyproject.toml            # v2.0.0
+│   ├── README_FULL_STACK.md      # 전체 가이드
+│   └── IMPLEMENTATION_SUMMARY.md # 구현 요약
+│
+├── ontology/                     # 온톨로지 정의
+│   ├── HVDC.MD                   # HVDC v3.0 정의
+│   ├── core/                     # 핵심 온톨로지 (15 files)
+│   └── extended/                 # 확장 온톨로지 (7 files)
+│
+├── docs/                         # 프로젝트 문서
+│   ├── guides/                   # 가이드 (3 files)
+│   │   ├── QUICK_START.md        # 빠른 시작
+│   │   ├── API_REFERENCE.md      # API 레퍼런스
+│   │   └── TROUBLESHOOTING.md    # 문제 해결
+│   ├── architecture/             # 아키텍처 (4 files)
+│   ├── ontology/                 # 온톨로지 분석
+│   └── README.md                 # 문서 인덱스
+│
+├── data/                         # 입력 데이터
+│   ├── HVDC_입고로직_종합리포트.xlsx
+│   └── backups/                  # 백업 파일
+│
+├── output/                       # 출력 결과
+│   ├── rdf/                      # RDF/TTL 파일
+│   ├── visualizations/           # HTML 시각화
+│   ├── integration/              # JSON 통합 데이터
+│   ├── final/                    # 최종 출력
+│   └── versions/                 # 버전 관리
+│
+├── reports/                      # 분석 보고서
+├── scripts/                      # 처리 스크립트
+│   └── build_unified_network_v12_hvdc.py (최신)
+│
+├── ABU/                          # Abu Dhabi 데이터
+├── JPT71/                        # Jopetwil 71 선박 데이터
+├── HVDC Project Lightning/       # Lightning 서브시스템
+└── archive/                      # 아카이브
 ```
 
-## 🚀 주요 기능
+---
 
-### v2.6 매핑 시스템
-- **Excel → RDF 변환**: HVDC 데이터를 표준 RDF/TTL 형식으로 변환
-- **결정적 UUID5 기반 ID**: 일관된 엔티티 식별자 생성
-- **엔티티 클러스터링**: owl:sameAs 링크로 소프트 머지
-- **비즈니스 룰 필터링**: 벤더, 압력, 창고 코드 필터
-- **SHACL 검증**: Shipment, ShipmentOOG Shape 검증
+## 주요 기능
 
-### 기존 기능
-- **재고 무결성 검증**: 자동 재고 계산 검증 (Opening + In - Out = Closing)
-- **AI/ML 기반 패턴 발견**: Decision Tree, Random Forest를 통한 비즈니스 규칙 추론
-- **FANR/MOIAT 규정 준수**: 자동 규정 준수 검증
-- **실시간 KPI 모니터링**: 물류 지표 실시간 추적
-- **Fuseki 퍼블리싱**: Apache Jena Fuseki에 RDF 게시
+### 1. Protégé 온톨로지
+- **파일**: `logiontology/configs/ontology/hvdc_ontology.ttl`
+- **클래스**: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project (7개)
+- **속성**: 11개 (5 Object Properties + 6 Datatype Properties)
+- **샘플**: 15개 인스턴스 (sites, warehouses, ports, flow codes)
 
-### ABU 시스템 (신규)
-- **WhatsApp 데이터 통합**: 67,499개 메시지, 706개 LPO 추출
-- **RDF 그래프 생성**: 23,331개 트리플, 97.8% 통합률
-- **실시간 운영 대시보드**: 6개 핵심 KPI, 자동 알림 시스템
-- **크로스 레퍼런스 매핑**: LPO-Person-Vessel-Location 관계망
-- **시각화 다이어그램**: 10개 Mermaid 다이어그램, 4개 분석 차트
+### 2. Excel → RDF 변환
+- **지원 컬럼**: HVDC_CODE, WEIGHT, WAREHOUSE, SITE, PORT, FLOW_CODE
+- **자동 처리**: Site/Warehouse 정규화, Flow Code 계산
+- **배치 처리**: 디렉토리 단위 변환
+- **검증**: SHACL 자동 검증
 
-### Lightning 시스템 (신규)
-- **WhatsApp 데이터 통합**: 11,517개 메시지, 77개 이미지
-- **RDF 그래프 생성**: 67,000+ 트리플, 완전한 엔티티 커버리지
-- **CSV 엔티티 보강**: 331개 엔티티 (Document, Equipment, TimeTag, Quantity, Reference)
-- **참여자 분석**: 26명 참여자의 활동 패턴 및 관계 매핑
-- **3단계 보강**: CSV → 주요 엔티티 → WhatsApp 통합
-- **비즈니스 가치**: $2.5M+ 운영 효율성 향상
+### 3. Neo4j 그래프 DB
+- **RDF → Neo4j 매핑**: 자동 변환 (Node + Relationship)
+- **인덱스**: flow_code, hvdc_code, site_name, warehouse_name, port_name
+- **제약조건**: cargo hvdc_code unique
+- **쿼리**: Cypher 및 SPARQL 지원
 
-## ⚙️ 설정 파일
+### 4. FastAPI REST API
+**8개 엔드포인트**:
+1. `GET /` - API 정보
+2. `GET /health` - 헬스 체크
+3. `GET /api/flows` - 플로우 목록 (pagination)
+4. `GET /api/flows/{id}` - 플로우 상세
+5. `GET /api/search` - 플로우 검색
+6. `GET /api/kpi/` - KPI 대시보드
+7. `POST /api/sparql/` - SPARQL 쿼리
+8. `POST /api/cypher/` - Cypher 쿼리
 
-### v2.6 매핑 규칙
-- **`logiontology/configs/mapping_rules.v2.6.yaml`**: 매핑 규칙, 비즈니스 룰, identity rules
-- **`logiontology/configs/shapes/*.ttl`**: SHACL validation shapes
-  - `Shipment.shape.ttl`: Shipment 엔티티 검증 규칙
-  - `ShipmentOOG.shape.ttl`: Out-Of-Gauge Shipment 검증 규칙
+**API Docs**: http://localhost:8000/docs (Swagger UI)
 
-### Identity Rules
-```yaml
-identity_rules:
-  - name: "by_hvdc_vendor_case"
-    when: ["HVDC_Code", "Vendor", "Case No."]
-    cluster_as: "Shipment"
-  - name: "by_bl_container"
-    when: ["BL No.", "Container"]
-    cluster_as: "Consignment"
-  - name: "by_rotation_eta"
-    when: ["RotationNo", "ETA"]
-    cluster_as: "RotationGroup"
-    window_days: 7
+### 5. CLI (7개 명령어)
+```bash
+logiontology ingest-excel FILE.xlsx    # Excel → RDF
+logiontology load-neo4j FILE.ttl       # RDF → Neo4j
+logiontology setup-neo4j               # 인덱스/제약조건 설정
+logiontology serve-api --reload        # API 서버 시작
+logiontology batch-ingest DIR/         # 배치 처리
+logiontology run                       # 레거시 파이프라인
+logiontology make-id                   # ID 생성
 ```
 
-## 📚 문서
+### 6. Docker 배포
+**3개 서비스**:
+- **neo4j**: Neo4j 5.14 (ports: 7474, 7687)
+- **backend**: FastAPI (port: 8000)
+- **frontend**: React (port: 3000, placeholder)
+
+```bash
+docker-compose up -d
+```
+
+---
+
+## 외부 데이터 소스
+
+### ABU/ (Abu Dhabi Logistics)
+- WhatsApp 데이터 통합: 67,499개 메시지
+- RDF 그래프: 23,331개 트리플
+- 실시간 운영 대시보드
+
+### JPT71/ (Jopetwil 71 Vessel Operations)
+- PDF 문서 20+, 이미지 400+
+- 선박 운항 데이터 분석
+- 네트워크 시각화
+
+### HVDC Project Lightning/
+- WhatsApp 데이터: 11,517개 메시지
+- RDF 그래프: 67,000+ 트리플
+- CSV 엔티티: 331개
+
+---
+
+## 문서
 
 ### 핵심 문서
-- **[시스템 아키텍처 종합 문서](reports/architecture/SYSTEM_ARCHITECTURE_COMPREHENSIVE.md)** - 전체 시스템 구조, 컴포넌트, 알고리즘, 배포 아키텍처
-- **[프로젝트 구조 시각화](reports/final/PROJECT_STRUCTURE_VISUALIZATION.md)** - 폴더별 분석 및 시각화
-- **[최종 통합 보고서](reports/final/LOGIONTOLOGY_FINAL_REPORT.md)** - ABU, Invoice, HVDC 시스템 통합 요약
-- **[HVDC 마스터 통합 보고서](reports/final/HVDC_MASTER_INTEGRATION_REPORT.md)** - ABU + Lightning 통합 분석 (신규)
+- [Master Plan](plan.md) - 전체 프로젝트 계획
+- [Work Log](HVDC_WORK_LOG.md) - 상세 작업 로그 (v2.0.0)
+- [Quick Start Guide](docs/guides/QUICK_START.md) - 5분 빠른 시작
+- [API Reference](docs/guides/API_REFERENCE.md) - API 레퍼런스
+- [Troubleshooting](docs/guides/TROUBLESHOOTING.md) - 문제 해결
+- [Documentation Index](docs/README.md) - 문서 인덱스
 
-### ABU 시스템 문서 (신규)
-- **[ABU 시스템 아키텍처](reports/architecture/ABU_SYSTEM_ARCHITECTURE.md)** - 10개 다이어그램, 데이터 파이프라인, 알고리즘 구현 (1,448 lines)
-- **[ABU 운영 대시보드](reports/final/ABU_OPERATIONS_DASHBOARD.md)** - 실시간 KPI, 알림 규칙, 시각화 요소 (1,045 lines)
-- **[ABU 통합 요약](reports/final/ABU_INTEGRATION_SUMMARY.md)** - 비즈니스 가치 분석, 향후 확장 계획 (616 lines)
+### logiontology 문서
+- [README_FULL_STACK.md](logiontology/README_FULL_STACK.md) - 전체 시스템 가이드
+- [IMPLEMENTATION_SUMMARY.md](logiontology/IMPLEMENTATION_SUMMARY.md) - 구현 요약
+- [logiontology/docs/](logiontology/docs/) - 기술 문서 7개
 
-### Lightning 시스템 문서 (신규)
-- **[Lightning 최종 통합 보고서](reports/final/LIGHTNING_FINAL_INTEGRATION_REPORT.md)** - 3단계 보강 과정 및 통합 결과
-- **[ABU-Lightning 비교 분석](reports/final/ABU_LIGHTNING_COMPARISON.md)** - 두 시스템의 성능 및 특성 비교
-- **[Lightning 시스템 조직 보고서](reports/analysis/LIGHTNING_SYSTEM_ORGANIZATION_REPORT.md)** - Lightning 폴더 구조 및 파일 분석
+### 온톨로지 문서
+- [HVDC.MD](ontology/HVDC.MD) - HVDC v3.0 정의
+- [core/](ontology/core/) - 핵심 온톨로지 (15개 파일)
+- [extended/](ontology/extended/) - 확장 온톨로지 (7개 파일)
 
-### 기술 문서
-- **[변경 이력](CHANGELOG.md)** - 버전별 변경사항 및 성과
-- **[매핑 규칙](logiontology/configs/mapping_rules.v2.6.yaml)** - v2.6 매핑 규칙 및 비즈니스 룰
-- **[SHACL 검증](logiontology/configs/shapes/)** - Shipment, ShipmentOOG 검증 규칙
+---
 
-## 📦 설치
+## 설치
 
 ```bash
 # 1. 저장소 클론
@@ -162,171 +266,107 @@ git clone https://github.com/macho715/logi_ontol.git
 cd logi_ontol
 
 # 2. 가상환경 생성
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Mac/Linux
 
-# 3. 의존성 설치
-pip install -r requirements.txt
-
-# 4. 개발 모드 설치 (새 구조)
+# 3. logiontology 설치
 cd logiontology
-pip install -e ".[dev]"
+pip install -e ".[dev,api,graph]"
 ```
 
-## 🚀 빠른 시작
+---
 
-### v2.6 시스템 사용법
-```bash
-# 1. 엔티티 + 링크셋 생성
-python -m logiontology.src.pipeline.run_map_cluster \
-  --rules logiontology/configs/mapping_rules.v2.6.yaml \
-  --in_csv data/sample.csv \
-  --out_entities output/entities.ttl \
-  --out_linkset output/linkset.ttl
-
-# 2. Fuseki에 게시 (옵션)
-python -m logiontology.src.pipeline.run_map_cluster \
-  --rules logiontology/configs/mapping_rules.v2.6.yaml \
-  --in_csv data/sample.csv \
-  --out_entities output/entities.ttl \
-  --out_linkset output/linkset.ttl \
-  --publish \
-  --fuseki http://localhost:3030 \
-  --dataset hvdc_logistics
-
-# 3. 개별 컴포넌트 사용
-python -m logiontology.src.mapping.registry \
-  --rules logiontology/configs/mapping_rules.v2.6.yaml \
-  --in_csv data.csv \
-  --out_ttl output.ttl
-```
-
-### 기존 스크립트
-```bash
-# HVDC Excel 파일 처리
-python scripts/process_hvdc_excel.py
-
-# 개발 모드 설치 후 CLI 사용
-cd logiontology
-pip install -e ".[dev]"
-logiontology --help
-```
-
-## 🔧 사용법
-
-### v2.6 시스템 (권장)
-
-```python
-from logiontology.src.mapping.registry import MappingRegistry
-from logiontology.src.mapping.clusterer import IdentityClusterer
-from logiontology.src.rdfio.publish import publish_turtle
-
-# 1. 매핑 규칙 로드
-registry = MappingRegistry.load_rules("logiontology/configs/mapping_rules.v2.6.yaml")
-
-# 2. 엔티티 생성
-entities_ttl = registry.run(df, "output/entities.ttl")
-
-# 3. 클러스터링
-clusterer = IdentityClusterer.from_yaml("logiontology/configs/mapping_rules.v2.6.yaml")
-clusters, linkset_graph = clusterer.run(df)
-linkset_graph.serialize("output/linkset.ttl", format="turtle")
-
-# 4. Fuseki 퍼블리싱
-publish_turtle("output/entities.ttl", "http://localhost:3030", "hvdc_logistics")
-```
-
-### 기존 구조 (호환성 유지)
-
-```python
-from logiontology.src.mapping.registry import MappingRegistry
-from logiontology.src.ingest.excel import convert_excel_to_rdf
-
-# Excel 파일을 RDF로 변환
-rdf_path = convert_excel_to_rdf("data/warehouse_data.xlsx")
-
-# 매핑 규칙 로드
-mapper = MappingRegistry()
-mapper.load("configs/mapping_rules.v2.6.yaml")
-```
-
-### 레거시 코드
-
-```python
-# 기존 방식 (호환성 유지)
-from ontology_mapper import dataframe_to_rdf
-from schema_validator import SchemaValidator
-
-# DataFrame을 RDF로 변환
-df = pd.read_excel("data.xlsx")
-rdf_path = dataframe_to_rdf(df, "output.ttl")
-```
-
-## 📊 데이터 플로우
-
-```
-Excel 파일 (HVDC WAREHOUSE_*.xlsx)
-    ↓
-EnhancedDataLoader.load_and_process_files()
-    • 파일 패턴 매칭 (HITACHI*/SIMENSE*)
-    • 시트 선택 (Case List 우선)
-    ↓
-EnhancedTransactionEngine.create_transaction_log()
-    • IN 트랜잭션 생성
-    • OUT 트랜잭션 생성 (TRANSFER_OUT/FINAL_OUT)
-    ↓
-apply_hvdc_filters_to_rdf()
-    • HVDC CODE 정규화
-    • 벤더 필터 (HE/SIM)
-    • 월 매칭 검증
-    ↓
-dataframe_to_rdf()
-    • TransportEvent URI 생성
-    • 프로퍼티 매핑 (mapping_rules)
-    • XSD 데이터 타입 적용
-    ↓
-RDF/TTL 파일 출력
-```
-
-## 🧪 테스트
+## 테스트
 
 ```bash
 # 전체 테스트 실행
-pytest
+pytest tests/ -v
 
 # 커버리지 포함
-pytest --cov=src
+pytest --cov=src --cov-report=term-missing
 
-# 특정 모듈 테스트
-pytest tests/test_mapping.py
+# API 테스트만
+pytest tests/api/ -v
 ```
 
-## 📈 성능 최적화
+**테스트 커버리지**: 90%+ (43개 테스트)
 
-- **Excel 로드**: 청크 단위 처리 (15초 → 5초)
-- **벡터화 연산**: 중첩 루프 제거 (20초 → 5초)
-- **병렬 처리**: 4배 속도 향상
-- **메모리 최적화**: 데이터 타입 최적화 (500MB → 200MB)
+---
 
-## 🔒 보안 및 규정 준수
+## 성능 목표
 
-- **FANR**: Federal Authority for Nuclear Regulation 검증
-- **MOIAT**: Ministry of Industry and Advanced Technology 검증
-- **IMO**: International Maritime Organization 안전 한계 검증
-- **Confidence 기반 품질 관리**: ≥0.95 for critical fields
+### 현재 (v2.0.0)
+- API Response: < 2s
+- Test Coverage: 90%+
+- Success Rate: 95%+
 
-## 📚 문서
+### 목표 (v3.0.0)
+- API Response: < 500ms
+- Test Coverage: 95%+
+- Success Rate: 98%+
+- Uptime: 99.9%
 
-- [패키지 문서](logiontology/docs/README.md)
-- [시스템 아키텍처](logiontology/docs/ARCHITECTURE.md)
-- [아키텍처 다이어그램](logiontology/docs/ARCHITECTURE_DIAGRAMS.md)
-- [Mermaid 다이어그램](logiontology/docs/ARCHITECTURE_Mermaid.md)
-- [v2.6 매핑 시스템](docs/P_MD_v2.6_mapping.md)
-- [v2.6 클러스터링](docs/P2_MD_v2.6_clustering.md)
-- [개발자 가이드](logiontology/Cursor_Project_Setup_v1.3.md)
-- [종합 분석 보고서](reports/python_files_comprehensive_analysis_report.md)
+---
 
-## 🤝 기여
+## 기술 스택
+
+### Backend
+- Python 3.13
+- FastAPI 0.104+
+- uvicorn (ASGI server)
+- Neo4j 5.14
+- RDFLib (OWL/TTL)
+- pyshacl (SHACL validation)
+- pandas (Data processing)
+- Pydantic (Data validation)
+
+### DevOps
+- Docker 20+
+- Docker Compose
+- pytest (Testing)
+- ruff (Linting)
+- black (Formatting)
+
+### 추후 추가 예정 (Phase 2-3)
+- React (Frontend)
+- Redis (Caching)
+- Jinja2 + WeasyPrint (PDF Reports)
+- Claude API (AI Insights)
+- Kubernetes (Orchestration)
+
+---
+
+## 로드맵
+
+### Phase 1: Backend Core (✅ 완료 - 72%)
+- Protégé 온톨로지
+- Excel → RDF 변환
+- Neo4j 통합
+- FastAPI Backend
+- Docker 배포
+- 문서화
+
+### Phase 2A: 핵심 기능 완성 (🔄 계획 - 10-12시간)
+- Real data testing
+- API 실제 구현
+- Integration tests
+
+### Phase 2B: 확장 기능 (⏳ 대기 - 15-20시간)
+- AI Insights Service
+- PDF Report Generator
+- React Frontend
+
+### Phase 3: Production (⏳ 대기 - 10-15시간)
+- Security (JWT, HTTPS)
+- Performance (Redis, Query optimization)
+- DevOps (CI/CD, Kubernetes, Monitoring)
+
+**예상 완성 시점**: 6주 (Full Stack MVP 완성)
+
+---
+
+## 기여
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -334,57 +374,29 @@ pytest tests/test_mapping.py
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 라이선스
+---
 
-MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+## 라이선스
 
-## 📊 프로젝트 상태 (2025-10-22)
-
-### ✅ 통합 완료 (v4.0)
-- **Lightning 시스템 통합**: 완전한 HVDC Project Lightning 데이터 통합
-- **마스터 통합 보고서**: ABU + Lightning 통합 분석 완료
-- **프로젝트 구조 재편**: reports/, output/ 폴더 체계화
-- **자동화 스크립트**: 9개 Lightning 통합 스크립트 추가
-- **RDF 통합**: 200,000+ 트리플, 3,000+ 엔티티
-- **비즈니스 가치**: $2.5M+ 운영 효율성 향상
-
-### ✅ 정리 완료 (v3.1)
-- **P.MD v2.6 통합**: 완전한 엔드투엔드 파이프라인 구축
-- **시스템 폴더 재정리**: logiontology/logiontology/ → logiontology/src/ 현대화
-- **디렉토리 체계화**: scripts/, data/, reports/, docs/ 역할별 분리
-- **아카이브 통합**: 단일 archive/ 디렉토리로 통합 (ARCHIVE → archive)
-- **테스트 커버리지**: 92% 달성 (v2.6 통합으로 인한 변경)
-- **Git 상태**: 깨끗한 상태 유지
-- **ABU 시스템 문서화**: 3개 문서 (3,109 lines), RDF 통합 (23,331 triples)
-- **프로젝트 종합 정리**: 중복 파일 정리, 보고서 재구성 완료
-
-### 🚀 활성 개발 영역
-- **logiontology/src/**: 현대적 src/ 구조 + v2.6 시스템
-- **테스트**: 단위/통합 테스트 완비 (92% 커버리지)
-- **문서**: 체계화된 문서 구조 + v2.6 가이드
-- **스크립트**: 실행 가능한 스크립트 + 파이프라인
-- **v2.6 기능**: Identity Clustering, Fuseki Publishing, SHACL Validation
-
-### 📦 아카이브 보관
-- **archive/**: 통합된 아카이브 디렉토리
-  - **root_legacy/**: 루트에서 이동한 20개 파일
-  - **duplicates/**: 중복 파일들
-  - **legacy/**: 기존 레거시 파일들
-  - **logiontology_archive/**: 패키지 아카이브
-  - **migrations/**: 데이터베이스 마이그레이션
-- **복원 가능**: 언제든지 복원 가능
-
-## 🔄 마이그레이션 상태
-
-- ✅ **완료**: P.MD v2.6 시스템 통합, 완전한 엔드투엔드 파이프라인
-- ✅ **완료**: 시스템 폴더 재정리, 디렉토리 체계화, 아카이브 통합
-- ✅ **완료**: 테스트 커버리지 92% 달성, import 경로 현대화
-- ✅ **완료**: 문서 체계화, 스크립트 실행 환경 구축
-- ✅ **완료**: Identity Clustering, Fuseki Publishing, SHACL Validation
-- 🚧 **진행중**: 성능 최적화, CLI 모듈 테스트
-- 📋 **예정**: 대시보드 개발, 사용자 교육
+**프로젝트**: HVDC Logistics & Ontology System
+**소유자**: Samsung C&T Logistics (ADNOC·DSV Partnership)
+**버전**: 2.0.0
+**최종 업데이트**: 2025-10-26
 
 ---
 
-**개발**: MACHO-GPT v3.4-mini Analysis Engine
-**프로젝트**: HVDC Samsung C&T Logistics & ADNOC·DSV Partnership
+## 관련 링크
+
+- [Master Plan](plan.md) - 전체 프로젝트 계획
+- [Work Log](HVDC_WORK_LOG.md) - 상세 작업 로그
+- [Quick Start](docs/guides/QUICK_START.md) - 5분 시작 가이드
+- [API Reference](docs/guides/API_REFERENCE.md) - API 문서
+- [Troubleshooting](docs/guides/TROUBLESHOOTING.md) - 문제 해결
+- [Documentation](docs/README.md) - 문서 인덱스
+- [Full Stack Guide](logiontology/README_FULL_STACK.md) - 완전한 가이드
+
+---
+
+**개발**: HVDC Project Team
+**프로젝트**: Samsung C&T Logistics & ADNOC·DSV Partnership
+**최종 업데이트**: 2025-10-26
