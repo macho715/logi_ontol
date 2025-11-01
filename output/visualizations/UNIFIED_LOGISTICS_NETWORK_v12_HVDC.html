@@ -1,0 +1,311 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.css">
+<style>
+  #pro-toolbar{position:absolute;left:12px;top:12px;z-index:9;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  #pro-toolbar .btn{padding:6px 10px;background:#111827;border:1px solid #374151;border-radius:8px;color:#e6edf3;cursor:pointer}
+  #searchBox{min-width:240px;padding:6px 10px;background:#0f172a;border:1px solid #374151;border-radius:8px;color:#e6edf3}
+  #legend{position:absolute;left:12px;top:56px;z-index:9;background:#0b1220;padding:8px 10px;border:1px solid #223;border-radius:8px;max-width:320px}
+  .chip{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid #0f172a;margin-right:6px}
+</style>
+
+</head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ff0000", "font": {"color": "#333333"}, "id": "HVDC_Project", "label": "HVDC Project", "shape": "dot", "size": 20, "title": "HVDC Project\nType: root\nOntology: Project"}, {"color": "#ff6b6b", "font": {"color": "#333333"}, "id": "JPT71_System", "label": "JPT71 System", "shape": "dot", "size": 20, "title": "JPT71 System\nType: system\nOntology: System"}, {"color": "#51cf66", "font": {"color": "#333333"}, "id": "ABU_System", "label": "ABU System", "shape": "dot", "size": 20, "title": "ABU System\nType: system\nOntology: System"}, {"color": "#339af0", "font": {"color": "#333333"}, "id": "HVDC_Infrastructure", "label": "HVDC Infrastructure", "shape": "dot", "size": 20, "title": "HVDC Infrastructure\nType: system\nOntology: System"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "ZAYED_PORT", "label": "Zayed Port", "shape": "dot", "size": 15, "title": "Zayed Port\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "KHALIFA_PORT", "label": "Khalifa Port", "shape": "dot", "size": 15, "title": "Khalifa Port\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "JEBEL_ALI_PORT", "label": "Jebel Ali Port", "shape": "dot", "size": 15, "title": "Jebel Ali Port\nType: port\nOntology: Location"}, {"color": "#ffd43b", "font": {"color": "#333333"}, "id": "MOSB", "label": "MOSB (Mussafah Offshore Supply Base)", "shape": "dot", "size": 15, "title": "MOSB (Mussafah Offshore Supply Base)\nType: hub\nOntology: Location"}, {"color": "#99e9f2", "font": {"color": "#333333"}, "id": "MIR", "label": "Mirfa Site", "shape": "dot", "size": 15, "title": "Mirfa Site\nType: site\nOntology: Location"}, {"color": "#99e9f2", "font": {"color": "#333333"}, "id": "SHU", "label": "Shuweihat Site", "shape": "dot", "size": 15, "title": "Shuweihat Site\nType: site\nOntology: Location"}, {"color": "#74c0fc", "font": {"color": "#333333"}, "id": "DAS", "label": "Das Island", "shape": "dot", "size": 15, "title": "Das Island\nType: site\nOntology: Location"}, {"color": "#74c0fc", "font": {"color": "#333333"}, "id": "AGI", "label": "Al Ghallan Island", "shape": "dot", "size": 15, "title": "Al Ghallan Island\nType: site\nOntology: Location"}, {"color": "#ff6b6b", "font": {"color": "#333333"}, "id": "SCT_Logistics_Team", "label": "SCT \ubb3c\ub958\ubcf8\ubd80", "shape": "dot", "size": 15, "title": "SCT \ubb3c\ub958\ubcf8\ubd80\nType: party\nOntology: Party"}, {"color": "#51cf66", "font": {"color": "#333333"}, "id": "ADNOC_LS", "label": "ADNOC Logistics \u0026 Services", "shape": "dot", "size": 15, "title": "ADNOC Logistics \u0026 Services\nType: party\nOntology: Party"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:JPT71", "label": "JPT71", "shape": "dot", "size": 15, "title": "JPT71\nType: vessel\nOntology: Asset"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:YEAM", "label": "YEAM", "shape": "dot", "size": 15, "title": "YEAM\nType: vessel\nOntology: Asset"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:TAIBAH", "label": "TAIBAH", "shape": "dot", "size": 15, "title": "TAIBAH\nType: vessel\nOntology: Asset"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:JPT62", "label": "JPT62", "shape": "dot", "size": 15, "title": "JPT62\nType: vessel\nOntology: Asset"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:Buahra", "label": "Buahra", "shape": "dot", "size": 15, "title": "Buahra\nType: vessel\nOntology: Asset"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:THURAYA", "label": "THURAYA", "shape": "dot", "size": 15, "title": "THURAYA\nType: vessel\nOntology: Asset"}, {"color": "#e03131", "font": {"color": "#333333"}, "id": "vessel:Tamarah", "label": "Tamarah", "shape": "dot", "size": 15, "title": "Tamarah\nType: vessel\nOntology: Asset"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Logistics Driver 1", "label": "Logistics Driver 1", "shape": "dot", "size": 15, "title": "Logistics Driver 1\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Friday D 13th", "label": "Friday D 13th", "shape": "dot", "size": 15, "title": "Friday D 13th\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:\uad6d\uc77c Kim", "label": "\uad6d\uc77c Kim", "shape": "dot", "size": 15, "title": "\uad6d\uc77c Kim\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:DaN", "label": "DaN", "shape": "dot", "size": 15, "title": "DaN\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Haitham", "label": "Haitham", "shape": "dot", "size": 15, "title": "Haitham\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:ronpap20", "label": "ronpap20", "shape": "dot", "size": 15, "title": "ronpap20\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "label": "kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "shape": "dot", "size": 15, "title": "kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Thusar", "label": "Thusar", "shape": "dot", "size": 15, "title": "Thusar\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:\uc0c1\uc6b1", "label": "\uc0c1\uc6b1", "shape": "dot", "size": 15, "title": "\uc0c1\uc6b1\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Jhysn", "label": "Jhysn", "shape": "dot", "size": 15, "title": "Jhysn\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Shariff", "label": "Shariff", "shape": "dot", "size": 15, "title": "Shariff\nType: person\nOntology: Party"}, {"color": "#fd7e14", "font": {"color": "#333333"}, "id": "person:Karthi", "label": "Karthi", "shape": "dot", "size": 15, "title": "Karthi\nType: person\nOntology: Party"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:DAS", "label": "DAS", "shape": "dot", "size": 15, "title": "DAS\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:MOSB", "label": "MOSB", "shape": "dot", "size": 15, "title": "MOSB\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:al jaber", "label": "al jaber", "shape": "dot", "size": 15, "title": "al jaber\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:AGI", "label": "AGI", "shape": "dot", "size": 15, "title": "AGI\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:MW4", "label": "MW4", "shape": "dot", "size": 15, "title": "MW4\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:Umm ALanbar", "label": "Umm ALanbar", "shape": "dot", "size": 15, "title": "Umm ALanbar\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:Musaffah", "label": "Musaffah", "shape": "dot", "size": 15, "title": "Musaffah\nType: port\nOntology: Location"}, {"color": "#4ecdc4", "font": {"color": "#333333"}, "id": "port:Al Jaber", "label": "Al Jaber", "shape": "dot", "size": 15, "title": "Al Jaber\nType: port\nOntology: Location"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_Shariff_JPT71", "label": "Delivery by Shariff on JPT71", "shape": "dot", "size": 15, "title": "Delivery by Shariff on JPT71\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_Shariff_THURAYA", "label": "Delivery by Shariff on THURAYA", "shape": "dot", "size": 15, "title": "Delivery by Shariff on THURAYA\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_Haitham_Tamarah", "label": "Delivery by Haitham on Tamarah", "shape": "dot", "size": 15, "title": "Delivery by Haitham on Tamarah\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_Haitham_JPT71", "label": "Delivery by Haitham on JPT71", "shape": "dot", "size": 15, "title": "Delivery by Haitham on JPT71\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_\uc0c1\uc6b1_JPT71", "label": "Delivery by \uc0c1\uc6b1 on JPT71", "shape": "dot", "size": 15, "title": "Delivery by \uc0c1\uc6b1 on JPT71\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_\uc0c1\uc6b1_THURAYA", "label": "Delivery by \uc0c1\uc6b1 on THURAYA", "shape": "dot", "size": 15, "title": "Delivery by \uc0c1\uc6b1 on THURAYA\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_ronpap20_THURAYA", "label": "Delivery by ronpap20 on THURAYA", "shape": "dot", "size": 15, "title": "Delivery by ronpap20 on THURAYA\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_ronpap20_JPT62", "label": "Delivery by ronpap20 on JPT62", "shape": "dot", "size": 15, "title": "Delivery by ronpap20 on JPT62\nType: operation\nOntology: Process"}, {"color": "#20c997", "font": {"color": "#333333"}, "id": "operation:delivery_Jhysn_THURAYA", "label": "Delivery by Jhysn on THURAYA", "shape": "dot", "size": 15, "title": "Delivery by Jhysn on THURAYA\nType: operation\nOntology: Process"}]);
+                  edges = new vis.DataSet([{"color": "#cccccc", "from": "HVDC_Project", "title": "belongs_to", "to": "JPT71_System", "width": 4.0}, {"color": "#cccccc", "from": "HVDC_Project", "title": "belongs_to", "to": "ABU_System", "width": 4.0}, {"color": "#cccccc", "from": "HVDC_Project", "title": "belongs_to", "to": "HVDC_Infrastructure", "width": 4.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:JPT71", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:YEAM", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:TAIBAH", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:JPT62", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:Buahra", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:THURAYA", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "vessel:Tamarah", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Logistics Driver 1", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Friday D 13th", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:\uad6d\uc77c Kim", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:DaN", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Haitham", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:ronpap20", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Thusar", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:\uc0c1\uc6b1", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Jhysn", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Shariff", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "person:Karthi", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:DAS", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:MOSB", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:al jaber", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:AGI", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:MW4", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:Umm ALanbar", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:Musaffah", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "port:Al Jaber", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_Shariff_JPT71", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_Shariff_THURAYA", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_Haitham_Tamarah", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_Haitham_JPT71", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_\uc0c1\uc6b1_JPT71", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_\uc0c1\uc6b1_THURAYA", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_ronpap20_THURAYA", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_ronpap20_JPT62", "width": 2.0}, {"color": "#cccccc", "from": "JPT71_System", "title": "belongs_to", "to": "operation:delivery_Jhysn_THURAYA", "width": 2.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "ZAYED_PORT", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "KHALIFA_PORT", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "JEBEL_ALI_PORT", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "MOSB", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "MIR", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "SHU", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "DAS", "width": 3.0}, {"color": "#cccccc", "from": "HVDC_Infrastructure", "title": "belongs_to", "to": "AGI", "width": 3.0}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "feeds_into", "to": "MOSB", "width": 2.0}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:JPT71", "width": 0.8}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:YEAM", "width": 0.8}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:TAIBAH", "width": 0.8}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:JPT62", "width": 0.8}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:Buahra", "width": 0.8}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:THURAYA", "width": 0.8}, {"color": "#cccccc", "from": "ZAYED_PORT", "title": "flows_through", "to": "vessel:Tamarah", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "feeds_into", "to": "MOSB", "width": 2.0}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:JPT71", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:YEAM", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:TAIBAH", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:JPT62", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:Buahra", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:THURAYA", "width": 0.8}, {"color": "#cccccc", "from": "KHALIFA_PORT", "title": "flows_through", "to": "vessel:Tamarah", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "feeds_into", "to": "MOSB", "width": 2.0}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:JPT71", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:YEAM", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:TAIBAH", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:JPT62", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:Buahra", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:THURAYA", "width": 0.8}, {"color": "#cccccc", "from": "JEBEL_ALI_PORT", "title": "flows_through", "to": "vessel:Tamarah", "width": 0.8}, {"color": "#cccccc", "from": "MOSB", "title": "dispatches", "to": "MIR", "width": 2.0}, {"color": "#cccccc", "from": "MOSB", "title": "dispatches", "to": "SHU", "width": 2.0}, {"color": "#cccccc", "from": "MOSB", "title": "dispatches", "to": "DAS", "width": 2.0}, {"color": "#cccccc", "from": "MOSB", "title": "dispatches", "to": "AGI", "width": 2.0}, {"color": "#cccccc", "from": "MOSB", "title": "hosts", "to": "SCT_Logistics_Team", "width": 2.0}, {"color": "#cccccc", "from": "MOSB", "title": "governed_by", "to": "ADNOC_LS", "width": 2.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:JPT71", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:YEAM", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:TAIBAH", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:JPT62", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:Buahra", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "operates_from", "to": "vessel:Tamarah", "width": 1.0}, {"color": "#cccccc", "from": "MOSB", "title": "same_as", "to": "port:MOSB", "width": 2.0}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:JPT71", "width": 0.6}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:YEAM", "width": 0.6}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:TAIBAH", "width": 0.6}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:JPT62", "width": 0.6}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:Buahra", "width": 0.6}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:THURAYA", "width": 0.6}, {"color": "#cccccc", "from": "MIR", "title": "indirectly_serves", "to": "vessel:Tamarah", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:JPT71", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:YEAM", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:TAIBAH", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:JPT62", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:Buahra", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:THURAYA", "width": 0.6}, {"color": "#cccccc", "from": "SHU", "title": "indirectly_serves", "to": "vessel:Tamarah", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "connected_to", "to": "AGI", "width": 1.0}, {"color": "#cccccc", "from": "DAS", "title": "same_as", "to": "port:DAS", "width": 2.0}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:JPT71", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:YEAM", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:TAIBAH", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:JPT62", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:Buahra", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:THURAYA", "width": 0.6}, {"color": "#cccccc", "from": "DAS", "title": "indirectly_serves", "to": "vessel:Tamarah", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "same_as", "to": "port:AGI", "width": 2.0}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:JPT71", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:YEAM", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:TAIBAH", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:JPT62", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:Buahra", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:THURAYA", "width": 0.6}, {"color": "#cccccc", "from": "AGI", "title": "indirectly_serves", "to": "vessel:Tamarah", "width": 0.6}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "operates", "to": "person:Haitham", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "operates", "to": "person:Shariff", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "uses", "to": "operation:delivery_Shariff_JPT71", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "uses", "to": "operation:delivery_Haitham_JPT71", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "uses", "to": "operation:delivery_\uc0c1\uc6b1_JPT71", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "co_located_with", "to": "vessel:YEAM", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "co_located_with", "to": "vessel:TAIBAH", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "co_located_with", "to": "vessel:JPT62", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "co_located_with", "to": "vessel:Buahra", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "co_located_with", "to": "vessel:THURAYA", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT71", "title": "co_located_with", "to": "vessel:Tamarah", "width": 0.4}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "operates", "to": "person:Logistics Driver 1", "width": 1.0}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "operates", "to": "person:\uad6d\uc77c Kim", "width": 1.0}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "operates", "to": "person:Haitham", "width": 1.0}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "operates", "to": "person:Shariff", "width": 1.0}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "co_located_with", "to": "vessel:TAIBAH", "width": 0.4}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "co_located_with", "to": "vessel:JPT62", "width": 0.4}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "co_located_with", "to": "vessel:Buahra", "width": 0.4}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "co_located_with", "to": "vessel:THURAYA", "width": 0.4}, {"color": "#cccccc", "from": "vessel:YEAM", "title": "co_located_with", "to": "vessel:Tamarah", "width": 0.4}, {"color": "#cccccc", "from": "vessel:TAIBAH", "title": "operates", "to": "person:Haitham", "width": 1.0}, {"color": "#cccccc", "from": "vessel:TAIBAH", "title": "co_located_with", "to": "vessel:JPT62", "width": 0.4}, {"color": "#cccccc", "from": "vessel:TAIBAH", "title": "co_located_with", "to": "vessel:Buahra", "width": 0.4}, {"color": "#cccccc", "from": "vessel:TAIBAH", "title": "co_located_with", "to": "vessel:THURAYA", "width": 0.4}, {"color": "#cccccc", "from": "vessel:TAIBAH", "title": "co_located_with", "to": "vessel:Tamarah", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "operates", "to": "person:Haitham", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "operates", "to": "person:ronpap20", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "operates", "to": "person:Shariff", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "uses", "to": "operation:delivery_ronpap20_JPT62", "width": 1.0}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "co_located_with", "to": "vessel:Buahra", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "co_located_with", "to": "vessel:THURAYA", "width": 0.4}, {"color": "#cccccc", "from": "vessel:JPT62", "title": "co_located_with", "to": "vessel:Tamarah", "width": 0.4}, {"color": "#cccccc", "from": "vessel:Buahra", "title": "operates", "to": "person:Shariff", "width": 1.0}, {"color": "#cccccc", "from": "vessel:Buahra", "title": "co_located_with", "to": "vessel:THURAYA", "width": 0.4}, {"color": "#cccccc", "from": "vessel:Buahra", "title": "co_located_with", "to": "vessel:Tamarah", "width": 0.4}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:\uad6d\uc77c Kim", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:Haitham", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:ronpap20", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:Thusar", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:Jhysn", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "operates", "to": "person:Shariff", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "uses", "to": "operation:delivery_Shariff_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "uses", "to": "operation:delivery_\uc0c1\uc6b1_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "uses", "to": "operation:delivery_ronpap20_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "uses", "to": "operation:delivery_Jhysn_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "vessel:THURAYA", "title": "co_located_with", "to": "vessel:Tamarah", "width": 0.4}, {"color": "#cccccc", "from": "vessel:Tamarah", "title": "operates", "to": "person:Haitham", "width": 1.0}, {"color": "#cccccc", "from": "vessel:Tamarah", "title": "uses", "to": "operation:delivery_Haitham_Tamarah", "width": 1.0}, {"color": "#cccccc", "from": "person:Haitham", "title": "performed", "to": "operation:delivery_Haitham_Tamarah", "width": 1.0}, {"color": "#cccccc", "from": "person:Haitham", "title": "performed", "to": "operation:delivery_Haitham_JPT71", "width": 1.0}, {"color": "#cccccc", "from": "person:ronpap20", "title": "performed", "to": "operation:delivery_ronpap20_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "person:ronpap20", "title": "performed", "to": "operation:delivery_ronpap20_JPT62", "width": 1.0}, {"color": "#cccccc", "from": "person:\uc0c1\uc6b1", "title": "performed", "to": "operation:delivery_\uc0c1\uc6b1_JPT71", "width": 1.0}, {"color": "#cccccc", "from": "person:\uc0c1\uc6b1", "title": "performed", "to": "operation:delivery_\uc0c1\uc6b1_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "person:Jhysn", "title": "performed", "to": "operation:delivery_Jhysn_THURAYA", "width": 1.0}, {"color": "#cccccc", "from": "person:Shariff", "title": "performed", "to": "operation:delivery_Shariff_JPT71", "width": 1.0}, {"color": "#cccccc", "from": "person:Shariff", "title": "performed", "to": "operation:delivery_Shariff_THURAYA", "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "barnesHut": {"gravitationalConstant": -30000, "centralGravity": 0.3, "springLength": 200, "springConstant": 0.04, "damping": 0.09}}, "nodes": {"font": {"size": 14}}, "edges": {"smooth": {"type": "continuous"}}, "interaction": {"hover": true, "tooltipDelay": 100}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<div id="pro-toolbar">
+  <input id="searchBox" placeholder="Search label/type/ontology…" />
+  <button id="btn-cluster-zoom" class="btn">Cluster on Zoom</button>
+  <button id="btn-uncluster" class="btn">Uncluster All</button>
+  <button id="btn-centrality" class="btn">Size by Centrality</button>
+  <button id="btn-export" class="btn">Export PNG</button>
+  <button id="btn-fit" class="btn">Fit</button>
+  <button id="btn-config" class="btn">Config Panel</button>
+  <button id="btn-cluster-cid" class="btn">Cluster by Community</button>
+  <button id="btn-meta" class="btn">Meta View (Communities)</button>
+</div>
+<div id="legend">
+  <div style="margin-bottom:6px;font-weight:600">HVDC Network</div>
+  <div id="legendColors" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+<script>
+(function(){
+  if(!window.network){ console.warn("network not ready"); return; }
+  
+  // Community legend chips
+  const PALETTE = ["#60a5fa","#10b981","#f59e0b","#a855f7","#f43f5e","#84cc16","#38bdf8","#eab308","#f97316","#22d3ee"];
+  document.getElementById('legendColors').innerHTML =
+    PALETTE.map(c=>`<span class="chip" style="background:${c}"></span>`).join('');
+  
+  // Zoom-based clustering
+  let clusterOnZoom = false;
+  function clusterByZoomLevel(){
+    const zoom = network.getScale();
+    if(zoom < 0.7){
+      const options = {
+        processProperties: function(clusterOptions, childNodes){
+          clusterOptions.label = "Cluster ("+childNodes.length+")";
+          clusterOptions.borderWidth = 2;
+          return clusterOptions;
+        },
+        clusterNodeProperties: { id: 'zoomCluster', allowSingleNodeCluster: true }
+      };
+      network.cluster(options);
+    } else {
+      try{ network.openCluster('zoomCluster'); }catch(e){}
+      network.uncluster();
+    }
+  }
+  network.on("zoom", () => { if(clusterOnZoom) clusterByZoomLevel(); });
+  document.getElementById('btn-cluster-zoom').onclick = ()=>{
+    clusterOnZoom = !clusterOnZoom;
+    if(!clusterOnZoom) network.uncluster(); else clusterByZoomLevel();
+    document.getElementById('btn-cluster-zoom').textContent = clusterOnZoom ? "Cluster on Zoom ✓" : "Cluster on Zoom";
+  };
+  document.getElementById('btn-uncluster').onclick = ()=> network.uncluster();
+  
+  // Search/highlight
+  const originalColors = {};
+  nodes.forEach(n => { originalColors[n.id] = n.color; });
+  function clearHighlight(){
+    nodes.forEach(n => nodes.update({id:n.id, hidden:false, color: originalColors[n.id]}));
+  }
+  document.getElementById('searchBox').addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    if(!q){ clearHighlight(); return; }
+    nodes.forEach(n => {
+      const label = (n.label||"").toLowerCase();
+      const type  = (n.group||n.type||"").toLowerCase();
+      const onto  = (n.ontology_class||"").toLowerCase();
+      const hit = label.includes(q) || type.includes(q) || onto.includes(q);
+      nodes.update({id:n.id, hidden: !hit});
+    });
+  });
+  
+  // Centrality sizing toggle
+  let sizedByCentrality = false;
+  document.getElementById('btn-centrality').onclick = ()=>{
+    sizedByCentrality = !sizedByCentrality;
+    if(!sizedByCentrality){
+      nodes.forEach(n => nodes.update({id:n.id, size: n.baseSize || 15}));
+      document.getElementById('btn-centrality').textContent = "Size by Centrality";
+      return;
+    }
+    const degree = {};
+    edges.forEach(e => { degree[e.from]=(degree[e.from]||0)+1; degree[e.to]=(degree[e.to]||0)+1; });
+    const maxDeg = Math.max(1, ...Object.values(degree));
+    nodes.forEach(n => {
+      const d = degree[n.id] || 1;
+      const size = Math.max(8, Math.min(36, 12 + (d/maxDeg)*24));
+      n.baseSize = n.baseSize || n.size || 15;
+      nodes.update({id:n.id, size});
+    });
+    document.getElementById('btn-centrality').textContent = "Size by Centrality ✓";
+  };
+  
+  // PNG Export & Fit
+  document.getElementById('btn-export').onclick = async ()=>{
+    if(window.htmlToImage){
+      const dataUrl = await htmlToImage.toPng(document.getElementById('mynetwork'), { pixelRatio: 2 });
+      const a = document.createElement('a'); a.href = dataUrl; a.download = 'HVDC_NETWORK_v12.png'; a.click();
+    } else { alert("html-to-image not found."); }
+  };
+  document.getElementById('btn-fit').onclick = ()=> network.fit({animation:true});
+  
+  // Config Panel toggle
+  let configuratorOn = false;
+  document.getElementById('btn-config').onclick = ()=>{
+    configuratorOn = !configuratorOn;
+    network.setOptions({ configure: configuratorOn ? { filter: ['physics','layout','interaction','nodes','edges'] } : false });
+    document.getElementById('btn-config').textContent = configuratorOn ? "Config Panel ✓" : "Config Panel";
+  };
+  
+  // Timeline slider (edge.t filter)
+  const times = [];
+  edges.forEach(e => { const t = Date.parse(e.t || '1970-01-01'); if(!isNaN(t)) times.push(t); });
+  const minT = times.length ? Math.min(...times) : Date.parse('1970-01-01');
+  const maxT = times.length ? Math.max(...times) : Date.now();
+  const rangeDiv = document.createElement('div');
+  rangeDiv.id = 'range';
+  rangeDiv.style.position = 'absolute';
+  rangeDiv.style.right = '12px';
+  rangeDiv.style.top = '12px';
+  rangeDiv.style.zIndex = 9;
+  rangeDiv.style.width = '340px';
+  document.body.appendChild(rangeDiv);
+  if(window.noUiSlider){
+    noUiSlider.create(rangeDiv, {
+      start:[minT,maxT], connect:true, range:{min:minT,max:maxT}, step:24*3600*1000, tooltips:true,
+      format:{ to:v => new Date(v).toISOString().slice(0,10), from:v => Date.parse(v) }
+    });
+    rangeDiv.noUiSlider.on('update', vals => {
+      const lo = Date.parse(vals[0]), hi = Date.parse(vals[1]);
+      edges.forEach(e => {
+        const t = Date.parse(e.t || '1970-01-01');
+        edges.update({ id:e.id, hidden: Number.isFinite(t) ? (t<lo || t>hi) : false });
+      });
+    });
+  }
+
+  // ========== 커뮤니티별 클러스터 ==========
+  function getCid(n){ return (n.community_id ?? n.group_cid ?? null); }
+  function clusterByCommunity(){
+    const seen = new Set();
+    nodes.forEach(n => {
+      const cid = getCid(n);
+      if(cid === null || seen.has(cid)) return;
+      seen.add(cid);
+      network.cluster({
+        joinCondition: nodeOptions => (nodeOptions.community_id ?? null) === cid,
+        clusterNodeProperties: { 
+          id: `cluster:cid:${cid}`, 
+          label: `Community ${cid}`, 
+          borderWidth: 3,
+          color: { background: PALETTE[cid % PALETTE.length], border: "#0f172a" }
+        }
+      });
+    });
+  }
+  document.getElementById('btn-cluster-cid').onclick = clusterByCommunity;
+
+  // ========== 메타 뷰 전환 ==========
+  async function switchToMetaGraph(){
+    try {
+      const meta = await fetch('unified_network_meta_v12_hvdc.json').then(r=>r.json());
+      const nset = new vis.DataSet(meta.nodes);
+      const eset = new vis.DataSet(meta.edges);
+      network.setData({nodes:nset, edges:eset});
+      document.getElementById('btn-meta').textContent = "Meta View ✓";
+    } catch(e) {
+      alert("Meta-graph file not found. Please regenerate the network.");
+    }
+  }
+  document.getElementById('btn-meta').onclick = () => switchToMetaGraph();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+@prefix hvdc: <http://samsung.com/project-logistics#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# HVDC Logistics Network Nodes (v3.0 Fact-Based)
+# Based on 2024-11-13 Material Handling Workshop
+
+# ========== PORTS (Entrance Nodes) ==========
+
+hvdc:ZayedPort a hvdc:Port ;
+    rdfs:label "Zayed Port"@en ;
+    rdfs:label "자이드항"@ko ;
+    hvdc:location "Abu Dhabi, UAE" ;
+    hvdc:handlesCargoType "Heavy and Bulk Cargo" ;
+    hvdc:hasAdnocCode "47150" ;
+    hvdc:hasYardArea "1100"^^xsd:decimal .
+
+hvdc:KhalifaPort a hvdc:Port ;
+    rdfs:label "Khalifa Port"@en ;
+    rdfs:label "칼리파항"@ko ;
+    hvdc:location "Abu Dhabi, UAE" ;
+    hvdc:handlesCargoType "Container Cargo" ;
+    hvdc:managedBy "ADNOC L&S or DSV" .
+
+hvdc:JebelAliPort a hvdc:Port ;
+    rdfs:label "Jebel Ali Port"@en ;
+    rdfs:label "제벨알리항"@ko ;
+    hvdc:location "Dubai, UAE" ;
+    hvdc:handlesCargoType "Free Zone Shipments" ;
+    hvdc:isSpecialCase true .
+
+# ========== HUB (Central Logistics Hub) ==========
+
+hvdc:MOSBHub a hvdc:Hub ;
+    rdfs:label "MOSB Central Hub"@en ;
+    rdfs:label "MOSB 중앙 물류 허브"@ko ;
+    hvdc:location "Mussafah Offshore Supply Base, Abu Dhabi" ;
+    hvdc:hasAreaSize "20000"^^xsd:decimal ;
+    hvdc:operatedBy "ADNOC Logistics & Services (ALS)" ;
+    hvdc:hostsTeam "SCT Logistics Team" ;
+    hvdc:role "Central consolidation and dispatch hub" ;
+    hvdc:handlesTransportMode "LCT, RoRo, Barge" ;
+    hvdc:hasContainerCapacity "80"^^xsd:integer .
+
+# ========== WAREHOUSES (Temporary Storage) ==========
+
+hvdc:DHLWarehouse a hvdc:Warehouse ;
+    rdfs:label "DHL Warehouse"@en .
+
+hvdc:DSVIndoorWarehouse a hvdc:Warehouse ;
+    rdfs:label "DSV Indoor Warehouse"@en .
+
+hvdc:DSVAlMarkazWarehouse a hvdc:Warehouse ;
+    rdfs:label "DSV Al Markaz Warehouse"@en .
+
+hvdc:AAASTorageWarehouse a hvdc:Warehouse ;
+    rdfs:label "AAA Storage Warehouse"@en .
+
+hvdc:DSVOutdoorWarehouse a hvdc:Warehouse ;
+    rdfs:label "DSV Outdoor Warehouse"@en .
+
+hvdc:DSVMZPWarehouse a hvdc:Warehouse ;
+    rdfs:label "DSV MZP Warehouse"@en .
+
+hvdc:HaulerIndoorWarehouse a hvdc:Warehouse ;
+    rdfs:label "Hauler Indoor Warehouse"@en .
+
+hvdc:JDNMZDWarehouse a hvdc:Warehouse ;
+    rdfs:label "JDN MZD Warehouse"@en .
+
+hvdc:ShiftingWarehouse a hvdc:Warehouse ;
+    rdfs:label "Shifting Warehouse"@en .
+
+# ========== ONshore SITES ==========
+
+hvdc:MIRSite a hvdc:Site ;
+    rdfs:label "Mirfa Site"@en ;
+    rdfs:label "미르파 현장"@ko ;
+    hvdc:location "Abu Dhabi West, UAE" ;
+    hvdc:siteType "Onshore" ;
+    hvdc:hasLaydownArea "35000"^^xsd:decimal ;
+    hvdc:handlesCargoType "Container, general, heavy cargo" ;
+    hvdc:hasStorageContainers true ;
+    hvdc:appliesProcedure "SJT-19LT-QLT-PL-023" .
+
+hvdc:SHUSite a hvdc:Site ;
+    rdfs:label "Shuweihat Site"@en ;
+    rdfs:label "슈웨이햇 현장"@ko ;
+    hvdc:location "Abu Dhabi West, UAE" ;
+    hvdc:siteType "Onshore" ;
+    hvdc:hasLaydownArea "10500"^^xsd:decimal ;
+    hvdc:handlesCargoType "Electrical, mechanical, laying equipment" ;
+    hvdc:requiresTransportSequence true ;
+    hvdc:requiresHSEControl true .
+
+# ========== OFFSHORE SITES ==========
+
+hvdc:DASIsland a hvdc:Site ;
+    rdfs:label "Das Island Offshore"@en ;
+    rdfs:label "다스 아일랜드 해상 현장"@ko ;
+    hvdc:location "ADNOC Waters" ;
+    hvdc:siteType "Offshore" ;
+    hvdc:travelTimeFromMOSB "20"^^xsd:integer ;
+    hvdc:handlesCargoType "Container and bulk mixed cargo" ;
+    hvdc:appliesStandard "ADNOC HSE" ;
+    hvdc:requiresLiftingInspection true ;
+    hvdc:hasGateControl true .
+
+hvdc:AGIIsland a hvdc:Site ;
+    rdfs:label "Al Ghallan Island"@en ;
+    rdfs:label "알 갈란 아일랜드"@ko ;
+    hvdc:location "ADNOC Waters (parallel to DAS)" ;
+    hvdc:siteType "Offshore" ;
+    hvdc:travelTimeFromMOSB "10"^^xsd:integer ;
+    hvdc:hasLaydownArea "47000"^^xsd:decimal ;
+    hvdc:handlesCargoType "General materials, installation tools, electrical parts" ;
+    hvdc:hasSecurityLevel "Enhanced" ;
+    hvdc:appliesProcedure "ADNOC L&S" .
+
+# ========== Additional Properties (if needed) ==========
+
+hvdc:location a rdf:Property ;
+    rdfs:label "location"@en ;
+    rdfs:range xsd:string .
+
+hvdc:hasAreaSize a rdf:Property ;
+    rdfs:label "has area size"@en ;
+    rdfs:range xsd:decimal .
+
+hvdc:handlesCargoType a rdf:Property ;
+    rdfs:label "handles cargo type"@en ;
+    rdfs:range xsd:string .
+
+hvdc:operatedBy a rdf:Property ;
+    rdfs:label "operated by"@en ;
+    rdfs:range xsd:string .
+
+hvdc:hostsTeam a rdf:Property ;
+    rdfs:label "hosts team"@en ;
+    rdfs:range xsd:string .
+
+hvdc:role a rdf:Property ;
+    rdfs:label "role"@en ;
+    rdfs:range xsd:string .
+
+hvdc:handlesTransportMode a rdf:Property ;
+    rdfs:label "handles transport mode"@en ;
+    rdfs:range xsd:string .
+
+hvdc:hasContainerCapacity a rdf:Property ;
+    rdfs:label "has container capacity"@en ;
+    rdfs:range xsd:integer .
+
+hvdc:siteType a rdf:Property ;
+    rdfs:label "site type"@en ;
+    rdfs:range xsd:string .
+
+hvdc:hasLaydownArea a rdf:Property ;
+    rdfs:label "has laydown area"@en ;
+    rdfs:range xsd:decimal .
+
+hvdc:appliesProcedure a rdf:Property ;
+    rdfs:label "applies procedure"@en ;
+    rdfs:range xsd:string .
+
+hvdc:requiresTransportSequence a rdf:Property ;
+    rdfs:label "requires transport sequence"@en ;
+    rdfs:range xsd:boolean .
+
+hvdc:requiresHSEControl a rdf:Property ;
+    rdfs:label "requires HSE control"@en ;
+    rdfs:range xsd:boolean .
+
+hvdc:travelTimeFromMOSB a rdf:Property ;
+    rdfs:label "travel time from MOSB"@en ;
+    rdfs:range xsd:integer .
+
+hvdc:appliesStandard a rdf:Property ;
+    rdfs:label "applies standard"@en ;
+    rdfs:range xsd:string .
+
+hvdc:requiresLiftingInspection a rdf:Property ;
+    rdfs:label "requires lifting inspection"@en ;
+    rdfs:range xsd:boolean .
+
+hvdc:hasGateControl a rdf:Property ;
+    rdfs:label "has gate control"@en ;
+    rdfs:range xsd:boolean .
+
+hvdc:hasSecurityLevel a rdf:Property ;
+    rdfs:label "has security level"@en ;
+    rdfs:range xsd:string .
+
+hvdc:hasStorageContainers a rdf:Property ;
+    rdfs:label "has storage containers"@en ;
+    rdfs:range xsd:boolean .
+
+hvdc:isSpecialCase a rdf:Property ;
+    rdfs:label "is special case"@en ;
+    rdfs:range xsd:boolean .
+
+hvdc:hasAdnocCode a rdf:Property ;
+    rdfs:label "has ADNOC code"@en ;
+    rdfs:range xsd:string .
+
+hvdc:hasYardArea a rdf:Property ;
+    rdfs:label "has yard area"@en ;
+    rdfs:range xsd:decimal .
+
+hvdc:managedBy a rdf:Property ;
+    rdfs:label "managed by"@en ;
+    rdfs:range xsd:string .
+

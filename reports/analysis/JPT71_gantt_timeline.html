@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPT71 운항 스케줄 (일반적 패턴)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #282828;
+            color: #ffffff;
+        }
+
+        #container {
+            max-width: 100%;
+            margin: 0;
+            background: #282828;
+            padding: 40px 60px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 40px;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .gantt-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        .gantt-timeline {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gantt-row {
+            position: relative;
+            height: 80px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #404040;
+        }
+
+        .gantt-label {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            width: 150px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #e0e0e0;
+        }
+
+        .gantt-bars {
+            position: absolute;
+            left: 160px;
+            right: 0;
+            top: 0;
+            height: 80px;
+        }
+
+        .gantt-bar {
+            position: absolute;
+            height: 35px;
+            top: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+            color: white;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .gantt-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .bar-underway {
+            background: #3a663a;
+        }
+
+        .bar-active {
+            background: #5cb85c;
+        }
+
+        .time-axis {
+            position: relative;
+            height: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #606060;
+        }
+
+        .time-mark {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: #606060;
+            top: 0;
+        }
+
+        .time-label {
+            position: absolute;
+            top: 20px;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #999;
+        }
+
+        .current-time {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: #ff0000;
+            top: 0;
+            z-index: 10;
+        }
+
+        .current-time::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -4px;
+            width: 10px;
+            height: 10px;
+            background: #ff0000;
+            border-radius: 50%;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 15px 0;
+            background: transparent;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 30px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .tooltip {
+            position: absolute;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>JPT71 운항 스케줄 (일반적 패턴)</h1>
+
+        <div class="gantt-container">
+            <!-- Time Axis -->
+            <div class="time-axis" style="position: absolute; left: 160px; right: 0; top: 0;">
+                <div class="time-mark" style="left: 0%;">
+                    <div class="time-label">00:00</div>
+                </div>
+                <div class="time-mark" style="left: 12.5%;">
+                    <div class="time-label">03:00</div>
+                </div>
+                <div class="time-mark" style="left: 25%;">
+                    <div class="time-label">06:00</div>
+                </div>
+                <div class="time-mark" style="left: 37.5%;">
+                    <div class="time-label">09:00</div>
+                </div>
+                <div class="time-mark" style="left: 50%;">
+                    <div class="time-label">12:00</div>
+                </div>
+                <div class="time-mark" style="left: 62.5%;">
+                    <div class="time-label">15:00</div>
+                </div>
+                <div class="time-mark" style="left: 75%;">
+                    <div class="time-label">18:00</div>
+                </div>
+                <div class="time-mark" style="left: 87.5%;">
+                    <div class="time-label">21:00</div>
+                </div>
+
+                <!-- Current Time Marker (17:30) -->
+                <div class="current-time" style="left: 72.9%;"></div>
+            </div>
+
+            <!-- Gantt Timeline -->
+            <div class="gantt-timeline" style="margin-top: 60px;">
+                <!-- AGI 운항 -->
+                <div class="gantt-row">
+                    <div class="gantt-label">AGI 운항</div>
+                    <div class="gantt-bars">
+                        <div class="gantt-bar bar-underway" style="left: 0%; width: 50%;"
+                            data-info="Underway to AGI | 00:00-12:00 (12시간)">
+                            Underway to AGI
+                        </div>
+                        <div class="gantt-bar bar-active" style="left: 50%; width: 25%;"
+                            data-info="AGI Offloading | 12:00-18:00 (6시간)">
+                            AGI Offloading
+                        </div>
+                        <div class="gantt-bar bar-active" style="left: 75%; width: 12.5%;"
+                            data-info="AGI Anchorage | 18:00-21:00 (3시간)">
+                            AGI Anchorage
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MW4 운항 -->
+                <div class="gantt-row">
+                    <div class="gantt-label">MW4 운항</div>
+                    <div class="gantt-bars">
+                        <div class="gantt-bar bar-underway" style="left: 0%; width: 20.8%;"
+                            data-info="Underway to MW4 | 00:00-05:00 (5시간)">
+                            Underway to MW4
+                        </div>
+                        <div class="gantt-bar bar-active" style="left: 20.8%; width: 16.7%;"
+                            data-info="MW4 Loading | 05:00-09:00 (4시간)">
+                            MW4 Loading
+                        </div>
+                        <div class="gantt-bar bar-active" style="left: 37.5%; width: 4.2%;"
+                            data-info="MW4 Departure | 09:00-10:00 (1시간)">
+                            Departure
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOSB 운항 -->
+                <div class="gantt-row">
+                    <div class="gantt-label">MOSB 운항</div>
+                    <div class="gantt-bars">
+                        <div class="gantt-bar bar-underway" style="left: 25%; width: 33.3%;"
+                            data-info="Underway to MOSB | 06:00-14:00 (8시간)">
+                            Underway to MOSB
+                        </div>
+                        <div class="gantt-bar bar-active" style="left: 58.3%; width: 12.5%;"
+                            data-info="MOSB Berthing | 14:00-17:00 (3시간)">
+                            MOSB Berthing
+                        </div>
+                        <div class="gantt-bar bar-active" style="left: 70.8%; width: 20.8%;"
+                            data-info="MOSB Loading | 17:00-22:00 (5시간)">
+                            MOSB Loading
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <strong style="margin-right: 20px; font-weight: 400;">범례:</strong>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #3a663a;"></span>
+                Underway (항해 중)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #5cb85c;"></span>
+                Active Operations (작업 중)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #ff0000;"></span>
+                Current Time (현재 시간)
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Tooltip functionality
+        const tooltip = document.getElementById('tooltip');
+        const bars = document.querySelectorAll('.gantt-bar');
+
+        bars.forEach(bar => {
+            bar.addEventListener('mouseenter', (e) => {
+                const info = bar.getAttribute('data-info');
+                tooltip.textContent = info;
+                tooltip.style.opacity = '1';
+                updateTooltipPosition(e);
+            });
+
+            bar.addEventListener('mousemove', (e) => {
+                updateTooltipPosition(e);
+            });
+
+            bar.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+            });
+        });
+
+        function updateTooltipPosition(e) {
+            tooltip.style.left = (e.pageX + 15) + 'px';
+            tooltip.style.top = (e.pageY - 10) + 'px';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+# ==================================================
+# HVDC Flow KPI SPARQL Queries v1.0
+# ==================================================
+
+# ==================================================
+# Query 1: Flow Code Distribution
+# Purpose: Count flows by FlowCode (0-4)
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?flowCode (COUNT(?flow) AS ?count) (COUNT(?flow) * 100.0 / ?total AS ?percentage)
+WHERE {
+  {
+    SELECT (COUNT(?f) AS ?total)
+    WHERE {
+      ?f a hvdc-flow:LogisticsFlow .
+    }
+  }
+  ?flow a hvdc-flow:LogisticsFlow ;
+        hvdc-flow:hasFlowCode ?flowCode .
+}
+GROUP BY ?flowCode ?total
+ORDER BY ?flowCode
+
+# ==================================================
+# Query 2: MOSB Pass Rate
+# Purpose: Calculate percentage of flows through MOSB
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT
+  (COUNT(?flow) AS ?totalFlows)
+  (SUM(IF(?offshore, 1, 0)) AS ?mosbPassCount)
+  (100.0 * SUM(IF(?offshore, 1, 0)) / COUNT(?flow) AS ?mosbPassRate)
+WHERE {
+  ?flow a hvdc-flow:LogisticsFlow ;
+        hvdc-flow:hasOffshoreFlag ?offshore .
+}
+
+# ==================================================
+# Query 3: Direct Delivery Rate
+# Purpose: Calculate percentage of direct deliveries (FlowCode=1)
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT
+  (COUNT(?flow) AS ?totalFlows)
+  (SUM(IF(?code = 1, 1, 0)) AS ?directCount)
+  (100.0 * SUM(IF(?code = 1, 1, 0)) / COUNT(?flow) AS ?directRate)
+WHERE {
+  ?flow a hvdc-flow:LogisticsFlow ;
+        hvdc-flow:hasFlowCode ?code .
+}
+
+# ==================================================
+# Query 4: Average WH Hops by Transport Mode
+# Purpose: Calculate average warehouse hops per mode
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT ?mode (AVG(?whHops) AS ?avgWHHops) (COUNT(?flow) AS ?flowCount)
+WHERE {
+  ?flow a ?mode ;
+        hvdc-flow:hasWHHandling ?whHops .
+  FILTER(?mode IN (
+    hvdc-flow:ContainerFlow,
+    hvdc-flow:BulkFlow,
+    hvdc-flow:LandFlow,
+    hvdc-flow:LCTFlow
+  ))
+}
+GROUP BY ?mode
+ORDER BY DESC(?avgWHHops)
+
+# ==================================================
+# Query 5: Pre-Arrival vs Active Flows
+# Purpose: Compare pre-arrival and active flows
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT
+  (SUM(IF(?pre, 1, 0)) AS ?preArrivalCount)
+  (SUM(IF(?pre, 0, 1)) AS ?activeCount)
+  (100.0 * SUM(IF(?pre, 1, 0)) / COUNT(?flow) AS ?preArrivalRate)
+  (100.0 * SUM(IF(?pre, 0, 1)) / COUNT(?flow) AS ?activeRate)
+WHERE {
+  ?flow a hvdc-flow:LogisticsFlow ;
+        hvdc-flow:isPreArrival ?pre .
+}
+
+# ==================================================
+# Query 6: Flow Path Complexity by Mode
+# Purpose: Analyze flow complexity (WH hops + offshore) by mode
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT ?transportMode
+       (AVG(?whHops) AS ?avgWHHops)
+       (100.0 * SUM(IF(?offshore, 1, 0)) / COUNT(?flow) AS ?offshoreRate)
+       (AVG(?whHops + IF(?offshore, 1, 0)) AS ?avgComplexity)
+       (COUNT(?flow) AS ?flowCount)
+WHERE {
+  ?flow a hvdc-flow:LogisticsFlow ;
+        hvdc-flow:hasTransportMode ?transportMode ;
+        hvdc-flow:hasWHHandling ?whHops ;
+        hvdc-flow:hasOffshoreFlag ?offshore .
+}
+GROUP BY ?transportMode
+ORDER BY DESC(?avgComplexity)
+
+# ==================================================
+# Query 7: Container Flow Gate Metrics
+# Purpose: Analyze container gate appointment and CY lag
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT
+  (AVG(?gateWin) AS ?avgGateApptWinMin)
+  (AVG(?cyLag) AS ?avgCYInOutLagHr)
+  (AVG(?unloadRate) AS ?avgUnloadRateTph)
+  (COUNT(?flow) AS ?containerFlowCount)
+WHERE {
+  ?flow a hvdc-flow:ContainerFlow .
+  OPTIONAL { ?flow hvdc-flow:gateApptWinMin ?gateWin }
+  OPTIONAL { ?flow hvdc-flow:CYInOutLagHr ?cyLag }
+  OPTIONAL { ?flow hvdc-flow:unloadRateTph ?unloadRate }
+}
+
+# ==================================================
+# Query 8: LCT Flow Voyage Metrics
+# Purpose: Analyze LCT voyage time and stowage utilization
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT
+  (AVG(?rampCycle) AS ?avgRampCycleMin)
+  (AVG(?stowageUtil) AS ?avgStowageUtilPct)
+  (AVG(?voyageTime) AS ?avgVoyageTimeHours)
+  (COUNT(?flow) AS ?lctFlowCount)
+WHERE {
+  ?flow a hvdc-flow:LCTFlow .
+  OPTIONAL { ?flow hvdc-flow:rampCycleMin ?rampCycle }
+  OPTIONAL { ?flow hvdc-flow:stowageUtilPct ?stowageUtil }
+  OPTIONAL { ?flow hvdc-flow:voyageTimeHours ?voyageTime }
+}
+
+# ==================================================
+# Query 9: DOT Permit Lead Time Analysis (Land Transport)
+# Purpose: Track DOT permit requirements for land transport
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT
+  (AVG(?permitLead) AS ?avgDOTPermitLeadDays)
+  (MAX(?permitLead) AS ?maxDOTPermitLeadDays)
+  (MIN(?permitLead) AS ?minDOTPermitLeadDays)
+  (COUNT(?flow) AS ?landFlowCount)
+WHERE {
+  ?flow a hvdc-flow:LandFlow ;
+        hvdc-flow:DOTPermitLeadDays ?permitLead .
+}
+
+# ==================================================
+# Query 10: Flow Consistency Validation
+# Purpose: Find flows with inconsistent FlowCode
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT ?flow ?flowCode ?whHops ?offshore ?preArrival ?expectedCode
+WHERE {
+  ?flow hvdc-flow:hasFlowCode ?flowCode ;
+        hvdc-flow:hasWHHandling ?whHops ;
+        hvdc-flow:hasOffshoreFlag ?offshore ;
+        hvdc-flow:isPreArrival ?preArrival .
+
+  # Calculate expected code
+  BIND(IF(?preArrival, 0,
+       IF(1 + ?whHops + IF(?offshore, 1, 0) > 4, 4,
+          1 + ?whHops + IF(?offshore, 1, 0))) AS ?expectedCode)
+
+  # Find inconsistencies
+  FILTER(?flowCode != ?expectedCode)
+}
+ORDER BY ?flow
+
+# ==================================================
+# Query 11: Monthly Flow Volume Trend
+# Purpose: Aggregate flow volume by month (requires timestamp)
+# Note: Requires hvdc-flow:timestamp property
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?month (COUNT(?flow) AS ?flowCount)
+WHERE {
+  ?flow a hvdc-flow:LogisticsFlow ;
+        hvdc-flow:timestamp ?timestamp .
+
+  BIND(SUBSTR(STR(?timestamp), 1, 7) AS ?month)
+}
+GROUP BY ?month
+ORDER BY ?month
+
+# ==================================================
+# Query 12: High-Risk Bulk Flows
+# Purpose: Identify bulk flows with high spillage risk
+# ==================================================
+
+PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+
+SELECT ?flow ?spillageRisk ?unloadRate
+WHERE {
+  ?flow a hvdc-flow:BulkFlow ;
+        hvdc-flow:spillageRiskPct ?spillageRisk .
+  OPTIONAL { ?flow hvdc-flow:unloadRateTph ?unloadRate }
+
+  FILTER(?spillageRisk > 50)
+}
+ORDER BY DESC(?spillageRisk)
+

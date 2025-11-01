@@ -1,0 +1,229 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #282828;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.css">
+<style>
+  body { margin: 0; padding: 0; background: #282828; font-family: 'Segoe UI', Arial, sans-serif; }
+  #toolbar { position: absolute; left: 12px; top: 12px; z-index: 999; display: flex; gap: 8px; align-items: center; background: rgba(0,0,0,0.8); padding: 12px; border-radius: 8px; }
+  #range { width: 340px; }
+  .btn { padding: 8px 14px; background: #111827; border: 1px solid #374151; border-radius: 6px; color: #e6edf3; cursor: pointer; font-size: 13px; }
+  .btn:hover { background: #1f2937; }
+  #stats { position: absolute; right: 12px; top: 12px; z-index: 999; background: rgba(0,0,0,0.8); padding: 12px 16px; border-radius: 8px; color: #ffffff; font-size: 13px; }
+  .stat-line { margin: 4px 0; }
+  .stat-value { font-weight: bold; color: #4caf50; }
+  #legend { position: absolute; left: 12px; top: 56px; z-index: 9; background: #0b1220; padding: 8px 10px; border: 1px solid #223; border-radius: 8px; }
+  #legendColors { display: flex; gap: 6px; flex-wrap: wrap; }
+  .legend-chip { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid #0f172a; }
+</style>
+
+</head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:JPT71", "label": "JPT71", "shape": "dot", "size": 10, "type": "vessel", "weight": 1.0}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Shariff", "label": "Shariff", "shape": "dot", "shipments": 41, "size": 10, "total_work": 42, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Haitham", "label": "Haitham", "shape": "dot", "shipments": 154, "size": 10, "total_work": 156, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:\uc0c1\uc6b1", "label": "\uc0c1\uc6b1", "shape": "dot", "shipments": 38, "size": 10, "total_work": 42, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:ronpap20", "label": "ronpap20", "shape": "dot", "shipments": 5, "size": 10, "total_work": 6, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Jhysn", "label": "Jhysn", "shape": "dot", "shipments": 3, "size": 10, "total_work": 4, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Thusar", "label": "Thusar", "shape": "dot", "shipments": 16, "size": 10, "total_work": 16, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:\uad6d\uc77c Kim", "label": "\uad6d\uc77c Kim", "shape": "dot", "shipments": 6, "size": 10, "total_work": 9, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Logistics Driver 1", "label": "Logistics Driver 1", "shape": "dot", "shipments": 1, "size": 10, "total_work": 1, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Karthi", "label": "Karthi", "shape": "dot", "shipments": 0, "size": 10, "total_work": 1, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Friday D 13th", "label": "Friday D 13th", "shape": "dot", "shipments": 0, "size": 10, "total_work": 13, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "label": "kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "shape": "dot", "shipments": 0, "size": 10, "total_work": 2, "type": "person"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:DaN", "label": "DaN", "shape": "dot", "shipments": 0, "size": 10, "total_work": 3, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Thuraya", "label": "Thuraya", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:thuraya", "label": "thuraya", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:THURAYA", "label": "THURAYA", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Jpt62", "label": "Jpt62", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:YEAM", "label": "YEAM", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Jpt71", "label": "Jpt71", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Yeam", "label": "Yeam", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:JPT62", "label": "JPT62", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Buahra", "label": "Buahra", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Al Jaber", "label": "Al Jaber", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:AGI", "label": "AGI", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:MW4", "label": "MW4", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:DAS", "label": "DAS", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:das", "label": "das", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "count": 41, "font": {"color": "#ffffff"}, "id": "operation:Shariff_shipments", "label": "Shariff Shipments (41)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Tamarah", "label": "Tamarah", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:JPt62", "label": "JPt62", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:yeam", "label": "yeam", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Taibah", "label": "Taibah", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:taibah", "label": "taibah", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:MOSB", "label": "MOSB", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Umm ALanbar", "label": "Umm ALanbar", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:mosb", "label": "mosb", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Musaffah", "label": "Musaffah", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Das", "label": "Das", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:al jaber", "label": "al jaber", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:agi", "label": "agi", "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "count": 154, "font": {"color": "#ffffff"}, "id": "operation:Haitham_shipments", "label": "Haitham Shipments (154)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:jpt62", "label": "jpt62", "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "count": 38, "font": {"color": "#ffffff"}, "id": "operation:\uc0c1\uc6b1_shipments", "label": "\uc0c1\uc6b1 Shipments (38)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 5, "font": {"color": "#ffffff"}, "id": "operation:ronpap20_shipments", "label": "ronpap20 Shipments (5)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 3, "font": {"color": "#ffffff"}, "id": "operation:Jhysn_shipments", "label": "Jhysn Shipments (3)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "count": 16, "font": {"color": "#ffffff"}, "id": "operation:Thusar_shipments", "label": "Thusar Shipments (16)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "count": 6, "font": {"color": "#ffffff"}, "id": "operation:\uad6d\uc77c Kim_shipments", "label": "\uad6d\uc77c Kim Shipments (6)", "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "operation:Logistics Driver 1_shipments", "label": "Logistics Driver 1 Shipments (1)", "shape": "dot", "size": 10, "type": "operation"}]);
+                  edges = new vis.DataSet([{"from": "vessel:JPT71", "rel": "operates", "to": "person:Shariff", "width": 1.0}, {"from": "vessel:JPT71", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:JPT71", "rel": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:ronpap20", "width": 6}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:Jhysn", "width": 4}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:Thusar", "width": 16}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:\uad6d\uc77c Kim", "width": 9}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:Logistics Driver 1", "width": 1}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:Karthi", "width": 1}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:Friday D 13th", "width": 13}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "width": 2}, {"from": "vessel:JPT71", "rel": "managed_by", "to": "person:DaN", "width": 3}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:Thuraya", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:thuraya", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:THURAYA", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:Jpt62", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:YEAM", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:Jpt71", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:Yeam", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:JPT62", "width": 1.0}, {"from": "person:Shariff", "rel": "operates", "to": "vessel:Buahra", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:Al Jaber", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:AGI", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:MW4", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:DAS", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:das", "width": 1.0}, {"from": "person:Shariff", "rel": "performed", "to": "operation:Shariff_shipments", "width": 41}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:Tamarah", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:JPt62", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:Thuraya", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:thuraya", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:yeam", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:Jpt71", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:Yeam", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:Taibah", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:JPT62", "width": 1.0}, {"from": "person:Haitham", "rel": "operates", "to": "vessel:taibah", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:MOSB", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:Umm ALanbar", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:AGI", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:mosb", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:Musaffah", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:MW4", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:Das", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:al jaber", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:DAS", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:agi", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:das", "width": 1.0}, {"from": "person:Haitham", "rel": "performed", "to": "operation:Haitham_shipments", "width": 154}, {"from": "person:\uc0c1\uc6b1", "rel": "operates", "to": "vessel:Thuraya", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "operates", "to": "vessel:jpt62", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "operates", "to": "vessel:Yeam", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "operates", "to": "vessel:JPT62", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "works_at", "to": "port:MOSB", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "works_at", "to": "port:Al Jaber", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "works_at", "to": "port:AGI", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "works_at", "to": "port:DAS", "width": 1.0}, {"from": "person:\uc0c1\uc6b1", "rel": "performed", "to": "operation:\uc0c1\uc6b1_shipments", "width": 38}, {"from": "person:ronpap20", "rel": "operates", "to": "vessel:THURAYA", "width": 1.0}, {"from": "person:ronpap20", "rel": "operates", "to": "vessel:JPT62", "width": 1.0}, {"from": "person:ronpap20", "rel": "performed", "to": "operation:ronpap20_shipments", "width": 5}, {"from": "person:Jhysn", "rel": "operates", "to": "vessel:THURAYA", "width": 1.0}, {"from": "person:Jhysn", "rel": "performed", "to": "operation:Jhysn_shipments", "width": 3}, {"from": "person:Thusar", "rel": "operates", "to": "vessel:thuraya", "width": 1.0}, {"from": "person:Thusar", "rel": "operates", "to": "vessel:Thuraya", "width": 1.0}, {"from": "person:Thusar", "rel": "operates", "to": "vessel:THURAYA", "width": 1.0}, {"from": "person:Thusar", "rel": "performed", "to": "operation:Thusar_shipments", "width": 16}, {"from": "person:\uad6d\uc77c Kim", "rel": "operates", "to": "vessel:Yeam", "width": 1.0}, {"from": "person:\uad6d\uc77c Kim", "rel": "operates", "to": "vessel:Thuraya", "width": 1.0}, {"from": "person:\uad6d\uc77c Kim", "rel": "performed", "to": "operation:\uad6d\uc77c Kim_shipments", "width": 6}, {"from": "person:Logistics Driver 1", "rel": "operates", "to": "vessel:YEAM", "width": 1.0}, {"from": "person:Logistics Driver 1", "rel": "performed", "to": "operation:Logistics Driver 1_shipments", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"shape": "dot", "size": 15, "borderWidth": 2, "font": {"color": "#ffffff"}}, "edges": {"smooth": {"type": "continuous"}, "width": 1}, "physics": {"solver": "barnesHut", "stabilization": {"iterations": 200}, "barnesHut": {"gravitationalConstant": -20000, "springLength": 150, "springConstant": 0.01}}, "interaction": {"hover": true, "navigationButtons": true, "keyboard": true, "tooltipDelay": 100}, "layout": {"improvedLayout": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<div id="toolbar">
+  <div id="range"></div>
+  <button id="btn-export" class="btn">📸 Export PNG</button>
+  <button id="btn-reset" class="btn">🔄 Reset View</button>
+</div>
+<div id="legend">
+  <div style="margin-bottom:6px;font-weight:600">Communities</div>
+  <div id="legendColors"></div>
+</div>
+<div id="stats">
+  <div class="stat-line">Nodes: <span class="stat-value" id="stat-nodes">0</span></div>
+  <div class="stat-line">Edges: <span class="stat-value" id="stat-edges">0</span></div>
+  <div class="stat-line">Communities: <span class="stat-value" id="stat-communities">0</span></div>
+  <div class="stat-line">Center: <span class="stat-value">JPT71</span></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+<script>
+  const container = document.getElementById('mynetwork');
+
+  // Stats
+  setTimeout(() => {
+    document.getElementById('stat-nodes').textContent = nodes.length;
+    document.getElementById('stat-edges').textContent = edges.length;
+
+    // Community stats
+    const communities = new Set();
+    nodes.forEach(n => {
+      if (n.color && n.color.background) {
+        communities.add(n.color.background);
+      }
+    });
+    document.getElementById('stat-communities').textContent = communities.size;
+
+    // Community legend
+    const palette = ["#60a5fa","#10b981","#f59e0b","#a855f7","#f43f5e","#84cc16","#38bdf8","#eab308","#f97316","#22d3ee"];
+    document.getElementById('legendColors').innerHTML =
+      palette.map(c => `<span class="legend-chip" style="background:${c}"></span>`).join('');
+  }, 1000);
+
+  // PNG Export
+  document.getElementById('btn-export').onclick = async () => {
+    const dataUrl = await htmlToImage.toPng(container, { pixelRatio: 2 });
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'JPT71_MEANINGFUL_NETWORK.png';
+    a.click();
+  };
+
+  document.getElementById('btn-reset').onclick = () => {
+    if (window.network) window.network.fit({ animation: true });
+  };
+
+  // Timeline slider
+  const times = [];
+  edges.forEach(e => {
+    const t = Date.parse(e.t || '1970-01-01');
+    if (!isNaN(t)) times.push(t);
+  });
+  const minT = times.length ? Math.min(...times) : Date.parse('2025-08-27');
+  const maxT = times.length ? Math.max(...times) : Date.parse('2025-10-21');
+  const range = document.getElementById('range');
+
+  noUiSlider.create(range, {
+    start: [minT, maxT],
+    connect: true,
+    range: { min: minT, max: maxT },
+    step: 24*3600*1000,
+    tooltips: true,
+    format: {
+      to: v => new Date(v).toISOString().slice(0,10),
+      from: v => Date.parse(v)
+    }
+  });
+
+  range.noUiSlider.on('update', vals => {
+    const lo = Date.parse(vals[0]), hi = Date.parse(vals[1]);
+    edges.forEach(e => {
+      const t = Date.parse(e.t || '1970-01-01');
+      const hide = Number.isFinite(t) ? (t < lo || t > hi) : false;
+      edges.update({ id: e.id, hidden: hide });
+    });
+  });
+</script>
+
+</body>
+</html>

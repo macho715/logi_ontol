@@ -1,0 +1,6 @@
+---
+description: Logistics domain defaults
+globs: ["**/*"]
+alwaysApply: true
+---
+* ΔRate 10.00% / ETA 24.00h / Pressure ≤ 4.00 t/m² / Cert 30d (+ Human Gate if applicable).

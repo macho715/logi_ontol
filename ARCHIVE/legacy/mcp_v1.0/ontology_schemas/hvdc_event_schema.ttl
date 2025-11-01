@@ -1,0 +1,160 @@
+@prefix hvdc: <http://samsung.com/project-logistics#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# ========== 클래스 정의 ==========
+
+hvdc:Case a owl:Class ;
+    rdfs:label "HVDC Case"@en ;
+    rdfs:comment "화물 케이스 (단일 추적 단위)"@ko .
+
+hvdc:StockEvent a owl:Class ;
+    rdfs:label "Stock Event"@en ;
+    rdfs:comment "재고 이벤트 (입고/출고)"@ko .
+
+hvdc:Warehouse a owl:Class ;
+    rdfs:label "Warehouse Node"@en ;
+    rdfs:comment "창고 노드 (임시 보관)"@ko .
+
+hvdc:Site a owl:Class ;
+    rdfs:label "Construction Site"@en ;
+    rdfs:comment "최종 시공 현장 (MIR/SHU/DAS/AGI)"@ko .
+
+hvdc:Hub a owl:Class ;
+    rdfs:label "Logistics Hub"@en ;
+    rdfs:comment "중앙 물류 허브 (MOSB)"@ko .
+
+# ========== 프로퍼티 정의 ==========
+
+# Case 기본 속성
+hvdc:hasHvdcCode a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:string ;
+    rdfs:comment "HVDC 코드"@ko .
+
+hvdc:hasFlowCode a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:string ;
+    rdfs:comment "물류 흐름 코드 (1=직송, 2=창고경유, 3=복합)"@ko .
+
+hvdc:hasFinalLocation a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:string ;
+    rdfs:comment "최종 위치"@ko .
+
+hvdc:hasFinalLocationDate a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:date ;
+    rdfs:comment "최종 위치 도착일"@ko .
+
+hvdc:hasVendor a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:string ;
+    rdfs:comment "벤더/공급사"@ko .
+
+hvdc:hasGrossWeight a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "총 중량 (kg)"@ko .
+
+hvdc:hasNetWeight a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "순 중량 (kg)"@ko .
+
+hvdc:hasCBM a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "부피 (CBM)"@ko .
+
+hvdc:hasPackage a owl:DatatypeProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "포장 수량"@ko .
+
+# 이벤트 관계
+hvdc:hasInboundEvent a owl:ObjectProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range hvdc:StockEvent ;
+    rdfs:comment "입고 이벤트 (0~N개)"@ko .
+
+hvdc:hasOutboundEvent a owl:ObjectProperty ;
+    rdfs:domain hvdc:Case ;
+    rdfs:range hvdc:StockEvent ;
+    rdfs:comment "출고 이벤트 (0~1개, FLOW 2/3만)"@ko .
+
+# 이벤트 속성
+hvdc:hasEventDate a owl:DatatypeProperty ;
+    rdfs:domain hvdc:StockEvent ;
+    rdfs:range xsd:date ;
+    rdfs:comment "이벤트 발생 날짜"@ko .
+
+hvdc:hasLocationAtEvent a owl:DatatypeProperty ;
+    rdfs:domain hvdc:StockEvent ;
+    rdfs:range xsd:string ;
+    rdfs:comment "이벤트 발생 위치 (창고/사이트명)"@ko .
+
+hvdc:hasQuantity a owl:DatatypeProperty ;
+    rdfs:domain hvdc:StockEvent ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "수량 (Pkg 기준, 없으면 1.00)"@ko .
+
+# ========== SHACL 검증 규칙 ==========
+
+hvdc:InboundEventShape a sh:NodeShape ;
+    sh:targetObjectsOf hvdc:hasInboundEvent ;
+    sh:property [
+        sh:path hvdc:hasEventDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Inbound event must have hvdc:hasEventDate" ;
+    ] ;
+    sh:property [
+        sh:path hvdc:hasLocationAtEvent ;
+        sh:minCount 1 ;
+        sh:message "Inbound event must have hvdc:hasLocationAtEvent" ;
+    ] ;
+    sh:property [
+        sh:path hvdc:hasQuantity ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Inbound event must have hvdc:hasQuantity" ;
+    ] .
+
+hvdc:OutboundEventShape a sh:NodeShape ;
+    sh:targetObjectsOf hvdc:hasOutboundEvent ;
+    sh:property [
+        sh:path hvdc:hasEventDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Outbound event must have hvdc:hasEventDate" ;
+    ] ;
+    sh:property [
+        sh:path hvdc:hasLocationAtEvent ;
+        sh:minCount 1 ;
+        sh:message "Outbound event must have hvdc:hasLocationAtEvent" ;
+    ] ;
+    sh:property [
+        sh:path hvdc:hasQuantity ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Outbound event must have hvdc:hasQuantity" ;
+    ] .
+
+hvdc:Flow2And3MustHaveInboundShape a sh:NodeShape ;
+    sh:targetClass hvdc:Case ;
+    sh:sparql [
+        sh:message "FLOW_CODE 2 or 3 must have at least one inbound event" ;
+        sh:select """
+            PREFIX hvdc: <http://samsung.com/project-logistics#>
+            SELECT $this
+            WHERE {
+                $this hvdc:hasFlowCode ?flow .
+                FILTER (?flow IN ("2", "3"))
+                FILTER NOT EXISTS { $this hvdc:hasInboundEvent ?event }
+            }
+        """ ;
+    ] .
+

@@ -1,0 +1,47 @@
+HVDC Event-Based Ontology - 파일 목록
+생성일: 2025-10-30
+
+=== 온톨로지 스키마 (ontology_schemas/) ===
+1. hvdc_event_schema.ttl - 이벤트 온톨로지 스키마 (OWL + SHACL)
+2. hvdc_nodes.ttl - HVDC 물류 노드 정의 (6개 노드)
+
+=== 변환 스크립트 (conversion_scripts/) ===
+3. excel_to_ttl_with_events.py - Excel → TTL 변환기 (이벤트 주입)
+4. ttl_to_json_flat.py - TTL → JSON 변환기 (GPT용 평탄화)
+5. convert_data_wh_to_ttl.py - 통합 CLI 스크립트
+
+=== 검증 도구 (validation/) ===
+6. validate_events_with_sparql.py - SPARQL 검증 스크립트
+7. event_validation.sparql - 10개 검증 쿼리
+
+=== 테스트 결과 (test_results/) ===
+8. test_event_injection.py - pytest 테스트 (14개)
+9. validation_summary.json - 검증 요약
+10. human_gate_flow23_no_inbound.json - FLOW 2/3 검증 (0건)
+11. human_gate_missing_dates.json - 날짜 누락 검증 (0건)
+12. event_coverage_stats.json - 이벤트 커버리지 통계
+13. flow_event_patterns.json - FLOW별 패턴 검증
+
+=== 샘플 출력 (sample_outputs/) ===
+14. hvdc_data.ttl - TTL 샘플 (8,995 케이스, 65,305줄) ⭐ GPT 업로드용
+15. hvdc_data_flat.json - 평탄화 JSON 샘플 (GPT 보조용)
+16. monthly_warehouse_inbound.json - 월별 창고 입고 집계 (84건)
+17. vendor_monthly_summary.json - Vendor별 월별 요약 (3건)
+18. flow_distribution.json - FLOW별 케이스 분포 (4건)
+
+=== 문서 ===
+19. IMPLEMENTATION_SUMMARY.md - 구현 요약 및 기술 문서
+20. README.md - 패키지 개요 및 사용법
+21. GPT_PROMPT.md - GPT Copilot 설정용 프롬프트 ⭐ NEW
+22. FILE_LIST.txt - 이 파일
+
+총 파일 수: 22개
+
+파일 크기 요약:
+- TTL 샘플: ~3MB (65,305줄)
+- JSON 파일: ~1MB
+- 스크립트: ~30KB
+- 문서: ~50KB
+
+사용 방법은 README.md를 참고하세요.
+

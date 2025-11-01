@@ -1,0 +1,227 @@
+# SPARQL Validation Queries for HVDC Event-Based Ontology
+# 이벤트 주입 품질 검증 및 Human-gate 목록 추출
+
+PREFIX hvdc: <http://samsung.com/project-logistics#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# ============================================
+# 1. 월별 창고 입고 집계 (Monthly Warehouse Inbound)
+# ============================================
+# 사용: 월별 창고별 입고 수량 추적
+SELECT ?month ?warehouse (COUNT(?event) AS ?eventCount) (SUM(?qty) AS ?totalQty)
+WHERE {
+    ?case hvdc:hasInboundEvent ?event .
+    ?event hvdc:hasEventDate ?date ;
+           hvdc:hasLocationAtEvent ?warehouse ;
+           hvdc:hasQuantity ?qty .
+
+    BIND(SUBSTR(STR(?date), 1, 7) AS ?month)
+}
+GROUP BY ?month ?warehouse
+ORDER BY ?month ?warehouse
+
+# ============================================
+# 2. Vendor별 월별 입고 (Vendor Monthly Summary)
+# ============================================
+# 사용: Vendor별 공급 물량 추적
+SELECT ?vendor ?month (COUNT(?event) AS ?eventCount) (SUM(?qty) AS ?totalQty)
+WHERE {
+    ?case hvdc:hasVendor ?vendor ;
+          hvdc:hasInboundEvent ?event .
+    ?event hvdc:hasEventDate ?date ;
+           hvdc:hasQuantity ?qty .
+
+    BIND(SUBSTR(STR(?date), 1, 7) AS ?month)
+}
+GROUP BY ?vendor ?month
+ORDER BY ?vendor ?month
+
+# ============================================
+# 3. FLOW 코드별 케이스 분포 (Flow Code Distribution)
+# ============================================
+# 사용: 물류 흐름 패턴 분석
+SELECT ?flowCode (COUNT(?case) AS ?caseCount)
+WHERE {
+    ?case a hvdc:Case .
+    OPTIONAL { ?case hvdc:hasFlowCode ?flowCode }
+}
+GROUP BY ?flowCode
+ORDER BY ?flowCode
+
+# ============================================
+# 4. Human-gate: FLOW 2/3인데 Inbound 없는 케이스
+# ============================================
+# 사용: 데이터 품질 검증, 수동 확인 필요 목록
+SELECT ?case ?flowCode ?hvdcCode
+WHERE {
+    ?case a hvdc:Case ;
+          hvdc:hasFlowCode ?flowCode .
+
+    OPTIONAL { ?case hvdc:hasHvdcCode ?hvdcCode }
+
+    # FLOW가 2 또는 3
+    FILTER(?flowCode IN ("2", "3"))
+
+    # Inbound 이벤트가 없음
+    FILTER NOT EXISTS {
+        ?case hvdc:hasInboundEvent ?inEvent .
+    }
+}
+ORDER BY ?flowCode ?case
+
+# ============================================
+# 5. Human-gate: 날짜 없는 이벤트 (Missing Event Dates)
+# ============================================
+# 사용: 데이터 품질 검증, SHACL 위반 사전 감지
+SELECT ?case ?event ?eventType
+WHERE {
+    ?case a hvdc:Case .
+
+    {
+        ?case hvdc:hasInboundEvent ?event .
+        BIND("inbound" AS ?eventType)
+        FILTER NOT EXISTS {
+            ?event hvdc:hasEventDate ?date .
+        }
+    }
+    UNION
+    {
+        ?case hvdc:hasOutboundEvent ?event .
+        BIND("outbound" AS ?eventType)
+        FILTER NOT EXISTS {
+            ?event hvdc:hasEventDate ?date .
+        }
+    }
+}
+ORDER BY ?case ?eventType
+
+# ============================================
+# 6. 이벤트 커버리지 통계 (Event Coverage Statistics)
+# ============================================
+# 사용: 전체 데이터 품질 개요
+SELECT
+    (COUNT(DISTINCT ?case) AS ?totalCases)
+    (COUNT(DISTINCT ?caseWithInbound) AS ?casesWithInbound)
+    (COUNT(DISTINCT ?caseWithOutbound) AS ?casesWithOutbound)
+    (COUNT(DISTINCT ?caseWithBoth) AS ?casesWithBoth)
+    (COUNT(DISTINCT ?caseWithNeither) AS ?casesWithNeither)
+WHERE {
+    ?case a hvdc:Case .
+
+    OPTIONAL {
+        ?case hvdc:hasInboundEvent ?inEvent .
+        BIND(?case AS ?caseWithInbound)
+    }
+
+    OPTIONAL {
+        ?case hvdc:hasOutboundEvent ?outEvent .
+        BIND(?case AS ?caseWithOutbound)
+    }
+
+    OPTIONAL {
+        ?case hvdc:hasInboundEvent ?inEvent ;
+              hvdc:hasOutboundEvent ?outEvent .
+        BIND(?case AS ?caseWithBoth)
+    }
+
+    OPTIONAL {
+        FILTER NOT EXISTS { ?case hvdc:hasInboundEvent ?in }
+        FILTER NOT EXISTS { ?case hvdc:hasOutboundEvent ?out }
+        BIND(?case AS ?caseWithNeither)
+    }
+}
+
+# ============================================
+# 7. 위치별 이벤트 분포 (Location-wise Event Distribution)
+# ============================================
+# 사용: 창고/사이트별 활동 분석
+SELECT ?location ?eventType (COUNT(?event) AS ?eventCount)
+WHERE {
+    {
+        ?case hvdc:hasInboundEvent ?event .
+        ?event hvdc:hasLocationAtEvent ?location .
+        BIND("inbound" AS ?eventType)
+    }
+    UNION
+    {
+        ?case hvdc:hasOutboundEvent ?event .
+        ?event hvdc:hasLocationAtEvent ?location .
+        BIND("outbound" AS ?eventType)
+    }
+}
+GROUP BY ?location ?eventType
+ORDER BY ?location ?eventType
+
+# ============================================
+# 8. 시계열 이벤트 추적 (Time-series Event Tracking)
+# ============================================
+# 사용: 특정 케이스의 이벤트 이력 추적
+SELECT ?case ?hvdcCode ?eventType ?eventDate ?location ?qty
+WHERE {
+    ?case a hvdc:Case .
+    OPTIONAL { ?case hvdc:hasHvdcCode ?hvdcCode }
+
+    {
+        ?case hvdc:hasInboundEvent ?event .
+        BIND("inbound" AS ?eventType)
+    }
+    UNION
+    {
+        ?case hvdc:hasOutboundEvent ?event .
+        BIND("outbound" AS ?eventType)
+    }
+
+    ?event hvdc:hasEventDate ?eventDate ;
+           hvdc:hasLocationAtEvent ?location ;
+           hvdc:hasQuantity ?qty .
+}
+ORDER BY ?case ?eventDate
+
+# ============================================
+# 9. FLOW별 이벤트 패턴 검증 (Flow-wise Event Pattern Validation)
+# ============================================
+# 사용: FLOW 규칙 준수 확인
+SELECT ?flowCode
+       (COUNT(DISTINCT ?case) AS ?totalCases)
+       (COUNT(DISTINCT ?caseWithInbound) AS ?withInbound)
+       (COUNT(DISTINCT ?caseWithOutbound) AS ?withOutbound)
+WHERE {
+    ?case a hvdc:Case ;
+          hvdc:hasFlowCode ?flowCode .
+
+    OPTIONAL {
+        ?case hvdc:hasInboundEvent ?inEvent .
+        BIND(?case AS ?caseWithInbound)
+    }
+
+    OPTIONAL {
+        ?case hvdc:hasOutboundEvent ?outEvent .
+        BIND(?case AS ?caseWithOutbound)
+    }
+}
+GROUP BY ?flowCode
+ORDER BY ?flowCode
+
+# ============================================
+# 10. 최근 30일 이벤트 요약 (Recent 30-Day Event Summary)
+# ============================================
+# 사용: 실시간 모니터링 대시보드
+SELECT ?date (COUNT(?event) AS ?eventCount) (SUM(?qty) AS ?totalQty)
+WHERE {
+    {
+        ?case hvdc:hasInboundEvent ?event .
+    }
+    UNION
+    {
+        ?case hvdc:hasOutboundEvent ?event .
+    }
+
+    ?event hvdc:hasEventDate ?date ;
+           hvdc:hasQuantity ?qty .
+
+    # 최근 30일 필터 (2025-10-30 기준 예시)
+    FILTER(?date >= "2025-10-01"^^xsd:date)
+}
+GROUP BY ?date
+ORDER BY DESC(?date)
+

@@ -1,0 +1,7 @@
+---
+description: Core tone/NDA/sections/2-dec & edit scope
+globs: ["**/*"]
+alwaysApply: true
+---
+* Language: KR concise + EN-inline, numbers 2-dec, sections: ExecSummary → Visual → Options → Roadmap → Automation → QA.
+* Edit scope: allowed_paths = ["logiontology/**","tests/**"]

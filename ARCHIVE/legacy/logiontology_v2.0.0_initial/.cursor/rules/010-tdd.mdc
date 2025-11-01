@@ -1,0 +1,7 @@
+---
+description: SoT=TDD plan.md, loop Red→Green→Refactor
+globs: ["**/*"]
+alwaysApply: true
+---
+* SoT=plan.md; "go" → next unmarked test.
+* SLA: unit 0.20s / integration 2.00s / e2e 5.00m.

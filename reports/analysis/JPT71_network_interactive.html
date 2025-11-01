@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPT71 Network Visualization - Interactive</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        #container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        #graph {
+            width: 100%;
+            height: 700px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .node:hover {
+            filter: brightness(1.2);
+        }
+
+        .node-label {
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+            text-anchor: middle;
+        }
+
+        .link {
+            stroke-opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .link:hover {
+            stroke-opacity: 1;
+            stroke-width: 3px;
+        }
+
+        .link-label {
+            font-size: 10px;
+            fill: #666;
+            pointer-events: none;
+        }
+
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>🚢 JPT71 (Jopetwil 71) Network Visualization</h1>
+        <div class="subtitle">Interactive Network Graph - Drag nodes, Zoom, Hover for details</div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">486</div>
+                <div class="stat-label">총 언급 횟수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">주요 담당자</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">운영 항구</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">62%</div>
+                <div class="stat-label">AGI 집중도</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="resetZoom()">🔄 Reset View</button>
+            <button onclick="centerGraph()">🎯 Center Graph</button>
+            <button onclick="toggleLabels()">🏷️ Toggle Labels</button>
+            <button onclick="exportSVG()">💾 Export SVG</button>
+        </div>
+
+        <svg id="graph"></svg>
+
+        <div class="legend">
+            <strong>Legend:</strong>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #ff6b6b;"></span>
+                선박 (Vessel)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #4dabf7;"></span>
+                담당자 (Personnel)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #51cf66;"></span>
+                항구 (Port)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #ffd43b;"></span>
+                작업 (Operation)
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #a5d8ff;"></span>
+                시간 (Time)
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Graph Data
+        const graphData = {
+            nodes: [
+                // Central Vessel
+                { id: "JPT71", label: "JPT71\nJopetwil 71\n언급: 486회", group: "vessel", size: 40, details: "Status: Underway | 3rd most mentioned vessel" },
+
+                // Personnel
+                { id: "Haitham", label: "Haitham\n154건", group: "personnel", size: 30, details: "Primary Contact | MOSB, AGI, Umm ALanbar" },
+                { id: "Shariff", label: "Shariff\n41건", group: "personnel", size: 25, details: "Secondary Contact | Al Jaber, AGI, MW4" },
+                { id: "Sangwook", label: "상욱\n38건", group: "personnel", size: 25, details: "Collaboration | MOSB, Al Jaber, AGI" },
+
+                // Ports
+                { id: "AGI", label: "AGI Terminal\n주요 목적지", group: "port", size: 35, details: "Primary Destination | 62% of operations | ETA: 12:00" },
+                { id: "MW4", label: "MW4\n보조 터미널", group: "port", size: 28, details: "Secondary Terminal | 21% of operations | ETA: 05:00" },
+                { id: "MOSB", label: "MOSB Port\n대체 항구", group: "port", size: 22, details: "Alternative Port | 10% of operations" },
+                { id: "DAS", label: "DAS Port\n경유", group: "port", size: 18, details: "Transit Port | 4% of operations" },
+                { id: "ALJABER", label: "Al Jaber\n비정기", group: "port", size: 18, details: "Occasional | 3% of operations" },
+
+                // Operations
+                { id: "Offloading", label: "Offloading\n하역", group: "operation", size: 20, details: "Primary operation at AGI & MOSB" },
+                { id: "Loading", label: "Loading\n적재", group: "operation", size: 20, details: "Loading operations at MW4 & AGI" },
+                { id: "Anchorage", label: "Anchorage\n정박", group: "operation", size: 18, details: "Waiting/Anchoring at MW4" },
+                { id: "Underway", label: "Underway\n항해중", group: "operation", size: 18, details: "Transit status to ports" },
+
+                // Time
+                { id: "ETA", label: "ETA\n12:00hrs", group: "time", size: 18, details: "Estimated Time of Arrival to AGI" },
+                { id: "ETD", label: "ETD\nVarious", group: "time", size: 18, details: "Estimated Time of Departure" }
+            ],
+            links: [
+                // Personnel to Vessel
+                { source: "Haitham", target: "JPT71", type: "manages", label: "담당 66%", strength: 3 },
+                { source: "Shariff", target: "JPT71", type: "manages", label: "담당 18%", strength: 2 },
+                { source: "Sangwook", target: "JPT71", type: "manages", label: "협업 16%", strength: 2 },
+
+                // Vessel to Ports (primary routes)
+                { source: "JPT71", target: "AGI", type: "primary", label: "주요 운항", strength: 4 },
+                { source: "JPT71", target: "MW4", type: "regular", label: "정기", strength: 3 },
+                { source: "JPT71", target: "MOSB", type: "alternate", label: "대체", strength: 2 },
+                { source: "JPT71", target: "DAS", type: "occasional", label: "비정기", strength: 1 },
+                { source: "JPT71", target: "ALJABER", type: "occasional", label: "비정기", strength: 1 },
+
+                // Vessel to Operations
+                { source: "JPT71", target: "Offloading", type: "operation", label: "수행", strength: 2 },
+                { source: "JPT71", target: "Loading", type: "operation", label: "수행", strength: 2 },
+                { source: "JPT71", target: "Anchorage", type: "operation", label: "수행", strength: 2 },
+                { source: "JPT71", target: "Underway", type: "operation", label: "수행", strength: 2 },
+
+                // Operations to Ports
+                { source: "Offloading", target: "AGI", type: "at", label: "at", strength: 1 },
+                { source: "Offloading", target: "MOSB", type: "at", label: "at", strength: 1 },
+                { source: "Loading", target: "AGI", type: "at", label: "at", strength: 1 },
+                { source: "Loading", target: "MW4", type: "at", label: "at", strength: 1 },
+                { source: "Anchorage", target: "MW4", type: "at", label: "at", strength: 1 },
+                { source: "Underway", target: "AGI", type: "to", label: "to", strength: 1 },
+
+                // Vessel to Time
+                { source: "JPT71", target: "ETA", type: "time", label: "시간", strength: 1 },
+                { source: "JPT71", target: "ETD", type: "time", label: "시간", strength: 1 }
+            ]
+        };
+
+        // Color scheme
+        const colors = {
+            vessel: "#ff6b6b",
+            personnel: "#4dabf7",
+            port: "#51cf66",
+            operation: "#ffd43b",
+            time: "#a5d8ff"
+        };
+
+        // Link color scheme
+        const linkColors = {
+            manages: "#4dabf7",
+            primary: "#51cf66",
+            regular: "#69db7c",
+            alternate: "#a5d8ff",
+            occasional: "#dee2e6",
+            operation: "#ffd43b",
+            at: "#ced4da",
+            to: "#adb5bd",
+            time: "#a5d8ff"
+        };
+
+        // Setup
+        const width = document.getElementById('graph').clientWidth;
+        const height = 700;
+
+        const svg = d3.select("#graph")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g");
+
+        // Zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+
+        svg.call(zoom);
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Force simulation
+        const simulation = d3.forceSimulation(graphData.nodes)
+            .force("link", d3.forceLink(graphData.links)
+                .id(d => d.id)
+                .distance(d => 150 / d.strength))
+            .force("charge", d3.forceManyBody().strength(-800))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(d => d.size + 10));
+
+        // Links
+        const link = g.append("g")
+            .selectAll("line")
+            .data(graphData.links)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .style("stroke", d => linkColors[d.type])
+            .style("stroke-width", d => d.strength * 2)
+            .on("mouseover", function (event, d) {
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.source.id} → ${d.target.id}</strong><br/>${d.label}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function () {
+                tooltip.style("opacity", 0);
+            });
+
+        // Nodes
+        const node = g.append("g")
+            .selectAll("circle")
+            .data(graphData.nodes)
+            .enter()
+            .append("circle")
+            .attr("class", "node")
+            .attr("r", d => d.size)
+            .style("fill", d => colors[d.group])
+            .style("stroke", "#fff")
+            .style("stroke-width", 3)
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended))
+            .on("mouseover", function (event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr("r", d.size * 1.2);
+
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.label.split('\n')[0]}</strong><br/>${d.details}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function (event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr("r", d.size);
+
+                tooltip.style("opacity", 0);
+            });
+
+        // Labels
+        const labels = g.append("g")
+            .selectAll("text")
+            .data(graphData.nodes)
+            .enter()
+            .append("text")
+            .attr("class", "node-label")
+            .style("fill", "#333")
+            .text(d => d.label.split('\n')[0]);
+
+        // Update positions
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+
+            labels
+                .attr("x", d => d.x)
+                .attr("y", d => d.y + d.size + 15);
+        });
+
+        // Drag functions
+        function dragstarted(event) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+        }
+
+        function dragged(event) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+        }
+
+        function dragended(event) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+        }
+
+        // Control functions
+        function resetZoom() {
+            svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+        }
+
+        function centerGraph() {
+            const bounds = g.node().getBBox();
+            const fullWidth = bounds.width;
+            const fullHeight = bounds.height;
+            const midX = bounds.x + fullWidth / 2;
+            const midY = bounds.y + fullHeight / 2;
+
+            const scale = 0.8 / Math.max(fullWidth / width, fullHeight / height);
+            const translate = [width / 2 - scale * midX, height / 2 - scale * midY];
+
+            svg.transition().duration(750).call(
+                zoom.transform,
+                d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+            );
+        }
+
+        let labelsVisible = true;
+        function toggleLabels() {
+            labelsVisible = !labelsVisible;
+            labels.style("opacity", labelsVisible ? 1 : 0);
+        }
+
+        function exportSVG() {
+            const svgData = document.getElementById('graph').outerHTML;
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'JPT71_network.svg';
+            link.click();
+        }
+
+        // Initial center
+        setTimeout(() => centerGraph(), 1000);
+    </script>
+</body>
+
+</html>

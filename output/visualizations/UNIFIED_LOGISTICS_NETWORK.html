@@ -1,0 +1,273 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #282828;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 900px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    
+<style>
+  body { margin: 0; padding: 0; background: #282828; font-family: 'Segoe UI', Arial, sans-serif; }
+  #toolbar { position: absolute; left: 12px; top: 12px; z-index: 999; display: flex; gap: 8px; align-items: center; background: rgba(0,0,0,0.8); padding: 12px; border-radius: 8px; }
+  .btn { padding: 8px 14px; background: #111827; border: 1px solid #374151; border-radius: 6px; color: #e6edf3; cursor: pointer; font-size: 13px; }
+  .btn:hover { background: #1f2937; }
+  #stats { position: absolute; right: 12px; top: 12px; z-index: 999; background: rgba(0,0,0,0.8); padding: 12px 16px; border-radius: 8px; color: #ffffff; font-size: 13px; }
+  .stat-line { margin: 4px 0; }
+  .stat-value { font-weight: bold; color: #4caf50; }
+  #legend { position: absolute; left: 12px; top: 56px; z-index: 9; background: #0b1220; padding: 8px 10px; border: 1px solid #223; border-radius: 8px; }
+  #legendColors { display: flex; gap: 6px; flex-wrap: wrap; max-width: 200px; }
+  .legend-chip { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid #0f172a; }
+</style>
+
+</head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "HVDC_Project", "label": "HVDC Project", "level": 0, "shape": "dot", "size": 10, "type": "root"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "JPT71_System", "label": "JPT71 System", "level": 1, "shape": "dot", "size": 10, "type": "system"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "ABU_System", "label": "ABU System", "level": 1, "shape": "dot", "size": 10, "type": "system"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "Lightning_System", "label": "Lightning System", "level": 1, "shape": "dot", "size": 10, "type": "system"}, {"color": {"background": "#a855f7", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:JPT71", "label": "JPT71", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Tamarah", "label": "Tamarah", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:TAIBAH", "label": "TAIBAH", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#a855f7", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:Buahra", "label": "Buahra", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#f59e0b", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:JPT62", "label": "JPT62", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#f43f5e", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:YEAM", "label": "YEAM", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#eab308", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "vessel:THURAYA", "label": "THURAYA", "level": 2, "shape": "dot", "size": 10, "type": "vessel"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:DaN", "label": "DaN", "level": 2, "shape": "dot", "shipments": 0, "size": 10, "total_work": 3, "type": "person"}, {"color": {"background": "#a855f7", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Shariff", "label": "Shariff", "level": 2, "shape": "dot", "shipments": 41, "size": 10, "total_work": 42, "type": "person"}, {"color": {"background": "#a855f7", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Al Jaber", "label": "Al Jaber", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#f97316", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:AGI", "label": "AGI", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#a855f7", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:MW4", "label": "MW4", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#f97316", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:DAS", "label": "DAS", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#a855f7", "border": "#0f172a"}, "count": 41, "font": {"color": "#ffffff"}, "id": "operation:Shariff_shipments", "label": "Shariff Shipments (41)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#f43f5e", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Logistics Driver 1", "label": "Logistics Driver 1", "level": 2, "shape": "dot", "shipments": 1, "size": 10, "total_work": 1, "type": "person"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "operation:Logistics Driver 1_shipments", "label": "Logistics Driver 1 Shipments (1)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#38bdf8", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Haitham", "label": "Haitham", "level": 2, "shape": "dot", "shipments": 154, "size": 10, "total_work": 156, "type": "person"}, {"color": {"background": "#f97316", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:MOSB", "label": "MOSB", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Umm ALanbar", "label": "Umm ALanbar", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:Musaffah", "label": "Musaffah", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "port:al jaber", "label": "al jaber", "level": 2, "shape": "dot", "size": 10, "type": "port"}, {"color": {"background": "#38bdf8", "border": "#0f172a"}, "count": 154, "font": {"color": "#ffffff"}, "id": "operation:Haitham_shipments", "label": "Haitham Shipments (154)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#eab308", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Thusar", "label": "Thusar", "level": 2, "shape": "dot", "shipments": 16, "size": 10, "total_work": 16, "type": "person"}, {"color": {"background": "#eab308", "border": "#0f172a"}, "count": 16, "font": {"color": "#ffffff"}, "id": "operation:Thusar_shipments", "label": "Thusar Shipments (16)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#f97316", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:\uc0c1\uc6b1", "label": "\uc0c1\uc6b1", "level": 2, "shape": "dot", "shipments": 38, "size": 10, "total_work": 42, "type": "person"}, {"color": {"background": "#f97316", "border": "#0f172a"}, "count": 38, "font": {"color": "#ffffff"}, "id": "operation:\uc0c1\uc6b1_shipments", "label": "\uc0c1\uc6b1 Shipments (38)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#f43f5e", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:\uad6d\uc77c Kim", "label": "\uad6d\uc77c Kim", "level": 2, "shape": "dot", "shipments": 6, "size": 10, "total_work": 9, "type": "person"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "count": 6, "font": {"color": "#ffffff"}, "id": "operation:\uad6d\uc77c Kim_shipments", "label": "\uad6d\uc77c Kim Shipments (6)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#f59e0b", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:ronpap20", "label": "ronpap20", "level": 2, "shape": "dot", "shipments": 5, "size": 10, "total_work": 6, "type": "person"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "count": 5, "font": {"color": "#ffffff"}, "id": "operation:ronpap20_shipments", "label": "ronpap20 Shipments (5)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Friday D 13th", "label": "Friday D 13th", "level": 2, "shape": "dot", "shipments": 0, "size": 10, "total_work": 13, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Karthi", "label": "Karthi", "level": 2, "shape": "dot", "shipments": 0, "size": 10, "total_work": 1, "type": "person"}, {"color": {"background": "#60a5fa", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "label": "kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "level": 2, "shape": "dot", "shipments": 0, "size": 10, "total_work": 2, "type": "person"}, {"color": {"background": "#eab308", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "person:Jhysn", "label": "Jhysn", "level": 2, "shape": "dot", "shipments": 3, "size": 10, "total_work": 4, "type": "person"}, {"color": {"background": "#84cc16", "border": "#0f172a"}, "count": 3, "font": {"color": "#ffffff"}, "id": "operation:Jhysn_shipments", "label": "Jhysn Shipments (3)", "level": 2, "shape": "dot", "size": 10, "type": "operation"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1008, "font": {"color": "#ffffff"}, "id": "doc:BL", "label": "BL (1008)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 135, "font": {"color": "#ffffff"}, "id": "doc:CICPA", "label": "CICPA (135)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 117, "font": {"color": "#ffffff"}, "id": "doc:PL", "label": "PL (117)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 85, "font": {"color": "#ffffff"}, "id": "doc:do", "label": "do (85)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 83, "font": {"color": "#ffffff"}, "id": "doc:manifest", "label": "manifest (83)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 71, "font": {"color": "#ffffff"}, "id": "doc:Manifest", "label": "Manifest (71)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 30, "font": {"color": "#ffffff"}, "id": "doc:TPI", "label": "TPI (30)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 25, "font": {"color": "#ffffff"}, "id": "doc:permit", "label": "permit (25)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 23, "font": {"color": "#ffffff"}, "id": "doc:cicpa", "label": "cicpa (23)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 18, "font": {"color": "#ffffff"}, "id": "doc:bl", "label": "bl (18)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 11, "font": {"color": "#ffffff"}, "id": "doc:Cicpa", "label": "Cicpa (11)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 11, "font": {"color": "#ffffff"}, "id": "doc:OSDR", "label": "OSDR (11)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 9, "font": {"color": "#ffffff"}, "id": "doc:B/L", "label": "B/L (9)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 7, "font": {"color": "#ffffff"}, "id": "doc:pl", "label": "pl (7)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 6, "font": {"color": "#ffffff"}, "id": "doc:CIPL", "label": "CIPL (6)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 5, "font": {"color": "#ffffff"}, "id": "doc:Do", "label": "Do (5)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 3, "font": {"color": "#ffffff"}, "id": "doc:Pl", "label": "Pl (3)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "doc:DO", "label": "DO (2)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "doc:osdr", "label": "osdr (2)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "doc:HAWB", "label": "HAWB (1)", "level": 3, "shape": "dot", "size": 10, "type": "document"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 195, "font": {"color": "#ffffff"}, "id": "equip:trailer", "label": "trailer (195)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 162, "font": {"color": "#ffffff"}, "id": "equip:crane", "label": "crane (162)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 155, "font": {"color": "#ffffff"}, "id": "equip:OT", "label": "OT (155)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 115, "font": {"color": "#ffffff"}, "id": "equip:Trailer", "label": "Trailer (115)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 107, "font": {"color": "#ffffff"}, "id": "equip:Crane", "label": "Crane (107)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 92, "font": {"color": "#ffffff"}, "id": "equip:FR", "label": "FR (92)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 75, "font": {"color": "#ffffff"}, "id": "equip:webbing", "label": "webbing (75)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 43, "font": {"color": "#ffffff"}, "id": "equip:CCU", "label": "CCU (43)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 40, "font": {"color": "#ffffff"}, "id": "equip:Webbing", "label": "Webbing (40)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 30, "font": {"color": "#ffffff"}, "id": "equip:forklift", "label": "forklift (30)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 25, "font": {"color": "#ffffff"}, "id": "equip:Forklift", "label": "Forklift (25)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 12, "font": {"color": "#ffffff"}, "id": "equip:ccu", "label": "ccu (12)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 10, "font": {"color": "#ffffff"}, "id": "equip:spreader", "label": "spreader (10)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 3, "font": {"color": "#ffffff"}, "id": "equip:WEBBING", "label": "WEBBING (3)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "equip:Fr", "label": "Fr (2)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "equip:HIAB", "label": "HIAB (2)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "equip:Spreader", "label": "Spreader (2)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "equip:CRANE", "label": "CRANE (1)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "equip:Ccu", "label": "Ccu (1)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "equip:FLIFT", "label": "FLIFT (1)", "level": 3, "shape": "dot", "size": 10, "type": "equipment"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 7, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-SIM-0019", "label": "HVDC-ADOPT-SIM-0019 (7)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0203", "label": "HVDC-ADOPT-HE-0203 (2)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-SCT-0021", "label": "HVDC-ADOPT-SCT-0021 (2)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-SIM-0012", "label": "HVDC-ADOPT-SIM-0012 (2)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "ref:HVDC-AGI-ALS-296", "label": "HVDC-AGI-ALS-296 (2)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 2, "font": {"color": "#ffffff"}, "id": "ref:HVDC-AGI-ALS-BL-286", "label": "HVDC-AGI-ALS-BL-286 (2)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HAWB -", "label": "HAWB - (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-0423", "label": "HVDC-ADOPT-0423 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0149", "label": "HVDC-ADOPT-HE-0149 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0151", "label": "HVDC-ADOPT-HE-0151 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0164", "label": "HVDC-ADOPT-HE-0164 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0183", "label": "HVDC-ADOPT-HE-0183 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0185", "label": "HVDC-ADOPT-HE-0185 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0188", "label": "HVDC-ADOPT-HE-0188 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0207", "label": "HVDC-ADOPT-HE-0207 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0213", "label": "HVDC-ADOPT-HE-0213 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0241", "label": "HVDC-ADOPT-HE-0241 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0245", "label": "HVDC-ADOPT-HE-0245 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0248", "label": "HVDC-ADOPT-HE-0248 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 1, "font": {"color": "#ffffff"}, "id": "ref:HVDC-ADOPT-HE-0335", "label": "HVDC-ADOPT-HE-0335 (1)", "level": 3, "shape": "dot", "size": 10, "type": "reference"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 850, "font": {"color": "#ffffff"}, "id": "time:eta", "label": "eta (850)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 451, "font": {"color": "#ffffff"}, "id": "time:ETA", "label": "ETA (451)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 287, "font": {"color": "#ffffff"}, "id": "time:ETD", "label": "ETD (287)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 129, "font": {"color": "#ffffff"}, "id": "time:ATA", "label": "ATA (129)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 63, "font": {"color": "#ffffff"}, "id": "time:Eta", "label": "Eta (63)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 54, "font": {"color": "#ffffff"}, "id": "time:ATD", "label": "ATD (54)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 45, "font": {"color": "#ffffff"}, "id": "time:etd", "label": "etd (45)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 9, "font": {"color": "#ffffff"}, "id": "time:ETB", "label": "ETB (9)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "count": 8, "font": {"color": "#ffffff"}, "id": "time:Etd", "label": "Etd (8)", "level": 3, "shape": "dot", "size": 10, "type": "timetag"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "docfile:MCP_Configuration_Guide.md", "label": "MCP_Configuration_Guide.md", "level": 3, "path": "docs\\MCP_Configuration_Guide.md", "shape": "dot", "size": 10, "type": "docfile"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "docfile:P2_MD_v2.6_clustering.md", "label": "P2_MD_v2.6_clustering.md", "level": 3, "path": "docs\\P2_MD_v2.6_clustering.md", "shape": "dot", "size": 10, "type": "docfile"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "docfile:P_MD_v2.6_mapping.md", "label": "P_MD_v2.6_mapping.md", "level": 3, "path": "docs\\P_MD_v2.6_mapping.md", "shape": "dot", "size": 10, "type": "docfile"}, {"color": {"background": "#10b981", "border": "#0f172a"}, "font": {"color": "#ffffff"}, "id": "docfile:continuous-integration.md", "label": "continuous-integration.md", "level": 3, "path": "docs\\kr\\continuous-integration.md", "shape": "dot", "size": 10, "type": "docfile"}]);
+                  edges = new vis.DataSet([{"from": "HVDC_Project", "rel": "contains", "to": "JPT71_System", "width": 2.0}, {"from": "HVDC_Project", "rel": "contains", "to": "ABU_System", "width": 2.0}, {"from": "HVDC_Project", "rel": "contains", "to": "Lightning_System", "width": 2.0}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:JPT71", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:Tamarah", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:TAIBAH", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:Buahra", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:JPT62", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:YEAM", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "vessel:THURAYA", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:DaN", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Shariff", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:Al Jaber", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:AGI", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:MW4", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:DAS", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:Shariff_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Logistics Driver 1", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:Logistics Driver 1_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Haitham", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:MOSB", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:Umm ALanbar", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:Musaffah", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "port:al jaber", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:Haitham_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Thusar", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:Thusar_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:\uc0c1\uc6b1", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:\uc0c1\uc6b1_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:\uad6d\uc77c Kim", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:\uad6d\uc77c Kim_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:ronpap20", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:ronpap20_shipments", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Friday D 13th", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Karthi", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "person:Jhysn", "width": 1.5}, {"from": "JPT71_System", "rel": "contains", "to": "operation:Jhysn_shipments", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:DaN", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Shariff", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Logistics Driver 1", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Haitham", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Thusar", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:\uc0c1\uc6b1", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:\uad6d\uc77c Kim", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:ronpap20", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Friday D 13th", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Karthi", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:kEn \ud83c\udfc4\ud83c\udffb\ud83c\udf0a", "width": 1.5}, {"from": "ABU_System", "rel": "contains", "to": "person:Jhysn", "width": 1.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:BL", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:CICPA", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:PL", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:do", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:manifest", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:Manifest", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:TPI", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:permit", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:cicpa", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:bl", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:Cicpa", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:OSDR", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:B/L", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:pl", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:CIPL", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:Do", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:Pl", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:DO", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:osdr", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "doc:HAWB", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:trailer", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:crane", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:OT", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Trailer", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Crane", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:FR", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:webbing", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:CCU", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Webbing", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:forklift", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Forklift", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:ccu", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:spreader", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:WEBBING", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Fr", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:HIAB", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Spreader", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:CRANE", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:Ccu", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "equip:FLIFT", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-SIM-0019", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0203", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-SCT-0021", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-SIM-0012", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-AGI-ALS-296", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-AGI-ALS-BL-286", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HAWB -", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-0423", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0149", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0151", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0164", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0183", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0185", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0188", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0207", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0213", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0241", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0245", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0248", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "ref:HVDC-ADOPT-HE-0335", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:eta", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:ETA", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:ETD", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:ATA", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:Eta", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:ATD", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:etd", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:ETB", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "time:Etd", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "docfile:MCP_Configuration_Guide.md", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "docfile:P2_MD_v2.6_clustering.md", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "docfile:P_MD_v2.6_mapping.md", "width": 0.5}, {"from": "Lightning_System", "rel": "contains", "to": "docfile:continuous-integration.md", "width": 0.5}, {"from": "vessel:JPT71", "rel": "operates", "to": "person:Shariff", "width": 1.0}, {"from": "vessel:JPT71", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:JPT71", "rel": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "vessel:Tamarah", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:TAIBAH", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:Buahra", "rel": "operates", "to": "person:Shariff", "width": 1.0}, {"from": "vessel:JPT62", "rel": "operates", "to": "person:Shariff", "width": 1.0}, {"from": "vessel:JPT62", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:JPT62", "rel": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "vessel:JPT62", "rel": "operates", "to": "person:ronpap20", "width": 1.0}, {"from": "vessel:YEAM", "rel": "operates", "to": "person:Shariff", "width": 1.0}, {"from": "vessel:YEAM", "rel": "operates", "to": "person:Logistics Driver 1", "width": 1.0}, {"from": "vessel:YEAM", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:YEAM", "rel": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "vessel:YEAM", "rel": "operates", "to": "person:\uad6d\uc77c Kim", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:Shariff", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:Haitham", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:Thusar", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:\uad6d\uc77c Kim", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:ronpap20", "width": 1.0}, {"from": "vessel:THURAYA", "rel": "operates", "to": "person:Jhysn", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:Al Jaber", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:AGI", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:MW4", "width": 1.0}, {"from": "person:Shariff", "rel": "works_at", "to": "port:DAS", "width": 1.0}, {"from": "person:Shariff", "rel": "performed", "to": "operation:Shariff_shipments", "width": 4.1}, {"from": "port:Al Jaber", "rel": "works_at", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "port:AGI", "rel": "works_at", "to": "person:Haitham", "width": 1.0}, {"from": "port:AGI", "rel": "works_at", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "port:MW4", "rel": "works_at", "to": "person:Haitham", "width": 1.0}, {"from": "port:DAS", "rel": "works_at", "to": "person:Haitham", "width": 1.0}, {"from": "port:DAS", "rel": "works_at", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "person:Logistics Driver 1", "rel": "performed", "to": "operation:Logistics Driver 1_shipments", "width": 0.1}, {"from": "person:Haitham", "rel": "works_at", "to": "port:MOSB", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:Umm ALanbar", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:Musaffah", "width": 1.0}, {"from": "person:Haitham", "rel": "works_at", "to": "port:al jaber", "width": 1.0}, {"from": "person:Haitham", "rel": "performed", "to": "operation:Haitham_shipments", "width": 15.4}, {"from": "port:MOSB", "rel": "works_at", "to": "person:\uc0c1\uc6b1", "width": 1.0}, {"from": "person:Thusar", "rel": "performed", "to": "operation:Thusar_shipments", "width": 1.6}, {"from": "person:\uc0c1\uc6b1", "rel": "performed", "to": "operation:\uc0c1\uc6b1_shipments", "width": 3.8}, {"from": "person:\uad6d\uc77c Kim", "rel": "performed", "to": "operation:\uad6d\uc77c Kim_shipments", "width": 0.6}, {"from": "person:ronpap20", "rel": "performed", "to": "operation:ronpap20_shipments", "width": 0.5}, {"from": "person:Jhysn", "rel": "performed", "to": "operation:Jhysn_shipments", "width": 0.3}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"shape": "dot", "size": 15, "borderWidth": 2, "font": {"color": "#ffffff", "size": 12}}, "edges": {"smooth": {"type": "continuous"}, "width": 1, "color": {"color": "#666666"}}, "physics": {"solver": "barnesHut", "stabilization": {"iterations": 300}, "barnesHut": {"gravitationalConstant": -20000, "springLength": 150, "springConstant": 0.01}}, "interaction": {"hover": true, "navigationButtons": true, "keyboard": true, "tooltipDelay": 100}, "layout": {"improvedLayout": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<div id="toolbar">
+  <button id="btn-reset" class="btn">🔄 Reset View</button>
+</div>
+<div id="legend">
+  <div style="margin-bottom:6px;font-weight:600">Communities</div>
+  <div id="legendColors"></div>
+</div>
+<div id="stats">
+  <div class="stat-line">Nodes: <span class="stat-value" id="stat-nodes">0</span></div>
+  <div class="stat-line">Edges: <span class="stat-value" id="stat-edges">0</span></div>
+  <div class="stat-line">Communities: <span class="stat-value" id="stat-communities">0</span></div>
+  <div class="stat-line">Center: <span class="stat-value">HVDC Project</span></div>
+</div>
+<script>
+  setTimeout(() => {
+    document.getElementById('stat-nodes').textContent = nodes.length;
+    document.getElementById('stat-edges').textContent = edges.length;
+
+    const communities = new Set();
+    nodes.forEach(n => {
+      if (n.color && n.color.background) {
+        communities.add(n.color.background);
+      }
+    });
+    document.getElementById('stat-communities').textContent = communities.size;
+
+    const palette = ["#60a5fa", "#10b981", "#f59e0b", "#a855f7", "#f43f5e", "#84cc16", "#38bdf8", "#eab308", "#f97316", "#22d3ee"];
+    document.getElementById('legendColors').innerHTML =
+      palette.map(c => `<span class="legend-chip" style="background:${c}"></span>`).join('');
+  }, 1000);
+
+  document.getElementById('btn-reset').onclick = () => {
+    if (window.network) window.network.fit({ animation: true });
+  };
+</script>
+
+</body>
+</html>

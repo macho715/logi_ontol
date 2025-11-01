@@ -1,0 +1,7 @@
+---
+description: CI/CD gate
+globs: ["**/*"]
+alwaysApply: true
+---
+* Coverage ≥ 85.00, lint 0, bandit High 0, pip-audit --strict.
+* Trunk + short-lived feature/*, Conventional Commits, 2 approvals required.
