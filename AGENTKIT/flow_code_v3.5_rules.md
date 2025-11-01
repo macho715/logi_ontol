@@ -68,7 +68,7 @@ def calculate_flow_code_v35(wh_cnt, has_mosb, has_site, final_location):
     # Pre Arrival 판별
     if is_pre_arrival():
         return 0
-    
+
     # 기본 Flow 계산
     if has_site and not wh_cnt and not has_mosb:
         flow = 1  # Direct
@@ -80,13 +80,13 @@ def calculate_flow_code_v35(wh_cnt, has_mosb, has_site, final_location):
         flow = 4  # WH + MOSB
     else:
         flow = 5  # Mixed
-    
+
     # AGI/DAS 도메인 오버라이드
     if final_location in ['AGI', 'DAS'] and flow < 3:
         original_flow = flow
         flow = 3
         reason = "AGI/DAS requires MOSB leg"
-    
+
     return flow
 ```
 
