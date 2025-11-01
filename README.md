@@ -3,11 +3,12 @@
 **통합 물류 온톨로지 시스템 for HVDC Project**
 (Samsung C&T + ADNOC·DSV Partnership)
 
-> **⚠️ 중요**: 이 문서를 읽기 전에 **[`ontology/logiontology/`](ontology/logiontology/)** 폴더를 먼저 확인하세요!
-> - **전체 구현 코드**: `ontology/logiontology/src/`
-> - **설정 파일**: `ontology/logiontology/configs/`
-> - **온톨로지 정의**: `ontology/logiontology/configs/ontology/hvdc_ontology.ttl`
-> - **문서**: `ontology/logiontology/README.md`, `ontology/logiontology/CHANGELOG.md`
+> **⚠️ 중요**: 메인 구현 패키지는 **[`logiontology/`](logiontology/)** 폴더입니다!
+> - **전체 구현 코드**: `logiontology/src/`
+> - **설정 파일**: `logiontology/configs/`
+> - **온톨로지 정의**: `logiontology/configs/ontology/`
+> - **MCP 서버**: `hvdc_mcp_server_v35/`
+> - **문서 인덱스**: [docs/README.md](docs/README.md)
 
 ---
 
@@ -16,7 +17,7 @@
 HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 분석하는 Full Stack MVP 시스템입니다.
 
 **주요 기능**:
-- Protégé 기반 온톨로지 (OWL/TTL)
+- 온톨로지 기반 데이터 모델 (OWL/TTL)
 - Excel → RDF 변환
 - Neo4j 그래프 DB 통합
 - FastAPI REST API (8 endpoints)
@@ -30,7 +31,7 @@ HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 
 **Status**: Backend Core 완료 (72%)
 
 **완료된 구성요소** (15/25 tasks):
-- ✅ Protégé 온톨로지 (7 classes, 11 properties)
+- ✅ 온톨로지 스키마 (7 classes, 11 properties)
 - ✅ Excel → RDF 변환기
 - ✅ Neo4j 통합 (store + loader + config)
 - ✅ FastAPI Backend (8 endpoints)
@@ -45,7 +46,7 @@ HVDC 프로젝트의 물류 데이터를 온톨로지 기반으로 관리하고 
 - PDF Report Generator
 - React Frontend
 
-**자세한 내용**: [Master Plan](plan.md) | [Work Log](HVDC_WORK_LOG.md)
+**자세한 내용**: [Master Plan](plan.md) | [Work Log](docs/project_reports/HVDC_WORK_LOG.md) | [전체 문서](PROJECT_COMPLETE_DOCUMENTATION.md)
 
 ---
 
@@ -101,69 +102,127 @@ docker-compose up -d
 
 ```
 logi_ontol/
-├── plan.md                       # Master plan
-├── README.md                     # 이 파일
-├── HVDC_WORK_LOG.md             # 상세 작업 로그
+├── 📄 README.md                     # 프로젝트 개요
+├── 📄 plan.md                       # Master Plan v2.0.0
+├── 📄 PROJECT_COMPLETE_DOCUMENTATION.md  # v3.5 완전 문서
+├── 📄 requirements.txt              # 전체 의존성
 │
-├── logiontology/                 # ⭐ 메인 프로젝트 (v2.0.0)
-│   ├── src/                      # 소스 코드
-│   │   ├── ontology/             # Protégé loader, validator
-│   │   ├── ingest/               # Excel → RDF converter
-│   │   ├── graph/                # Neo4j integration
-│   │   ├── api/                  # FastAPI endpoints
-│   │   ├── core/                 # Flow models
-│   │   ├── analytics/            # KPI calculator
-│   │   ├── mapping/              # RDF mapper
-│   │   └── cli.py                # CLI commands
-│   ├── tests/                    # 테스트 (90%+ coverage)
-│   ├── configs/                  # 설정 파일
-│   ├── docs/                     # 기술 문서
-│   ├── docker-compose.yml        # Docker 배포
-│   ├── Dockerfile                # Backend image
-│   ├── pyproject.toml            # v2.0.0
-│   ├── README_FULL_STACK.md      # 전체 가이드
-│   └── IMPLEMENTATION_SUMMARY.md # 구현 요약
+├── 📁 logiontology/                 # ⭐ 메인 패키지 (v2.0.0 + Flow Code v3.5)
+│   ├── src/                         # 소스 코드
+│   │   ├── ingest/                  # Excel → RDF + Flow Code v3.5
+│   │   ├── ontology/                # 온톨로지 로더, validator
+│   │   ├── graph/                   # Neo4j integration
+│   │   ├── api/                     # FastAPI endpoints
+│   │   ├── export/                  # TTL → JSON
+│   │   └── cli.py                   # CLI commands
+│   ├── configs/                     # 설정 + 온톨로지 TTL
+│   ├── tests/                       # 테스트 (90%+)
+│   └── docs/                        # 기술 문서
 │
-├── ontology/                     # 온톨로지 정의
-│   ├── HVDC.MD                   # HVDC v3.0 정의
-│   ├── core/                     # 핵심 온톨로지 (15 files)
-│   └── extended/                 # 확장 온톨로지 (7 files)
+├── 📁 hvdc_mcp_server_v35/          # ⭐ MCP 서버 (v3.5)
+│   ├── mcp_server/                  # SPARQL API
+│   ├── tests/                       # 서버 테스트
+│   └── README.md                    # MCP 가이드
 │
-├── docs/                         # 프로젝트 문서
-│   ├── guides/                   # 가이드 (3 files)
-│   │   ├── QUICK_START.md        # 빠른 시작
-│   │   ├── API_REFERENCE.md      # API 레퍼런스
-│   │   └── TROUBLESHOOTING.md    # 문제 해결
-│   ├── architecture/             # 아키텍처 (4 files)
-│   ├── ontology/                 # 온톨로지 분석
-│   └── README.md                 # 문서 인덱스
+├── 📁 extended/                     # 확장 온톨로지 (15개)
+├── 📁 ontology/                     # 온톨로지 참조
+│   ├── HVDC.MD                      # v3.0 정의
+│   ├── core/                        # 핵심 문서 (8개)
+│   ├── extended/                    # 확장 문서
+│   └── ontology_data_hub/           # 온톨로지 데이터 허브
+│       └── 01_ontology/
+│           └── consolidated/        # 통합 온톨로지 (5개)
 │
-├── data/                         # 입력 데이터
-│   ├── HVDC_입고로직_종합리포트.xlsx
-│   └── backups/                  # 백업 파일
+├── 📁 docs/                         # ⭐ 통합 문서
+│   ├── folder_analysis/             # 📊 폴더별 상세 분석 (17개 보고서)
+│   ├── flow_code_v35/               # Flow Code v3.5 (4개)
+│   ├── mcp_integration/             # MCP 통합 (3개)
+│   ├── project_reports/             # 프로젝트 보고서 (7개)
+│   ├── guides/                      # 가이드
+│   ├── architecture/                # 아키텍처
+│   └── README.md                    # ⭐ 문서 인덱스
 │
-├── output/                       # 출력 결과
-│   ├── rdf/                      # RDF/TTL 파일
-│   ├── visualizations/           # HTML 시각화
-│   ├── integration/              # JSON 통합 데이터
-│   ├── final/                    # 최종 출력
-│   └── versions/                 # 버전 관리
+├── 📁 data/                         # 데이터
+│   ├── source/                      # 원본 Excel (2개)
+│   ├── reports/                     # 리포트 (2개)
+│   └── backups/                     # 백업
 │
-├── reports/                      # 분석 보고서
-├── scripts/                      # 처리 스크립트
-│   └── build_unified_network_v12_hvdc.py (최신)
+├── 📁 output/                       # 출력
+│   ├── hvdc_status_v35.ttl          # ⭐ 최신 (9,904 triples)
+│   ├── validation/                  # SPARQL 검증
+│   ├── gpt_cache/                   # GPT 캐시
+│   └── final/                       # 최종 출력
 │
-├── ABU/                          # Abu Dhabi 데이터
-├── JPT71/                        # Jopetwil 71 선박 데이터
-├── HVDC Project Lightning/       # Lightning 서브시스템
-└── archive/                      # 아카이브
+├── 📁 scripts/                      # 스크립트
+│   ├── setup/                       # 설정 스크립트 (3개)
+│   ├── utils/                       # 유틸리티 (1개)
+│   └── stage3_report/               # Stage 3 리포트
+│
+├── 📁 tests/                        # 루트 테스트 (4개)
+├── 📁 queries/                      # SPARQL 쿼리
+├── 📁 reports/                      # 분석 보고서 (55개)
+│
+├── 📁 archive/                      # ⭐ 레거시 아카이브
+│   ├── legacy/                      # 이전 패키지 (4개)
+│   └── output_history/              # 이전 출력
+│
+└── (프로젝트별: ABU, JPT71, HVDC Project Lightning)
 ```
+
+**주요 변경사항** (2025-10-31):
+- `ontology/logiontology/` → `archive/legacy/` (레거시 v2.0.0)
+- `logiontology/` 최신 버전 (Flow Code v3.5 통합)
+- 문서 통합 (`docs/flow_code_v35/`, `docs/mcp_integration/`, `docs/project_reports/`)
+- 데이터 구조화 (`data/source/`, `data/reports/`)
+- 스크립트 정리 (`scripts/setup/`, `scripts/utils/`)
+- 출력 통합 (`output/validation/`, `output/gpt_cache/`)
+
+**최근 정리** (2025-11-01):
+- 루트 레벨 중복 폴더 제거: `core/`, `core_consolidated/` 삭제
+- 완료 보고서 아카이브: 5개 → `archive/completion_reports/`
+- 정식 경로만 참조: `ontology/core/`, `ontology_data_hub/01_ontology/consolidated/`
+
+**폴더 분석 보고서 추가** (2025-11-01):
+- 전체 프로젝트 폴더 구조 상세 분석 완료
+- 17개 개별 보고서 + 마스터 인덱스 생성
+- 위치: `docs/folder_analysis/`
+- 포함 내용:
+  - 핵심 프로젝트 (4개): logiontology, hvdc_mcp_server_v35, ontology, ontology_data_hub
+  - 데이터/출력 (3개): data, output, queries
+  - 문서/보고서 (3개): docs, reports, extended
+  - 외부 프로젝트 (2개): ABU, HVDC Project Lightning
+  - 개발 도구 (2개): scripts, tests
+  - 아카이브/시스템 (2개): archive, 시스템폴더
+- 각 보고서: 개요, 통계, 주요 파일, 하위 구조, 연관성, 권장사항
+
+**Flow Code v3.5 전체 문서 통합** (2025-11-01):
+- 9개 CONSOLIDATED 문서 전체에 Flow Code v3.5 통합 완료
+- 총 329회 Flow Code 언급 (이전 3회 → 100배 증가)
+- AGI/DAS 강제 규칙 (Flow ≥3) 전체 문서 반영
+- 위치: `Logi ontol core doc/`
+- 통합 문서:
+  1. CONSOLIDATED-01 (Core Framework) - 11회
+  2. CONSOLIDATED-02 (Warehouse & Flow) - 85회 (완전 통합)
+  3. CONSOLIDATED-03 (Document OCR) - 34회 (OCR 추출 필드)
+  4. CONSOLIDATED-04 (Barge/Bulk) - 27회 (LCT Flow 3/4)
+  5. CONSOLIDATED-05 (Invoice/Cost) - 8회 (Flow Code 비용 구조)
+  6. CONSOLIDATED-06 (Material Handling) - 23회 (Phase A/B)
+  7. CONSOLIDATED-07 (Port Operations) - 43회 (Flow Code 시작점)
+  8. CONSOLIDATED-08 (Communication) - 7회
+  9. CONSOLIDATED-09 (Operations) - 36회 (KPI 메트릭)
+- 주요 특징:
+  - Flow Code 0~5 정의 (Pre Arrival, Direct, WH, MOSB, Full, Mixed)
+  - AGI/DAS 도메인 룰: 오프쇼어 사이트 MOSB 레그 필수
+  - 도메인별 Flow Code 패턴: Material, Barge, Port, Document, Cost
+  - RDF/OWL 속성 9개, SHACL 제약 4개
+  - SPARQL 쿼리 20+ 제공
+- 관련 문서: `docs/flow_code_v35/`, `CORE_DOCUMENTATION_MASTER.md`
 
 ---
 
 ## 주요 기능
 
-### 1. Protégé 온톨로지
+### 1. 온톨로지 스키마
 - **파일**: `logiontology/configs/ontology/hvdc_ontology.ttl`
 - **클래스**: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project (7개)
 - **속성**: 11개 (5 Object Properties + 6 Datatype Properties)
@@ -239,22 +298,31 @@ docker-compose up -d
 ## 문서
 
 ### 핵심 문서
-- [Master Plan](plan.md) - 전체 프로젝트 계획
-- [Work Log](HVDC_WORK_LOG.md) - 상세 작업 로그 (v2.0.0)
-- [Quick Start Guide](docs/guides/QUICK_START.md) - 5분 빠른 시작
-- [API Reference](docs/guides/API_REFERENCE.md) - API 레퍼런스
-- [Troubleshooting](docs/guides/TROUBLESHOOTING.md) - 문제 해결
-- [Documentation Index](docs/README.md) - 문서 인덱스
+- **[README.md](README.md)** - 프로젝트 개요 (이 문서)
+- **[plan.md](plan.md)** - Master Plan v2.0.0
+- **[PROJECT_COMPLETE_DOCUMENTATION.md](PROJECT_COMPLETE_DOCUMENTATION.md)** - v3.5 완전 문서
+- **[docs/README.md](docs/README.md)** - 문서 전체 인덱스 ⭐
 
-### logiontology 문서
-- [README_FULL_STACK.md](logiontology/README_FULL_STACK.md) - 전체 시스템 가이드
-- [IMPLEMENTATION_SUMMARY.md](logiontology/IMPLEMENTATION_SUMMARY.md) - 구현 요약
-- [logiontology/docs/](logiontology/docs/) - 기술 문서 7개
+### Flow Code v3.5 & MCP 문서
+- **[Flow Code v3.5 문서](docs/flow_code_v35/)** (4개)
+  - 알고리즘, 구현, 통합, 마스터 문서
+- **[MCP 통합 문서](docs/mcp_integration/)** (3개)
+  - MCP 서버 v3.5, 통합 가이드, 최종 보고서
 
-### 온톨로지 문서
+### 프로젝트 보고서
+- **[프로젝트 보고서](docs/project_reports/)** (7개)
+  - Work Log, Changelog, 구현 요약 등
+
+### 온톨로지 참조
 - [HVDC.MD](ontology/HVDC.MD) - HVDC v3.0 정의
-- [core/](ontology/core/) - 핵심 온톨로지 (15개 파일)
-- [extended/](ontology/extended/) - 확장 온톨로지 (7개 파일)
+- [ontology/core/](ontology/core/) - 핵심 온톨로지 문서 (8개)
+- [ontology_data_hub/01_ontology/consolidated/](ontology_data_hub/01_ontology/consolidated/) - 통합 온톨로지 (5개)
+- [extended/](extended/) - 확장 온톨로지 (15개)
+
+### 가이드 & 아키텍처
+- [Quick Start](docs/guides/QUICK_START.md) - 5분 빠른 시작
+- [API Reference](docs/guides/API_REFERENCE.md) - API 레퍼런스
+- [Architecture](docs/architecture/) - 시스템 아키텍처
 
 ---
 
@@ -340,7 +408,7 @@ pytest tests/api/ -v
 ## 로드맵
 
 ### Phase 1: Backend Core (✅ 완료 - 72%)
-- Protégé 온톨로지
+- 온톨로지 스키마
 - Excel → RDF 변환
 - Neo4j 통합
 - FastAPI Backend
@@ -381,22 +449,46 @@ pytest tests/api/ -v
 **프로젝트**: HVDC Logistics & Ontology System
 **소유자**: Samsung C&T Logistics (ADNOC·DSV Partnership)
 **버전**: 2.0.0
-**최종 업데이트**: 2025-10-26
+**최종 업데이트**: 2025-10-31
 
 ---
 
 ## 관련 링크
 
+### 📚 핵심 문서
+- **[문서 전체 인덱스](docs/README.md)** - 모든 문서 한눈에 보기 ⭐
 - [Master Plan](plan.md) - 전체 프로젝트 계획
-- [Work Log](HVDC_WORK_LOG.md) - 상세 작업 로그
-- [Quick Start](docs/guides/QUICK_START.md) - 5분 시작 가이드
-- [API Reference](docs/guides/API_REFERENCE.md) - API 문서
-- [Troubleshooting](docs/guides/TROUBLESHOOTING.md) - 문제 해결
-- [Documentation](docs/README.md) - 문서 인덱스
-- [Full Stack Guide](logiontology/README_FULL_STACK.md) - 완전한 가이드
+- [PROJECT_COMPLETE_DOCUMENTATION](PROJECT_COMPLETE_DOCUMENTATION.md) - v3.5 완전 문서
+
+### 🚀 시작하기
+- [Quick Start](docs/guides/QUICK_START.md) - 5분 빠른 시작
+- [logiontology README](logiontology/README.md) - 메인 패키지 가이드
+- [MCP Server README](hvdc_mcp_server_v35/README.md) - MCP 서버 가이드
+
+### 📊 보고서
+- [Work Log](docs/project_reports/HVDC_WORK_LOG.md) - v2.0.0 작업 로그
+- [Changelog](docs/project_reports/CHANGELOG.md) - 변경 이력
+- [Implementation Summary](docs/project_reports/IMPLEMENTATION_SUMMARY.md) - 구현 요약
+
+### 🔬 Flow Code v3.5
+- [Algorithm](docs/flow_code_v35/FLOW_CODE_V35_ALGORITHM.md) - 알고리즘 상세
+- [Master Documentation](docs/flow_code_v35/FLOW_CODE_V35_MASTER_DOCUMENTATION.md) - 마스터 문서
 
 ---
 
 **개발**: HVDC Project Team
 **프로젝트**: Samsung C&T Logistics & ADNOC·DSV Partnership
-**최종 업데이트**: 2025-10-26
+**버전**: v3.5 (Flow Code + MCP Integration)
+**최종 업데이트**: 2025-10-31
+
+---
+
+## 📊 프로젝트 상태 요약
+
+- ✅ **Backend Core**: 완료 (logiontology v2.0.0)
+- ✅ **Flow Code v3.5**: 완료 (0~5 분류, AGI/DAS 룰)
+- ✅ **MCP Server**: 완료 (hvdc_mcp_server_v35)
+- ✅ **문서화**: 완료 (48개+ 문서)
+- ✅ **테스트**: 29/29 통과 (100%)
+- ✅ **데이터**: 755 cases, 9,904 triples, 818 events
+- 📋 **Next**: Phase 2A (API 실제 구현)

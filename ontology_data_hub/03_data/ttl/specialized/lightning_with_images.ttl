@@ -1,0 +1,903 @@
+@prefix lightning: <http://example.org/lightning/> .
+@prefix lightningi: <http://example.org/lightning/instance/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+lightningi:Image_IMG-20250904-WA0000.jpg a lightning:Image ;
+    rdfs:label "IMG-20250904-WA0000.jpg" ;
+    lightning:capturedDate "2025-09-04"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250904-WA0000.jpg" ;
+    lightning:fileSizeBytes 219999 ;
+    lightning:fileSizeMB 0.21 ;
+    lightning:filename "IMG-20250904-WA0000.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.474547"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250904-WA0001.jpg a lightning:Image ;
+    rdfs:label "IMG-20250904-WA0001.jpg" ;
+    lightning:capturedDate "2025-09-04"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250904-WA0001.jpg" ;
+    lightning:fileSizeBytes 202180 ;
+    lightning:fileSizeMB 0.19 ;
+    lightning:filename "IMG-20250904-WA0001.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.480478"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250904-WA0017.jpg a lightning:Image ;
+    rdfs:label "IMG-20250904-WA0017.jpg" ;
+    lightning:capturedDate "2025-09-04"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250904-WA0017.jpg" ;
+    lightning:fileSizeBytes 59687 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "IMG-20250904-WA0017.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.483574"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250904-WA0044.jpg a lightning:Image ;
+    rdfs:label "IMG-20250904-WA0044.jpg" ;
+    lightning:capturedDate "2025-09-04"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250904-WA0044.jpg" ;
+    lightning:fileSizeBytes 139724 ;
+    lightning:fileSizeMB 0.13 ;
+    lightning:filename "IMG-20250904-WA0044.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.487012"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0000.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0000.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0000.jpg" ;
+    lightning:fileSizeBytes 36090 ;
+    lightning:fileSizeMB 0.03 ;
+    lightning:filename "IMG-20250905-WA0000.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.490600"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0011.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0011.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0011.jpg" ;
+    lightning:fileSizeBytes 48974 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20250905-WA0011.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.493794"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0012.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0012.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0012.jpg" ;
+    lightning:fileSizeBytes 197156 ;
+    lightning:fileSizeMB 0.19 ;
+    lightning:filename "IMG-20250905-WA0012.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.499248"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0013.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0013.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0013.jpg" ;
+    lightning:fileSizeBytes 26401 ;
+    lightning:fileSizeMB 0.03 ;
+    lightning:filename "IMG-20250905-WA0013.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.501249"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0016.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0016.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0016.jpg" ;
+    lightning:fileSizeBytes 115714 ;
+    lightning:fileSizeMB 0.11 ;
+    lightning:filename "IMG-20250905-WA0016.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.505301"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0023.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0023.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0023.jpg" ;
+    lightning:fileSizeBytes 65894 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "IMG-20250905-WA0023.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.509849"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0024.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0024.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0024.jpg" ;
+    lightning:fileSizeBytes 222563 ;
+    lightning:fileSizeMB 0.21 ;
+    lightning:filename "IMG-20250905-WA0024.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.514458"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0035.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0035.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0035.jpg" ;
+    lightning:fileSizeBytes 169125 ;
+    lightning:fileSizeMB 0.16 ;
+    lightning:filename "IMG-20250905-WA0035.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.518191"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0036.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0036.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0036.jpg" ;
+    lightning:fileSizeBytes 251551 ;
+    lightning:fileSizeMB 0.24 ;
+    lightning:filename "IMG-20250905-WA0036.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.523860"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0037.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0037.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0037.jpg" ;
+    lightning:fileSizeBytes 652099 ;
+    lightning:fileSizeMB 0.62 ;
+    lightning:filename "IMG-20250905-WA0037.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.534314"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0038.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0038.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0038.jpg" ;
+    lightning:fileSizeBytes 208128 ;
+    lightning:fileSizeMB 0.2 ;
+    lightning:filename "IMG-20250905-WA0038.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.538311"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0039.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0039.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0039.jpg" ;
+    lightning:fileSizeBytes 440872 ;
+    lightning:fileSizeMB 0.42 ;
+    lightning:filename "IMG-20250905-WA0039.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.546953"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0040.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0040.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0040.jpg" ;
+    lightning:fileSizeBytes 164904 ;
+    lightning:fileSizeMB 0.16 ;
+    lightning:filename "IMG-20250905-WA0040.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.551873"^^xsd:dateTime .
+
+lightningi:Image_IMG-20250905-WA0041.jpg a lightning:Image ;
+    rdfs:label "IMG-20250905-WA0041.jpg" ;
+    lightning:capturedDate "2025-09-05"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20250905-WA0041.jpg" ;
+    lightning:fileSizeBytes 85592 ;
+    lightning:fileSizeMB 0.08 ;
+    lightning:filename "IMG-20250905-WA0041.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.555874"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251012-WA0008.jpg a lightning:Image ;
+    rdfs:label "IMG-20251012-WA0008.jpg" ;
+    lightning:capturedDate "2025-10-12"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251012-WA0008.jpg" ;
+    lightning:fileSizeBytes 185679 ;
+    lightning:fileSizeMB 0.18 ;
+    lightning:filename "IMG-20251012-WA0008.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.574652"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251012-WA0012.jpg a lightning:Image ;
+    rdfs:label "IMG-20251012-WA0012.jpg" ;
+    lightning:capturedDate "2025-10-12"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251012-WA0012.jpg" ;
+    lightning:fileSizeBytes 81436 ;
+    lightning:fileSizeMB 0.08 ;
+    lightning:filename "IMG-20251012-WA0012.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.578036"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251012-WA0036.jpg a lightning:Image ;
+    rdfs:label "IMG-20251012-WA0036.jpg" ;
+    lightning:capturedDate "2025-10-12"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251012-WA0036.jpg" ;
+    lightning:fileSizeBytes 197577 ;
+    lightning:fileSizeMB 0.19 ;
+    lightning:filename "IMG-20251012-WA0036.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.582431"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251013-WA0000.jpg a lightning:Image ;
+    rdfs:label "IMG-20251013-WA0000.jpg" ;
+    lightning:capturedDate "2025-10-13"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251013-WA0000.jpg" ;
+    lightning:fileSizeBytes 54008 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251013-WA0000.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.585577"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251013-WA0014.jpg a lightning:Image ;
+    rdfs:label "IMG-20251013-WA0014.jpg" ;
+    lightning:capturedDate "2025-10-13"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251013-WA0014.jpg" ;
+    lightning:fileSizeBytes 50842 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251013-WA0014.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.588754"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251013-WA0054.jpg a lightning:Image ;
+    rdfs:label "IMG-20251013-WA0054.jpg" ;
+    lightning:capturedDate "2025-10-13"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251013-WA0054.jpg" ;
+    lightning:fileSizeBytes 58957 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "IMG-20251013-WA0054.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.592852"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251013-WA0056.jpg a lightning:Image ;
+    rdfs:label "IMG-20251013-WA0056.jpg" ;
+    lightning:capturedDate "2025-10-13"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251013-WA0056.jpg" ;
+    lightning:fileSizeBytes 82409 ;
+    lightning:fileSizeMB 0.08 ;
+    lightning:filename "IMG-20251013-WA0056.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.595848"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251014-WA0000.jpg a lightning:Image ;
+    rdfs:label "IMG-20251014-WA0000.jpg" ;
+    lightning:capturedDate "2025-10-14"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251014-WA0000.jpg" ;
+    lightning:fileSizeBytes 51988 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251014-WA0000.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.599013"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251014-WA0004.jpg a lightning:Image ;
+    rdfs:label "IMG-20251014-WA0004.jpg" ;
+    lightning:capturedDate "2025-10-14"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251014-WA0004.jpg" ;
+    lightning:fileSizeBytes 175292 ;
+    lightning:fileSizeMB 0.17 ;
+    lightning:filename "IMG-20251014-WA0004.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.604058"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251014-WA0012.jpg a lightning:Image ;
+    rdfs:label "IMG-20251014-WA0012.jpg" ;
+    lightning:capturedDate "2025-10-14"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251014-WA0012.jpg" ;
+    lightning:fileSizeBytes 200979 ;
+    lightning:fileSizeMB 0.19 ;
+    lightning:filename "IMG-20251014-WA0012.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.609036"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251014-WA0026.jpg a lightning:Image ;
+    rdfs:label "IMG-20251014-WA0026.jpg" ;
+    lightning:capturedDate "2025-10-14"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251014-WA0026.jpg" ;
+    lightning:fileSizeBytes 146872 ;
+    lightning:fileSizeMB 0.14 ;
+    lightning:filename "IMG-20251014-WA0026.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.612922"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251014-WA0028.jpg a lightning:Image ;
+    rdfs:label "IMG-20251014-WA0028.jpg" ;
+    lightning:capturedDate "2025-10-14"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251014-WA0028.jpg" ;
+    lightning:fileSizeBytes 90673 ;
+    lightning:fileSizeMB 0.09 ;
+    lightning:filename "IMG-20251014-WA0028.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.617762"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251018-WA0005.jpg a lightning:Image ;
+    rdfs:label "IMG-20251018-WA0005.jpg" ;
+    lightning:capturedDate "2025-10-18"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251018-WA0005.jpg" ;
+    lightning:fileSizeBytes 142920 ;
+    lightning:fileSizeMB 0.14 ;
+    lightning:filename "IMG-20251018-WA0005.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.679624"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251020-WA0009.jpg a lightning:Image ;
+    rdfs:label "IMG-20251020-WA0009.jpg" ;
+    lightning:capturedDate "2025-10-20"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251020-WA0009.jpg" ;
+    lightning:fileSizeBytes 238336 ;
+    lightning:fileSizeMB 0.23 ;
+    lightning:filename "IMG-20251020-WA0009.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.697745"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251020-WA0010.jpg a lightning:Image ;
+    rdfs:label "IMG-20251020-WA0010.jpg" ;
+    lightning:capturedDate "2025-10-20"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251020-WA0010.jpg" ;
+    lightning:fileSizeBytes 372248 ;
+    lightning:fileSizeMB 0.36 ;
+    lightning:filename "IMG-20251020-WA0010.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.706333"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0001.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0001.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0001.jpg" ;
+    lightning:fileSizeBytes 137202 ;
+    lightning:fileSizeMB 0.13 ;
+    lightning:filename "IMG-20251021-WA0001.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.711654"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0002.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0002.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0002.jpg" ;
+    lightning:fileSizeBytes 154145 ;
+    lightning:fileSizeMB 0.15 ;
+    lightning:filename "IMG-20251021-WA0002.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.716466"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0007.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0007.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0007.jpg" ;
+    lightning:fileSizeBytes 34650 ;
+    lightning:fileSizeMB 0.03 ;
+    lightning:filename "IMG-20251021-WA0007.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.720320"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0009.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0009.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0009.jpg" ;
+    lightning:fileSizeBytes 63789 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "IMG-20251021-WA0009.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.724893"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0010.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0010.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0010.jpg" ;
+    lightning:fileSizeBytes 76398 ;
+    lightning:fileSizeMB 0.07 ;
+    lightning:filename "IMG-20251021-WA0010.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.728124"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0012.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0012.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0012.jpg" ;
+    lightning:fileSizeBytes 28512 ;
+    lightning:fileSizeMB 0.03 ;
+    lightning:filename "IMG-20251021-WA0012.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.731825"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0014.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0014.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0014.jpg" ;
+    lightning:fileSizeBytes 212534 ;
+    lightning:fileSizeMB 0.2 ;
+    lightning:filename "IMG-20251021-WA0014.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.736800"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0026.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0026.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0026.jpg" ;
+    lightning:fileSizeBytes 222486 ;
+    lightning:fileSizeMB 0.21 ;
+    lightning:filename "IMG-20251021-WA0026.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.741820"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0037.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0037.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0037.jpg" ;
+    lightning:fileSizeBytes 44812 ;
+    lightning:fileSizeMB 0.04 ;
+    lightning:filename "IMG-20251021-WA0037.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.744821"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0057.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0057.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0057.jpg" ;
+    lightning:fileSizeBytes 116633 ;
+    lightning:fileSizeMB 0.11 ;
+    lightning:filename "IMG-20251021-WA0057.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.749164"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251021-WA0058.jpg a lightning:Image ;
+    rdfs:label "IMG-20251021-WA0058.jpg" ;
+    lightning:capturedDate "2025-10-21"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251021-WA0058.jpg" ;
+    lightning:fileSizeBytes 62515 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "IMG-20251021-WA0058.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.754241"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251022-WA0002.jpg a lightning:Image ;
+    rdfs:label "IMG-20251022-WA0002.jpg" ;
+    lightning:capturedDate "2025-10-22"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251022-WA0002.jpg" ;
+    lightning:fileSizeBytes 34660 ;
+    lightning:fileSizeMB 0.03 ;
+    lightning:filename "IMG-20251022-WA0002.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.757242"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251022-WA0021.jpg a lightning:Image ;
+    rdfs:label "IMG-20251022-WA0021.jpg" ;
+    lightning:capturedDate "2025-10-22"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251022-WA0021.jpg" ;
+    lightning:fileSizeBytes 415767 ;
+    lightning:fileSizeMB 0.4 ;
+    lightning:filename "IMG-20251022-WA0021.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.763241"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251022-WA0033.jpg a lightning:Image ;
+    rdfs:label "IMG-20251022-WA0033.jpg" ;
+    lightning:capturedDate "2025-10-22"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251022-WA0033.jpg" ;
+    lightning:fileSizeBytes 157962 ;
+    lightning:fileSizeMB 0.15 ;
+    lightning:filename "IMG-20251022-WA0033.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.769960"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251022-WA0037.jpg a lightning:Image ;
+    rdfs:label "IMG-20251022-WA0037.jpg" ;
+    lightning:capturedDate "2025-10-22"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251022-WA0037.jpg" ;
+    lightning:fileSizeBytes 208711 ;
+    lightning:fileSizeMB 0.2 ;
+    lightning:filename "IMG-20251022-WA0037.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.775961"^^xsd:dateTime .
+
+lightningi:Image_STK-20240830-WA0011.webp a lightning:Image ;
+    rdfs:label "STK-20240830-WA0011.webp" ;
+    lightning:capturedDate "2024-08-30"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20240830-WA0011.webp" ;
+    lightning:fileSizeBytes 289664 ;
+    lightning:fileSizeMB 0.28 ;
+    lightning:filename "STK-20240830-WA0011.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.433747"^^xsd:dateTime .
+
+lightningi:Image_STK-20240830-WA0012.webp a lightning:Image ;
+    rdfs:label "STK-20240830-WA0012.webp" ;
+    lightning:capturedDate "2024-08-30"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20240830-WA0012.webp" ;
+    lightning:fileSizeBytes 345070 ;
+    lightning:fileSizeMB 0.33 ;
+    lightning:filename "STK-20240830-WA0012.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.388881"^^xsd:dateTime .
+
+lightningi:Image_STK-20240902-WA0000.webp a lightning:Image ;
+    rdfs:label "STK-20240902-WA0000.webp" ;
+    lightning:capturedDate "2024-09-02"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20240902-WA0000.webp" ;
+    lightning:fileSizeBytes 160386 ;
+    lightning:fileSizeMB 0.15 ;
+    lightning:filename "STK-20240902-WA0000.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.400398"^^xsd:dateTime .
+
+lightningi:Image_STK-20241102-WA0007.webp a lightning:Image ;
+    rdfs:label "STK-20241102-WA0007.webp" ;
+    lightning:capturedDate "2024-11-02"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20241102-WA0007.webp" ;
+    lightning:fileSizeBytes 184420 ;
+    lightning:fileSizeMB 0.18 ;
+    lightning:filename "STK-20241102-WA0007.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.409138"^^xsd:dateTime .
+
+lightningi:Image_STK-20241231-WA0024.webp a lightning:Image ;
+    rdfs:label "STK-20241231-WA0024.webp" ;
+    lightning:capturedDate "2024-12-31"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20241231-WA0024.webp" ;
+    lightning:fileSizeBytes 16528 ;
+    lightning:fileSizeMB 0.02 ;
+    lightning:filename "STK-20241231-WA0024.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.416138"^^xsd:dateTime .
+
+lightningi:Image_STK-20241231-WA0025.webp a lightning:Image ;
+    rdfs:label "STK-20241231-WA0025.webp" ;
+    lightning:capturedDate "2024-12-31"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20241231-WA0025.webp" ;
+    lightning:fileSizeBytes 418512 ;
+    lightning:fileSizeMB 0.4 ;
+    lightning:filename "STK-20241231-WA0025.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.421142"^^xsd:dateTime .
+
+lightningi:Image_STK-20250115-WA0030.webp a lightning:Image ;
+    rdfs:label "STK-20250115-WA0030.webp" ;
+    lightning:capturedDate "2025-01-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20250115-WA0030.webp" ;
+    lightning:fileSizeBytes 332188 ;
+    lightning:fileSizeMB 0.32 ;
+    lightning:filename "STK-20250115-WA0030.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.428245"^^xsd:dateTime .
+
+lightningi:Image_STK-20250122-WA0033.webp a lightning:Image ;
+    rdfs:label "STK-20250122-WA0033.webp" ;
+    lightning:capturedDate "2025-01-22"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20250122-WA0033.webp" ;
+    lightning:fileSizeBytes 61516 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "STK-20250122-WA0033.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.458495"^^xsd:dateTime .
+
+lightningi:Image_STK-20250210-WA0008.webp a lightning:Image ;
+    rdfs:label "STK-20250210-WA0008.webp" ;
+    lightning:capturedDate "2025-02-10"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20250210-WA0008.webp" ;
+    lightning:fileSizeBytes 91756 ;
+    lightning:fileSizeMB 0.09 ;
+    lightning:filename "STK-20250210-WA0008.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.441793"^^xsd:dateTime .
+
+lightningi:Image_STK-20250513-WA0029.webp a lightning:Image ;
+    rdfs:label "STK-20250513-WA0029.webp" ;
+    lightning:capturedDate "2025-05-13"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20250513-WA0029.webp" ;
+    lightning:fileSizeBytes 16254 ;
+    lightning:fileSizeMB 0.02 ;
+    lightning:filename "STK-20250513-WA0029.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.454297"^^xsd:dateTime .
+
+lightningi:Image_STK-20250516-WA0007.webp a lightning:Image ;
+    rdfs:label "STK-20250516-WA0007.webp" ;
+    lightning:capturedDate "2025-05-16"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20250516-WA0007.webp" ;
+    lightning:fileSizeBytes 507152 ;
+    lightning:fileSizeMB 0.48 ;
+    lightning:filename "STK-20250516-WA0007.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.450294"^^xsd:dateTime .
+
+lightningi:Image_STK-20250912-WA0013.webp a lightning:Image ;
+    rdfs:label "STK-20250912-WA0013.webp" ;
+    lightning:capturedDate "2025-09-12"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20250912-WA0013.webp" ;
+    lightning:fileSizeBytes 213518 ;
+    lightning:fileSizeMB 0.2 ;
+    lightning:filename "STK-20250912-WA0013.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.560332"^^xsd:dateTime .
+
+lightningi:Image_IMG-20251015-WA0000.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0000.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0000.jpg" ;
+    lightning:fileSizeBytes 225686 ;
+    lightning:fileSizeMB 0.22 ;
+    lightning:filename "IMG-20251015-WA0000.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.623760"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0001.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0001.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0001.jpg" ;
+    lightning:fileSizeBytes 56474 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251015-WA0001.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.627182"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0003.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0003.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0003.jpg" ;
+    lightning:fileSizeBytes 247229 ;
+    lightning:fileSizeMB 0.24 ;
+    lightning:filename "IMG-20251015-WA0003.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.632512"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0023.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0023.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0023.jpg" ;
+    lightning:fileSizeBytes 132871 ;
+    lightning:fileSizeMB 0.13 ;
+    lightning:filename "IMG-20251015-WA0023.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.636797"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0024.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0024.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0024.jpg" ;
+    lightning:fileSizeBytes 200297 ;
+    lightning:fileSizeMB 0.19 ;
+    lightning:filename "IMG-20251015-WA0024.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.641719"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0026.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0026.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0026.jpg" ;
+    lightning:fileSizeBytes 18109 ;
+    lightning:fileSizeMB 0.02 ;
+    lightning:filename "IMG-20251015-WA0026.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.644767"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0027.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0027.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0027.jpg" ;
+    lightning:fileSizeBytes 7096 ;
+    lightning:fileSizeMB 0.01 ;
+    lightning:filename "IMG-20251015-WA0027.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.649045"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0032.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0032.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0032.jpg" ;
+    lightning:fileSizeBytes 191933 ;
+    lightning:fileSizeMB 0.18 ;
+    lightning:filename "IMG-20251015-WA0032.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.653805"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251015-WA0034.jpg a lightning:Image ;
+    rdfs:label "IMG-20251015-WA0034.jpg" ;
+    lightning:capturedDate "2025-10-15"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251015-WA0034.jpg" ;
+    lightning:fileSizeBytes 220683 ;
+    lightning:fileSizeMB 0.21 ;
+    lightning:filename "IMG-20251015-WA0034.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.659852"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_470313 .
+
+lightningi:Image_IMG-20251016-WA0000.jpg a lightning:Image ;
+    rdfs:label "IMG-20251016-WA0000.jpg" ;
+    lightning:capturedDate "2025-10-16"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251016-WA0000.jpg" ;
+    lightning:fileSizeBytes 50351 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251016-WA0000.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.662744"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_467934 .
+
+lightningi:Image_IMG-20251016-WA0011.jpg a lightning:Image ;
+    rdfs:label "IMG-20251016-WA0011.jpg" ;
+    lightning:capturedDate "2025-10-16"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251016-WA0011.jpg" ;
+    lightning:fileSizeBytes 209331 ;
+    lightning:fileSizeMB 0.2 ;
+    lightning:filename "IMG-20251016-WA0011.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.668797"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_467934 .
+
+lightningi:Image_IMG-20251016-WA0012.jpg a lightning:Image ;
+    rdfs:label "IMG-20251016-WA0012.jpg" ;
+    lightning:capturedDate "2025-10-16"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251016-WA0012.jpg" ;
+    lightning:fileSizeBytes 48978 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251016-WA0012.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.671488"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_467934 .
+
+lightningi:Image_IMG-20251017-WA0001.jpg a lightning:Image ;
+    rdfs:label "IMG-20251017-WA0001.jpg" ;
+    lightning:capturedDate "2025-10-17"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251017-WA0001.jpg" ;
+    lightning:fileSizeBytes 55135 ;
+    lightning:fileSizeMB 0.05 ;
+    lightning:filename "IMG-20251017-WA0001.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.674839"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_174939 .
+
+lightningi:Image_IMG-20251019-WA0002.jpg a lightning:Image ;
+    rdfs:label "IMG-20251019-WA0002.jpg" ;
+    lightning:capturedDate "2025-10-19"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251019-WA0002.jpg" ;
+    lightning:fileSizeBytes 58668 ;
+    lightning:fileSizeMB 0.06 ;
+    lightning:filename "IMG-20251019-WA0002.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.682972"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_653350 .
+
+lightningi:Image_IMG-20251019-WA0010.jpg a lightning:Image ;
+    rdfs:label "IMG-20251019-WA0010.jpg" ;
+    lightning:capturedDate "2025-10-19"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251019-WA0010.jpg" ;
+    lightning:fileSizeBytes 155805 ;
+    lightning:fileSizeMB 0.15 ;
+    lightning:filename "IMG-20251019-WA0010.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.687101"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_653350 .
+
+lightningi:Image_IMG-20251019-WA0018.jpg a lightning:Image ;
+    rdfs:label "IMG-20251019-WA0018.jpg" ;
+    lightning:capturedDate "2025-10-19"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\IMG-20251019-WA0018.jpg" ;
+    lightning:fileSizeBytes 135904 ;
+    lightning:fileSizeMB 0.13 ;
+    lightning:filename "IMG-20251019-WA0018.jpg" ;
+    lightning:imageType "WhatsApp_Image" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.690948"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_653350 .
+
+lightningi:Message_174939 lightning:relatedToImage lightningi:Image_IMG-20251017-WA0001.jpg .
+
+lightningi:Message_223054 lightning:relatedToImage lightningi:Image_STK-20240925-WA0011.webp .
+
+lightningi:Message_441865 lightning:relatedToImage lightningi:Image_STK-20240925-WA0011.webp .
+
+lightningi:Message_547530 lightning:relatedToImage lightningi:Image_STK-20240925-WA0011.webp .
+
+lightningi:Message_554796 lightning:relatedToImage lightningi:Image_STK-20240925-WA0011.webp .
+
+lightningi:Message_981313 lightning:relatedToImage lightningi:Image_STK-20240925-WA0011.webp .
+
+lightningi:Message_467934 lightning:relatedToImage lightningi:Image_IMG-20251016-WA0000.jpg,
+        lightningi:Image_IMG-20251016-WA0011.jpg,
+        lightningi:Image_IMG-20251016-WA0012.jpg .
+
+lightningi:Message_653350 lightning:relatedToImage lightningi:Image_IMG-20251019-WA0002.jpg,
+        lightningi:Image_IMG-20251019-WA0010.jpg,
+        lightningi:Image_IMG-20251019-WA0018.jpg .
+
+lightningi:Image_STK-20240925-WA0011.webp a lightning:Image ;
+    rdfs:label "STK-20240925-WA0011.webp" ;
+    lightning:capturedDate "2024-09-25"^^xsd:date ;
+    lightning:createdTime "2025-10-22T20:51:12"^^xsd:dateTime ;
+    lightning:filePath "HVDC Project Lightning\\STK-20240925-WA0011.webp" ;
+    lightning:fileSizeBytes 13252 ;
+    lightning:fileSizeMB 0.01 ;
+    lightning:filename "STK-20240925-WA0011.webp" ;
+    lightning:imageType "WhatsApp_Sticker" ;
+    lightning:modifiedTime "2025-10-22T20:56:47.403272"^^xsd:dateTime ;
+    lightning:relatedToMessage lightningi:Message_223054,
+        lightningi:Message_441865,
+        lightningi:Message_547530,
+        lightningi:Message_554796,
+        lightningi:Message_981313 .
+
+lightningi:Message_470313 lightning:relatedToImage lightningi:Image_IMG-20251015-WA0000.jpg,
+        lightningi:Image_IMG-20251015-WA0001.jpg,
+        lightningi:Image_IMG-20251015-WA0003.jpg,
+        lightningi:Image_IMG-20251015-WA0023.jpg,
+        lightningi:Image_IMG-20251015-WA0024.jpg,
+        lightningi:Image_IMG-20251015-WA0026.jpg,
+        lightningi:Image_IMG-20251015-WA0027.jpg,
+        lightningi:Image_IMG-20251015-WA0032.jpg,
+        lightningi:Image_IMG-20251015-WA0034.jpg .
+

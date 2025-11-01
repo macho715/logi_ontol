@@ -1,0 +1,191 @@
+@prefix hvdc: <https://hvdc-project.com/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Ontology Declaration
+hvdc: a owl:Ontology ;
+    rdfs:label "HVDC Logistics Ontology"@en ;
+    rdfs:comment "HVDC project logistics, warehouse, site, flow code, and document ontology"@en ;
+    owl:versionInfo "1.0.0" .
+
+# Core Classes
+hvdc:Project a owl:Class ;
+    rdfs:label "Project"@en ;
+    rdfs:comment "HVDC project entity"@en .
+
+hvdc:Cargo a owl:Class ;
+    rdfs:label "Cargo"@en ;
+    rdfs:comment "Logistics cargo/shipment entity"@en ;
+    rdfs:subClassOf hvdc:Project .
+
+hvdc:Site a owl:Class ;
+    rdfs:label "Site"@en ;
+    rdfs:comment "Project site (MIR, SHU, DAS, AGI)"@en ;
+    rdfs:subClassOf hvdc:Project .
+
+hvdc:Warehouse a owl:Class ;
+    rdfs:label "Warehouse"@en ;
+    rdfs:comment "Warehouse or storage facility (DSV Indoor, MOSB, etc.)"@en ;
+    rdfs:subClassOf hvdc:Project .
+
+hvdc:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    rdfs:comment "Document entity"@en .
+
+hvdc:BillOfLading a owl:Class ;
+    rdfs:label "Bill of Lading"@en ;
+    rdfs:comment "B/L document"@en ;
+    rdfs:subClassOf hvdc:Document .
+
+hvdc:FlowCode a owl:Class ;
+    rdfs:label "Flow Code"@en ;
+    rdfs:comment "Flow code (0-4) representing logistics flow path"@en .
+
+hvdc:Port a owl:Class ;
+    rdfs:label "Port"@en ;
+    rdfs:comment "Port facility (Zayed, Khalifa, Jebel Ali)"@en ;
+    rdfs:subClassOf hvdc:Project .
+
+# Object Properties
+hvdc:storedAt a owl:ObjectProperty ;
+    rdfs:label "stored at"@en ;
+    rdfs:comment "Cargo is stored at a warehouse"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range hvdc:Warehouse .
+
+hvdc:destinedTo a owl:ObjectProperty ;
+    rdfs:label "destined to"@en ;
+    rdfs:comment "Cargo final destination site"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range hvdc:Site .
+
+hvdc:hasFlowCode a owl:ObjectProperty ;
+    rdfs:label "has flow code"@en ;
+    rdfs:comment "Cargo has a flow code"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range hvdc:FlowCode .
+
+hvdc:relatesToBL a owl:ObjectProperty ;
+    rdfs:label "relates to B/L"@en ;
+    rdfs:comment "Cargo relates to Bill of Lading"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range hvdc:BillOfLading .
+
+hvdc:fromPort a owl:ObjectProperty ;
+    rdfs:label "from port"@en ;
+    rdfs:comment "Cargo originates from port"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range hvdc:Port .
+
+# Datatype Properties
+hvdc:hasHVDCCode a owl:DatatypeProperty ;
+    rdfs:label "has HVDC code"@en ;
+    rdfs:comment "HVDC unique identifier"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range xsd:string .
+
+hvdc:weight a owl:DatatypeProperty ;
+    rdfs:label "weight"@en ;
+    rdfs:comment "Cargo weight in tons"@en ;
+    rdfs:domain hvdc:Cargo ;
+    rdfs:range xsd:decimal .
+
+hvdc:flowCodeValue a owl:DatatypeProperty ;
+    rdfs:label "flow code value"@en ;
+    rdfs:comment "Flow code numeric value (0-4)"@en ;
+    rdfs:domain hvdc:FlowCode ;
+    rdfs:range xsd:integer .
+
+hvdc:siteName a owl:DatatypeProperty ;
+    rdfs:label "site name"@en ;
+    rdfs:comment "Site name identifier"@en ;
+    rdfs:domain hvdc:Site ;
+    rdfs:range xsd:string .
+
+hvdc:warehouseName a owl:DatatypeProperty ;
+    rdfs:label "warehouse name"@en ;
+    rdfs:comment "Warehouse name identifier"@en ;
+    rdfs:domain hvdc:Warehouse ;
+    rdfs:range xsd:string .
+
+hvdc:portName a owl:DatatypeProperty ;
+    rdfs:label "port name"@en ;
+    rdfs:comment "Port name identifier"@en ;
+    rdfs:domain hvdc:Port ;
+    rdfs:range xsd:string .
+
+hvdc:blNumber a owl:DatatypeProperty ;
+    rdfs:label "B/L number"@en ;
+    rdfs:comment "Bill of Lading number"@en ;
+    rdfs:domain hvdc:BillOfLading ;
+    rdfs:range xsd:string .
+
+# Sample Instances
+hvdc:cargo-001 a hvdc:Cargo ;
+    hvdc:hasHVDCCode "HVDC-ADOPT-SCT-0001" ;
+    hvdc:weight 25.5 ;
+    hvdc:storedAt hvdc:warehouse-dsv-indoor ;
+    hvdc:destinedTo hvdc:site-mir ;
+    hvdc:fromPort hvdc:port-zayed ;
+    hvdc:hasFlowCode hvdc:flow-code-2 .
+
+hvdc:site-mir a hvdc:Site ;
+    hvdc:siteName "MIR" ;
+    rdfs:label "Mirfa Site"@en .
+
+hvdc:site-shu a hvdc:Site ;
+    hvdc:siteName "SHU" ;
+    rdfs:label "Shuweihat Site"@en .
+
+hvdc:site-das a hvdc:Site ;
+    hvdc:siteName "DAS" ;
+    rdfs:label "Das Island"@en .
+
+hvdc:site-agi a hvdc:Site ;
+    hvdc:siteName "AGI" ;
+    rdfs:label "Al Ghallan Island"@en .
+
+hvdc:warehouse-dsv-indoor a hvdc:Warehouse ;
+    hvdc:warehouseName "DSV_INDOOR_WH" ;
+    rdfs:label "DSV Indoor Warehouse"@en .
+
+hvdc:warehouse-mosb a hvdc:Warehouse ;
+    hvdc:warehouseName "MOSB" ;
+    rdfs:label "Mussafah Offshore Supply Base"@en .
+
+hvdc:port-zayed a hvdc:Port ;
+    hvdc:portName "ZAYED_PORT" ;
+    rdfs:label "Zayed Port"@en .
+
+hvdc:port-khalifa a hvdc:Port ;
+    hvdc:portName "KHALIFA_PORT" ;
+    rdfs:label "Khalifa Port"@en .
+
+hvdc:port-jebel-ali a hvdc:Port ;
+    hvdc:portName "JEBEL_ALI_PORT" ;
+    rdfs:label "Jebel Ali Port"@en .
+
+hvdc:flow-code-0 a hvdc:FlowCode ;
+    hvdc:flowCodeValue 0 ;
+    rdfs:label "Pre-Arrival"@en .
+
+hvdc:flow-code-1 a hvdc:FlowCode ;
+    hvdc:flowCodeValue 1 ;
+    rdfs:label "Direct Delivery (Port→Site)"@en .
+
+hvdc:flow-code-2 a hvdc:FlowCode ;
+    hvdc:flowCodeValue 2 ;
+    rdfs:label "Warehouse Once (Port→WH→Site)"@en .
+
+hvdc:flow-code-3 a hvdc:FlowCode ;
+    hvdc:flowCodeValue 3 ;
+    rdfs:label "Warehouse + MOSB (Port→WH→MOSB→Site)"@en .
+
+hvdc:flow-code-4 a hvdc:FlowCode ;
+    hvdc:flowCodeValue 4 ;
+    rdfs:label "Warehouse Double + MOSB"@en .
+
+

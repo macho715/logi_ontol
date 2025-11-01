@@ -120,6 +120,11 @@ Thumbs.db
 *.tar.gz
 *.rar
 
+# External tools (Protege, etc.)
+logiontology/tools/
+**/Protege-*.zip
+**/protege/
+
 # Output directories
 rdf_output/
 sparql_queries/
@@ -150,3 +155,7 @@ test_debug*.rdf
 
 # Embedded git repositories
 new/logi_ontol/
+
+# Prevent future root-level duplicates
+/core/
+/core_consolidated/

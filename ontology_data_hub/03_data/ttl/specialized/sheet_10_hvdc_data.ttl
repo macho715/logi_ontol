@@ -1,0 +1,89 @@
+@prefix ex: <http://samsung.com/project-logistics#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Dataset_HITACHI_원본데이터_Fixed a ex:Dataset ;
+    rdfs:label "HITACHI_원본데이터_Fixed" ;
+    ex:totalRecords 5552 ;
+    ex:createdAt "2025-10-19T20:35:09.141950"^^xsd:dateTime .
+
+ex:event_1 a ex:TransportEvent ;
+    ex:eventId "event_1" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_2 a ex:TransportEvent ;
+    ex:eventId "event_2" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_3 a ex:TransportEvent ;
+    ex:eventId "event_3" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_4 a ex:TransportEvent ;
+    ex:eventId "event_4" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_5 a ex:TransportEvent ;
+    ex:eventId "event_5" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_6 a ex:TransportEvent ;
+    ex:eventId "event_6" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_7 a ex:TransportEvent ;
+    ex:eventId "event_7" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_8 a ex:TransportEvent ;
+    ex:eventId "event_8" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_9 a ex:TransportEvent ;
+    ex:eventId "event_9" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .
+
+ex:event_10 a ex:TransportEvent ;
+    ex:eventId "event_10" ;
+    ex:hvdcCode1 "HVDC-ADOPT-HE-0001" ;
+    ex:hvdcCode2 "HVDC" ;
+    ex:hvdcCode3 "ADOPT" ;
+    ex:shipmentInvoiceNo "PRL-DAS-002-O Lot1" ;
+    .

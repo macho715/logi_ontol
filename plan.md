@@ -2,13 +2,14 @@
 
 **Version**: 2.0.0
 **Status**: Backend Core Complete (72%)
-**Updated**: 2025-10-26
+**Updated**: 2025-10-31
 
-> **⚠️ 중요**: 이 문서를 읽기 전에 **[`ontology/logiontology/`](ontology/logiontology/)** 폴더를 먼저 확인하세요!
-> - **전체 구현 코드**: `ontology/logiontology/src/`
-> - **설정 파일**: `ontology/logiontology/configs/`
-> - **온톨로지 정의**: `ontology/logiontology/configs/ontology/hvdc_ontology.ttl`
-> - **문서**: `ontology/logiontology/README.md`, `ontology/logiontology/CHANGELOG.md`
+> **⚠️ 중요**: 이 문서를 읽기 전에 **[`logiontology/`](logiontology/)** 폴더를 먼저 확인하세요!
+> - **전체 구현 코드**: `logiontology/src/`
+> - **설정 파일**: `logiontology/configs/`
+> - **온톨로지 정의**: `logiontology/configs/ontology/`
+> - **MCP 서버**: `hvdc_mcp_server_v35/`
+> - **문서 인덱스**: [docs/README.md](docs/README.md)
 
 ---
 
@@ -30,7 +31,7 @@
 
 ### 메인 프로젝트
 **logiontology/** (v2.0.0 Backend Core)
-- Protégé 온톨로지 (OWL/TTL)
+- 온톨로지 스키마 (OWL/TTL)
 - Excel → RDF 변환기
 - Neo4j 그래프 DB 통합
 - FastAPI REST API (8 endpoints)
@@ -53,12 +54,12 @@
 
 ## Phase 1: Backend Core (✅ 완료 - 72%)
 
-### 1.1 Protégé 온톨로지 (✅ 완료)
+### 1.1 온톨로지 스키마 (✅ 완료)
 - [x] **hvdc_ontology.ttl** - 7 classes, 11 properties, 샘플 인스턴스
   - Classes: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project
   - Object Properties: storedAt, destinedTo, hasFlowCode, relatesToBL, fromPort
   - Datatype Properties: hasHVDCCode, weight, flowCodeValue, siteName, portName
-- [x] **ProtegeLoader** - OWL/TTL 파일 로더
+- [x] **Ontology Loader** - OWL/TTL 파일 로더
   - Extract classes, properties, hierarchy
   - Get ontology metadata
 - [x] **SHACL Validator** - 데이터 검증
@@ -342,24 +343,31 @@ docker-compose down
 ## 관련 문서
 
 ### 프로젝트 문서
-- [HVDC_WORK_LOG.md](HVDC_WORK_LOG.md) - 상세 작업 로그 (v2.0.0)
-- [logiontology/README_FULL_STACK.md](logiontology/README_FULL_STACK.md) - 전체 시스템 가이드
-- [logiontology/IMPLEMENTATION_SUMMARY.md](logiontology/IMPLEMENTATION_SUMMARY.md) - 구현 요약
+- [HVDC_WORK_LOG.md](docs/project_reports/HVDC_WORK_LOG.md) - 상세 작업 로그 (v2.0.0)
+- [IMPLEMENTATION_SUMMARY.md](docs/project_reports/IMPLEMENTATION_SUMMARY.md) - 구현 요약
+- [CHANGELOG.md](docs/project_reports/CHANGELOG.md) - 변경 이력
+- [문서 전체 인덱스](docs/README.md) - 모든 문서 링크
 
 ### 기술 문서
-- [logiontology/docs/ARCHITECTURE.md](logiontology/docs/ARCHITECTURE.md) - 아키텍처 설계
-- [logiontology/docs/FLOW_CODE_GUIDE.md](logiontology/docs/FLOW_CODE_GUIDE.md) - Flow Code 시스템
-- [logiontology/docs/FLOW_CODE_IMPLEMENTATION_REPORT.md](logiontology/docs/FLOW_CODE_IMPLEMENTATION_REPORT.md) - 구현 보고서
+- [ARCHITECTURE.md](logiontology/docs/ARCHITECTURE.md) - 아키텍처 설계
+- [FLOW_CODE_GUIDE.md](logiontology/docs/FLOW_CODE_GUIDE.md) - Flow Code 시스템
+- [FLOW_CODE_IMPLEMENTATION_REPORT.md](logiontology/docs/FLOW_CODE_IMPLEMENTATION_REPORT.md) - 구현 보고서
 
 ### 온톨로지 및 아키텍처
-- [ontology/HVDC.MD](ontology/HVDC.MD) - HVDC 온톨로지 정의
-- [ontology/core/](ontology/core/) - 핵심 온톨로지 (15개 파일)
-- [ontology/extended/](ontology/extended/) - 확장 온톨로지 (7개 파일)
+- [HVDC.MD](ontology/HVDC.MD) - HVDC 온톨로지 정의
+- [ontology/core/](ontology/core/) - 핵심 온톨로지 (8개 파일)
+- [extended/](ontology/extended/) - 확장 온톨로지 (15개 파일)
 
-### 가이드 (docs/ 아래에 추가 예정)
-- docs/guides/QUICK_START.md - 5분 빠른 시작
-- docs/guides/API_REFERENCE.md - API 레퍼런스
-- docs/guides/TROUBLESHOOTING.md - 문제 해결
+### Flow Code v3.5 문서
+- [FLOW_CODE_V35_MASTER_DOCUMENTATION.md](docs/flow_code_v35/FLOW_CODE_V35_MASTER_DOCUMENTATION.md) - 마스터 문서
+- [FLOW_CODE_V35_ALGORITHM.md](docs/flow_code_v35/FLOW_CODE_V35_ALGORITHM.md) - 알고리즘 사양
+
+### MCP Server 문서
+- [MCP_SERVER_INTEGRATION_FINAL_REPORT.md](docs/mcp_integration/MCP_SERVER_INTEGRATION_FINAL_REPORT.md) - 통합 최종 보고서
+- [MCP_FLOW_CODE_V35_INTEGRATION.md](docs/mcp_integration/MCP_FLOW_CODE_V35_INTEGRATION.md) - 통합 가이드
+
+### 레거시 아카이브
+- [아카이브 폴더](archive/legacy/) - 과거 패키지 (logiontology_v2.0.0, mcp_v1.0, mcp_v2.0, event_ontology)
 
 ---
 
@@ -408,7 +416,7 @@ docker-compose down
 **프로젝트**: HVDC Logistics & Ontology System
 **소유자**: Samsung C&T Logistics (ADNOC·DSV Partnership)
 **버전**: 2.0.0
-**최종 업데이트**: 2025-10-26
+**최종 업데이트**: 2025-10-31
 
 기여 및 문의: 프로젝트 관리자에게 연락하세요.
 

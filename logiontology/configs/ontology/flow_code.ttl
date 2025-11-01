@@ -1,0 +1,209 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix hvdc: <https://hvdc.example.org/ns#> .
+@prefix hvdc-flow: <https://hvdc.example.org/flow#> .
+
+# ==================================================
+# HVDC Flow Code Ontology v1.0
+# Infrastructure Node + Flow Code (0-4) System
+# ==================================================
+
+# Base Ontology
+hvdc-flow: a owl:Ontology ;
+    rdfs:label "HVDC Flow Code Ontology"@en ;
+    rdfs:comment "Logistics flow classification system with Flow Code 0-4 and mode-specific attributes"@en ;
+    owl:versionInfo "1.0" .
+
+# ==================================================
+# Classes
+# ==================================================
+
+hvdc-flow:LogisticsFlow
+    a owl:Class ;
+    rdfs:label "Logistics Flow"@en ;
+    rdfs:comment "Base class for logistics flow with path fingerprint (Port→WH→MOSB→Site)"@en .
+
+hvdc-flow:ContainerFlow
+    a owl:Class ;
+    rdfs:subClassOf hvdc-flow:LogisticsFlow ;
+    rdfs:label "Container Flow"@en ;
+    rdfs:comment "Container cargo flow with CY/gate-specific attributes"@en .
+
+hvdc-flow:BulkFlow
+    a owl:Class ;
+    rdfs:subClassOf hvdc-flow:LogisticsFlow ;
+    rdfs:label "Bulk Flow"@en ;
+    rdfs:comment "Bulk cargo flow with spillage risk tracking"@en .
+
+hvdc-flow:LandFlow
+    a owl:Class ;
+    rdfs:subClassOf hvdc-flow:LogisticsFlow ;
+    rdfs:label "Land Transport Flow"@en ;
+    rdfs:comment "Land transport flow (truck/convoy) with DOT permit requirements"@en .
+
+hvdc-flow:LCTFlow
+    a owl:Class ;
+    rdfs:subClassOf hvdc-flow:LogisticsFlow ;
+    rdfs:label "LCT/Barge Flow"@en ;
+    rdfs:comment "LCT/barge offshore transport with ramp cycle and LOLO operations"@en .
+
+hvdc-flow:WarehouseHop
+    a owl:Class ;
+    rdfs:label "Warehouse Hop"@en ;
+    rdfs:comment "Warehouse handling step in logistics flow"@en .
+
+hvdc-flow:OffshoreTransport
+    a owl:Class ;
+    rdfs:label "Offshore Transport"@en ;
+    rdfs:comment "Offshore transport via MOSB (LCT or LOLO)"@en .
+
+# ==================================================
+# Core Flow Code Properties
+# ==================================================
+
+hvdc-flow:hasFlowCode
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has flow code"@en ;
+    rdfs:comment "Flow code: 0=PreArrival, 1=Port→Site, 2=Port→WH→Site, 3=Port→WH→MOSB→Site, 4=Port→WH→WH→MOSB→Site"@en .
+
+hvdc-flow:hasWHHandling
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has warehouse handling count"@en ;
+    rdfs:comment "Number of warehouse hops (0, 1, 2, ...)"@en .
+
+hvdc-flow:hasOffshoreFlag
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "has offshore flag"@en ;
+    rdfs:comment "True if flow passes through MOSB offshore hub"@en .
+
+hvdc-flow:isPreArrival
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is pre-arrival"@en ;
+    rdfs:comment "True if flow is in pre-arrival state (documents only)"@en .
+
+hvdc-flow:hasFlowDescription
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range xsd:string ;
+    rdfs:label "has flow description"@en ;
+    rdfs:comment "Human-readable flow path description"@en .
+
+hvdc-flow:hasTransportMode
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range xsd:string ;
+    rdfs:label "has transport mode"@en ;
+    rdfs:comment "Transport mode: container, bulk, land, lct"@en .
+
+# ==================================================
+# Object Properties
+# ==================================================
+
+hvdc-flow:hasWarehouseHop
+    a owl:ObjectProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range hvdc-flow:WarehouseHop ;
+    rdfs:label "has warehouse hop"@en .
+
+hvdc-flow:hasOffshoreTransport
+    a owl:ObjectProperty ;
+    rdfs:domain hvdc-flow:LogisticsFlow ;
+    rdfs:range hvdc-flow:OffshoreTransport ;
+    rdfs:label "has offshore transport"@en .
+
+# ==================================================
+# Container Flow Attributes
+# ==================================================
+
+hvdc-flow:gateApptWinMin
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:ContainerFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "gate appointment window (minutes)"@en ;
+    rdfs:comment "Container gate appointment window in minutes (0-1440)"@en .
+
+hvdc-flow:CYInOutLagHr
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:ContainerFlow ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "container yard in/out lag (hours)"@en ;
+    rdfs:comment "Time lag between CY gate-in and gate-out"@en .
+
+hvdc-flow:unloadRateTph
+    a owl:DatatypeProperty ;
+    rdfs:domain [ owl:unionOf (hvdc-flow:ContainerFlow hvdc-flow:BulkFlow) ] ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "unload rate (tons per hour)"@en ;
+    rdfs:comment "Cargo unloading rate in tons per hour"@en .
+
+# ==================================================
+# Bulk Flow Attributes
+# ==================================================
+
+hvdc-flow:spillageRiskPct
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:BulkFlow ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "spillage risk percentage"@en ;
+    rdfs:comment "Spillage risk percentage (0-100) for bulk cargo"@en .
+
+# ==================================================
+# Land Transport Attributes
+# ==================================================
+
+hvdc-flow:convoyPeriodMin
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LandFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "convoy period (minutes)"@en ;
+    rdfs:comment "Convoy escort period in minutes"@en .
+
+hvdc-flow:DOTPermitLeadDays
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LandFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "DOT permit lead days"@en ;
+    rdfs:comment "Lead time in days for DOT permit acquisition"@en .
+
+# ==================================================
+# LCT/Barge Attributes
+# ==================================================
+
+hvdc-flow:rampCycleMin
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LCTFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "ramp cycle time (minutes)"@en ;
+    rdfs:comment "LCT ramp loading/unloading cycle time in minutes"@en .
+
+hvdc-flow:stowageUtilPct
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LCTFlow ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "stowage utilization percentage"@en ;
+    rdfs:comment "LCT stowage space utilization percentage (0-100)"@en .
+
+hvdc-flow:LOLOslots
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LCTFlow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "LOLO slots"@en ;
+    rdfs:comment "Number of Lift-On/Lift-Off slots available"@en .
+
+hvdc-flow:voyageTimeHours
+    a owl:DatatypeProperty ;
+    rdfs:domain hvdc-flow:LCTFlow ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "voyage time (hours)"@en ;
+    rdfs:comment "LCT voyage time from MOSB to offshore site in hours"@en .
+

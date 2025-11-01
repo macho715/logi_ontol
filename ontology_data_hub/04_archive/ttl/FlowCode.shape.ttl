@@ -1,0 +1,221 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix hvdc-flow: <https://hvdc.example.org/flow#> .
+
+# ==================================================
+# HVDC Flow Code SHACL Validation Rules v1.0
+# ==================================================
+
+# ==================================================
+# Rule 1: FlowCode 범위 제약 [0, 4]
+# ==================================================
+
+hvdc-flow:FlowCodeRangeShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:LogisticsFlow ;
+    sh:property [
+        sh:path hvdc-flow:hasFlowCode ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 4 ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "FlowCode must be a single integer value between 0 and 4"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:hasWHHandling ;
+        sh:minInclusive 0 ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:message "WH handling count must be non-negative integer"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:hasOffshoreFlag ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Offshore flag must be a single boolean value"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:isPreArrival ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "PreArrival flag must be a single boolean value"@en ;
+    ] .
+
+# ==================================================
+# Rule 2: FlowCode 일관성
+# FlowCode = 1 + WH경유수 + Offshore(0/1), clipped to [1,4]
+# PreArrival is exception (FlowCode=0)
+# ==================================================
+
+hvdc-flow:FlowCodeConsistencyShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:LogisticsFlow ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "FlowCode inconsistent with WH hops and offshore flag. Expected: FlowCode = min(1 + WH_hops + offshore, 4) for non-PreArrival flows"@en ;
+        sh:prefixes hvdc-flow: ;
+        sh:select """
+            PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+            SELECT $this
+            WHERE {
+                $this hvdc-flow:hasFlowCode ?code ;
+                      hvdc-flow:hasWHHandling ?wh ;
+                      hvdc-flow:hasOffshoreFlag ?offshore ;
+                      hvdc-flow:isPreArrival ?pre .
+
+                # Skip PreArrival (handled by Rule 3)
+                FILTER(?pre = false)
+
+                # Calculate expected FlowCode
+                BIND(1 + ?wh + (IF(?offshore, 1, 0)) AS ?expected)
+                BIND(IF(?expected > 4, 4, ?expected) AS ?clipped)
+
+                # Validate consistency
+                FILTER(?code != ?clipped)
+            }
+        """ ;
+    ] .
+
+# ==================================================
+# Rule 3: PreArrival 강제
+# isPreArrival=true → FlowCode=0
+# ==================================================
+
+hvdc-flow:PreArrivalShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:LogisticsFlow ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "PreArrival flows must have FlowCode=0"@en ;
+        sh:prefixes hvdc-flow: ;
+        sh:select """
+            PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+            SELECT $this
+            WHERE {
+                $this hvdc-flow:isPreArrival true ;
+                      hvdc-flow:hasFlowCode ?code .
+                FILTER(?code != 0)
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "FlowCode=0 must have isPreArrival=true"@en ;
+        sh:prefixes hvdc-flow: ;
+        sh:select """
+            PREFIX hvdc-flow: <https://hvdc.example.org/flow#>
+            SELECT $this
+            WHERE {
+                $this hvdc-flow:hasFlowCode 0 ;
+                      hvdc-flow:isPreArrival ?pre .
+                FILTER(?pre = false)
+            }
+        """ ;
+    ] .
+
+# ==================================================
+# Container Flow Attribute Constraints
+# ==================================================
+
+hvdc-flow:ContainerFlowShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:ContainerFlow ;
+    sh:property [
+        sh:path hvdc-flow:gateApptWinMin ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 1440 ;
+        sh:datatype xsd:integer ;
+        sh:message "Gate appointment window must be between 0 and 1440 minutes (24 hours)"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:CYInOutLagHr ;
+        sh:minInclusive 0 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Container yard lag must be non-negative"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:unloadRateTph ;
+        sh:minExclusive 0 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Unload rate must be positive"@en ;
+    ] .
+
+# ==================================================
+# Bulk Flow Attribute Constraints
+# ==================================================
+
+hvdc-flow:BulkFlowShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:BulkFlow ;
+    sh:property [
+        sh:path hvdc-flow:unloadRateTph ;
+        sh:minExclusive 0 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Unload rate must be positive"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:spillageRiskPct ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 100 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Spillage risk percentage must be between 0 and 100"@en ;
+    ] .
+
+# ==================================================
+# Land Transport Attribute Constraints
+# ==================================================
+
+hvdc-flow:LandFlowShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:LandFlow ;
+    sh:property [
+        sh:path hvdc-flow:convoyPeriodMin ;
+        sh:minInclusive 0 ;
+        sh:datatype xsd:integer ;
+        sh:message "Convoy period must be non-negative"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:DOTPermitLeadDays ;
+        sh:minInclusive 0 ;
+        sh:datatype xsd:integer ;
+        sh:message "DOT permit lead days must be non-negative"@en ;
+    ] .
+
+# ==================================================
+# LCT/Barge Attribute Constraints
+# ==================================================
+
+hvdc-flow:LCTFlowShape
+    a sh:NodeShape ;
+    sh:targetClass hvdc-flow:LCTFlow ;
+    sh:property [
+        sh:path hvdc-flow:rampCycleMin ;
+        sh:minExclusive 0 ;
+        sh:datatype xsd:integer ;
+        sh:message "Ramp cycle time must be positive"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:stowageUtilPct ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 100 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Stowage utilization must be between 0 and 100%"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:LOLOslots ;
+        sh:minInclusive 0 ;
+        sh:datatype xsd:integer ;
+        sh:message "LOLO slots must be non-negative"@en ;
+    ] ;
+    sh:property [
+        sh:path hvdc-flow:voyageTimeHours ;
+        sh:minExclusive 0 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Voyage time must be positive"@en ;
+    ] .
+
