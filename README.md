@@ -182,6 +182,13 @@ logi_ontol/
 - 완료 보고서 아카이브: 5개 → `archive/completion_reports/`
 - 정식 경로만 참조: `ontology/core/`, `ontology_data_hub/01_ontology/consolidated/`
 
+**Git 전체 업로드 완료** (2025-11-01):
+- 831개 파일 업로드 (1,207,970줄 추가, 24,952줄 삭제)
+- Flow Code v3.5 통합 문서 전체 반영
+- 9개 CONSOLIDATED 문서 + Flow Code 통합
+- 레거시 데이터 아카이브 (400+ 파일 삭제 및 정리)
+- 저장소: https://github.com/macho715/logi_ontol.git
+
 **폴더 분석 보고서 추가** (2025-11-01):
 - 전체 프로젝트 폴더 구조 상세 분석 완료
 - 17개 개별 보고서 + 마스터 인덱스 생성
@@ -478,8 +485,8 @@ pytest tests/api/ -v
 
 **개발**: HVDC Project Team
 **프로젝트**: Samsung C&T Logistics & ADNOC·DSV Partnership
-**버전**: v3.5 (Flow Code + MCP Integration)
-**최종 업데이트**: 2025-10-31
+**버전**: v3.5 (Flow Code + MCP Integration + Git Upload Complete)
+**최종 업데이트**: 2025-11-01
 
 ---
 
@@ -491,4 +498,5 @@ pytest tests/api/ -v
 - ✅ **문서화**: 완료 (48개+ 문서)
 - ✅ **테스트**: 29/29 통과 (100%)
 - ✅ **데이터**: 755 cases, 9,904 triples, 818 events
+- ✅ **Git Upload**: 완료 (831개 파일, 1.2M+ 라인)
 - 📋 **Next**: Phase 2A (API 실제 구현)
