@@ -1,0 +1,43 @@
+@prefix hvdc: <http://samsung.com/project-logistics#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ========== Case 샘플 (실제 HVDC 데이터 기반) ==========
+
+hvdc:Case_00001 a hvdc:Case ;
+    hvdc:hasHvdcCode "HVDC-00001" ;
+    hvdc:hasVendor "SCT" ;
+    hvdc:hasFinalLocation "MIR" ;
+    hvdc:hasFinalLocationDate "2025-09-02"^^xsd:date ;
+    hvdc:hasFlowCode "1" ;
+    hvdc:hasFlowDescription "Flow 1: Port → Site (Direct)" ;
+    hvdc:hasGrossWeight "18500.0"^^xsd:decimal ;
+    hvdc:hasPackage 45 .
+
+hvdc:Case_00312 a hvdc:Case ;
+    hvdc:hasHvdcCode "HVDC-00312" ;
+    hvdc:hasVendor "ALS" ;
+    hvdc:hasFinalLocation "SHU" ;
+    hvdc:hasFinalLocationDate "2025-09-18"^^xsd:date ;
+    hvdc:hasFlowCode "2" ;
+    hvdc:hasFlowDescription "Flow 2: Port → WH → Site" ;
+    hvdc:hasGrossWeight "15750.0"^^xsd:decimal ;
+    hvdc:hasPackage 60 .
+
+hvdc:Case_00478 a hvdc:Case ;
+    hvdc:hasHvdcCode "HVDC-00478" ;
+    hvdc:hasVendor "SCT" ;
+    hvdc:hasFinalLocation "AGI" ;
+    hvdc:hasFinalLocationDate "2025-09-28"^^xsd:date ;
+    hvdc:hasFlowCode "3" ;
+    hvdc:hasFlowCodeOriginal 1 ;
+    hvdc:hasFlowOverrideReason "AGI/DAS requires MOSB leg" ;
+    hvdc:hasFlowDescription "Flow 3: Port → MOSB → Site (AGI/DAS)" ;
+    hvdc:hasGrossWeight "32400.0"^^xsd:decimal ;
+    hvdc:hasPackage 120 .
+
+# ========== 주석 ==========
+# hasLocation 제거됨. hasFinalLocation만 유지.
+# Flow Code v3.5: 0=Pre Arrival, 1=Direct, 2=WH, 3=MOSB, 4=WH+MOSB, 5=Mixed
+# AGI/DAS 케이스는 자동으로 Flow 3 이상으로 승급됨
+
