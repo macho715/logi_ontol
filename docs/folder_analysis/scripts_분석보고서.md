@@ -18,13 +18,13 @@
 - **변환**: Excel → TTL, RDF 변환
 - **통합**: whatsapp 이미지, 크로스 레퍼런스
 - **시각화**: 네트워크, 차트 스크린샷
-- **설정**: Protégé 설치/빌드, MCP 설정
+- **설정**: MCP 설정, 환경 구성
 - **검증**: 이벤트, RDF 검증
 
 ## 핵심 스크립트
 1. `core/excel_to_ttl.py` - Excel 변환
 2. `core/flow_code_calc.py` - Flow Code 계산
-3. `build_protege_from_source.ps1` - Protégé 빌드
+3. `setup/setup_mcp_server.ps1` - MCP 서버 설정
 4. `validate_events_with_sparql.py` - 이벤트 검증
 
 **생성일**: 2025-11-01

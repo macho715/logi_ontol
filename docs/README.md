@@ -73,14 +73,6 @@
 - **[PROJECT_REORGANIZATION_COMPLETE.md](project_reports/PROJECT_REORGANIZATION_COMPLETE.md)**
   - 프로젝트 재구성 완료 보고
 
-- **[PROTEGE_SETUP_COMPLETE.md](project_reports/PROTEGE_SETUP_COMPLETE.md)**
-  - Protégé 설정 완료 가이드
-
-- **[PROTEGE_AUTO_SETUP_COMPLETE.md](project_reports/PROTEGE_AUTO_SETUP_COMPLETE.md)**
-  - Protégé 자동 설정 스크립트
-
-- **[PROTEGE_SOURCE_BUILD_COMPLETE.md](project_reports/PROTEGE_SOURCE_BUILD_COMPLETE.md)**
-  - Protégé 소스 빌드 완료
 
 ### 4. Ontology Documentation
 
@@ -149,7 +141,7 @@
 - 관련 문서: `docs/project_reports/IMPLEMENTATION_SUMMARY.md`
 
 ### logiontology
-- v2.0.0, Backend Core, Protégé, Neo4j
+- v2.0.0, Backend Core, Ontology, Neo4j
 - 관련 문서: `docs/project_reports/HVDC_WORK_LOG.md`
 
 ### Changelog

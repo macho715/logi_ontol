@@ -88,7 +88,7 @@ hvdc:Cargo-001 a hvdc:Cargo ;
 ```
 
 - **그래프 DB**: Neo4j 또는 Stardog (SPARQL 지원 필수)
-- **온톨로지 관리**: Protégé로 유지보수
+- **온톨로지 관리**: OWL/TTL 파일로 유지보수
 - **제약 검증**: SHACL로 데이터 무결성 보장 (예: `weight > 0`)
 
 ---
@@ -153,7 +153,7 @@ hvdc:Cargo-001 a hvdc:Cargo ;
 | 계층 | 추천 기술 |
 |------|----------|
 | 데이터 수집 | Python, Pandas, Tesseract, Kafka |
-| 온톨로지 | OWL, RDF, SHACL, Protégé |
+| 온톨로지 | OWL, RDF, SHACL |
 | 그래프 DB | **Neo4j** 또는 **Stardog** |
 | 쿼리 | SPARQL |
 | 백엔드 | FastAPI, Django |

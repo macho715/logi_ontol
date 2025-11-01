@@ -1,4 +1,4 @@
-"""Protégé ontology loader for HVDC ontology."""
+"""Ontology loader for HVDC ontology."""
 
 from pathlib import Path
 from typing import List, Dict, Any
@@ -7,8 +7,8 @@ from rdflib import Graph, Namespace, RDF, OWL, RDFS
 HVDC = Namespace("https://hvdc-project.com/ontology#")
 
 
-class ProtegeLoader:
-    """Load and parse Protégé OWL/TTL ontology files."""
+class OntologyLoader:
+    """Load and parse OWL/TTL ontology files."""
 
     def __init__(self, ontology_path: Path):
         """Initialize with ontology file path."""
@@ -116,7 +116,7 @@ def load_hvdc_ontology(ontology_path: Path | str = None) -> Graph:
         # Default path
         ontology_path = Path(__file__).parent.parent.parent / "configs" / "ontology" / "hvdc_ontology.ttl"
 
-    loader = ProtegeLoader(Path(ontology_path))
+    loader = OntologyLoader(Path(ontology_path))
     return loader.load()
 
 

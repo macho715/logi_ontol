@@ -1,6 +1,6 @@
 # HVDC Full Stack MVP v2.0.0
 
-**Complete logistics ontology system**: Protégé Ontology + Excel→RDF→Neo4j→FastAPI→React + AI Insights + PDF Reports
+**Complete logistics ontology system**: Ontology + Excel→RDF→Neo4j→FastAPI→React + AI Insights + PDF Reports
 
 ## 🚀 Quick Start
 
@@ -8,7 +8,6 @@
 - Python 3.13+
 - Neo4j 5.14+ (or Docker)
 - Node.js 20+ (for React frontend)
-- Java 11+ (for Protégé)
 
 ### Installation
 
@@ -32,7 +31,7 @@ docker-compose up -d
 
 ## 📋 Features
 
-### 1. Protégé Ontology (Visual Design)
+### 1. Ontology
 - **Location**: `configs/ontology/hvdc_ontology.ttl`
 - **Classes**: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading
 - **Properties**: storedAt, destinedTo, hasFlowCode, weight, hasHVDCCode
@@ -132,9 +131,9 @@ npm start
 
 ```
 ┌─────────────┐
-│ Protégé OWL │ (Visual Design)
+│ OWL/TTL     │
 └──────┬──────┘
-       │ Export TTL
+       │ RDFLib parse
        ▼
 ┌─────────────┐
 │ Excel Files │
@@ -230,7 +229,7 @@ pytest --cov=src --cov-report=html
 logiontology/
 ├── configs/
 │   ├── ontology/
-│   │   ├── hvdc_ontology.ttl      # Protégé ontology
+│   │   ├── hvdc_ontology.ttl      # OWL ontology
 │   │   └── flow_code.ttl          # Flow code ontology
 │   ├── shapes/
 │   │   └── FlowCode.shape.ttl     # SHACL validation
@@ -239,8 +238,8 @@ logiontology/
 │   ├── neo4j_config.yaml          # Neo4j configuration
 │   └── ai_config.yaml             # AI insights config
 ├── src/
-│   ├── ontology/                  # NEW: Protégé integration
-│   │   ├── protege_loader.py
+│   ├── ontology/                  # NEW: Ontology integration
+│   │   ├── ontology_loader.py
 │   │   └── validator.py
 │   ├── ingest/                    # NEW: Excel to RDF
 │   │   ├── excel_to_rdf.py
@@ -300,7 +299,6 @@ ai:
 
 - **Flow Code Guide**: `docs/FLOW_CODE_GUIDE.md`
 - **Implementation Report**: `docs/FLOW_CODE_IMPLEMENTATION_REPORT.md`
-- **Protégé Guide**: `../ontology/Protégé 온톨로지 에디터.md`
 - **Architecture Report**: `../ontology/HVDC 프로젝트 온톨로지 기반 통합 시스템 아키텍처 설계 보고서.md`
 - **API Docs**: http://localhost:8000/docs (when server running)
 
@@ -314,7 +312,7 @@ ai:
 ## 🆕 What's New in v2.0.0
 
 ### Added
-✅ Protégé ontology integration (visual design)
+✅ Ontology integration
 ✅ Excel → RDF conversion
 ✅ Neo4j graph database
 ✅ FastAPI REST API

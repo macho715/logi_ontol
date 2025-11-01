@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # Create FastAPI app
 app = FastAPI(
     title="HVDC Ontology API",
-    description="HVDC Full Stack MVP: Protégé Ontology + Excel→RDF→Neo4j + AI Insights",
+    description="HVDC Full Stack MVP: Ontology Schema + Excel→RDF→Neo4j + AI Insights",
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"

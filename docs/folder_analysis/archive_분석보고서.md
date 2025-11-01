@@ -12,7 +12,7 @@
 
 ## 하위 구조
 - **completion_reports/** - 완료 보고서 (5개)
-- **legacy/** - 레거시 패키지 (logiontology_v2.0.0, mcp_v1.0/2.0, event_ontology)
+- **legacy/** - 레거시 패키지 (logiontology_v2.0.0, mcp_v1.0/2.0, event_ontology, protege_docs, protege_scripts)
 - **duplicates/** - 중복 코드 (9개)
 - **external_libs/** - 외부 라이브러리 (Protege, vis.js, tom-select)
 - **logiontology_archive/** - logiontology 아카이브

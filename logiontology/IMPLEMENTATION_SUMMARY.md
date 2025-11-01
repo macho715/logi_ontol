@@ -12,13 +12,13 @@
 - ✅ Updated `pyproject.toml` to v2.0.0 with full stack dependencies
 - ✅ Added FastAPI, uvicorn, neo4j, jinja2, weasyprint, matplotlib, httpx
 
-#### Stage 1: Protégé Ontology
+#### Stage 1: Ontology
 - ✅ Created `configs/ontology/hvdc_ontology.ttl` with:
   - Classes: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading
   - Object Properties: storedAt, destinedTo, hasFlowCode, fromPort
   - Datatype Properties: hasHVDCCode, weight, flowCodeValue, siteName
   - Sample instances: 5 sites, 3 warehouses, 3 ports, 5 flow codes
-- ✅ Implemented `src/ontology/protege_loader.py`:
+- ✅ Implemented `src/ontology/ontology_loader.py`:
   - Load OWL/TTL files
   - Extract classes, properties, hierarchy
   - Get ontology metadata
@@ -129,7 +129,7 @@
 1. `configs/ontology/hvdc_ontology.ttl`
 2. `configs/neo4j_config.yaml`
 3. `src/ontology/__init__.py`
-4. `src/ontology/protege_loader.py`
+4. `src/ontology/ontology_loader.py`
 5. `src/ontology/validator.py`
 6. `src/ingest/excel_to_rdf.py`
 7. `src/ingest/batch_processor.py`
@@ -241,7 +241,7 @@
 ## 💡 Key Achievements
 
 1. **Ontology-First Design**:
-   - Protégé TTL ontology as single source of truth
+   - OWL/TTL ontology as single source of truth
    - SHACL validation ensures data quality
    - RDF/OWL standards compliance
 
@@ -294,7 +294,7 @@
 **HVDC Full Stack MVP v2.0.0 Backend Core is complete and functional!**
 
 All core components are implemented:
-- ✅ Protégé ontology
+- ✅ Ontology
 - ✅ Excel ingestion
 - ✅ Neo4j integration
 - ✅ FastAPI backend

@@ -10,7 +10,7 @@
 
 ## Overview
 
-logiontology는 HVDC 프로젝트를 위한 **물류 온톨로지 시스템**입니다. Protégé 기반 온톨로지, Excel 데이터 수집, Neo4j 그래프 DB, FastAPI REST API를 통합한 Full Stack MVP입니다.
+logiontology는 HVDC 프로젝트를 위한 **물류 온톨로지 시스템**입니다. 온톨로지 기반 데이터 모델, Excel 데이터 수집, Neo4j 그래프 DB, FastAPI REST API를 통합한 Full Stack MVP입니다.
 
 **현재 상태**: v2.0.0 Backend Core 완료 (72%)
 
@@ -18,7 +18,7 @@ logiontology는 HVDC 프로젝트를 위한 **물류 온톨로지 시스템**입
 
 ## Features
 
-### 1. Protégé Ontology Integration
+### 1. Ontology Schema
 - **OWL/TTL 온톨로지**: 7 classes, 11 properties
 - **클래스**: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project
 - **Loader**: OWL/TTL 파일 자동 로드 및 hierarchy 추출
@@ -47,13 +47,14 @@ logiontology는 HVDC 프로젝트를 위한 **물류 온톨로지 시스템**입
 
 **API Docs**: http://localhost:8000/docs (Swagger UI)
 
-### 5. Flow Code System v1.0
-**통합 물류 플로우 분류** (0-4):
+### 5. Flow Code System v3.5
+**통합 물류 플로우 분류** (0-5):
 - **0**: Pre-Arrival (Documents only)
 - **1**: Direct Delivery (Port → Site)
-- **2**: WH Once (Port → WH → Site)
-- **3**: WH + MOSB (Port → WH → MOSB → Site)
-- **4**: WH Double + MOSB (Port → WH → WH → MOSB → Site)
+- **2**: WH (Port → WH → Site)
+- **3**: MOSB (Port → WH → MOSB → Site)
+- **4**: Full (Port → WH → WH → MOSB → Site)
+- **5**: Mixed/Incomplete
 
 **Features**:
 - Pydantic models (Container/Bulk/Land/LCT)
@@ -85,7 +86,7 @@ docker-compose up -d
 
 ### 8. Testing & Quality
 - **Test Coverage**: 90%+
-- **Tests**: 43 total (26 unit + 7 API + 10 SHACL)
+- **Tests**: 16 total (13 unit + 3 API)
 - **Linting**: ruff + black
 - **Type Checking**: mypy
 
@@ -161,7 +162,7 @@ docker-compose down
 ```
 logiontology/
 ├── src/                      # Source code
-│   ├── ontology/             # Protégé loader, validator
+│   ├── ontology/             # Ontology loader, validator
 │   ├── ingest/               # Excel → RDF converter
 │   ├── graph/                # Neo4j integration
 │   ├── api/                  # FastAPI endpoints
@@ -169,17 +170,24 @@ logiontology/
 │   ├── analytics/            # KPI calculator
 │   ├── mapping/              # RDF mapper
 │   ├── integration/          # Site normalizer
+│   ├── export/               # TTL to JSON
+│   ├── rdfio/                # RDF I/O
+│   ├── reasoning/            # Ontology reasoning
+│   ├── pipeline/             # Main pipeline
+│   ├── report/               # Report queries
+│   ├── validation/           # Schema validator
 │   └── cli.py                # CLI commands
 ├── tests/                    # Tests (90%+ coverage)
 │   ├── unit/                 # Unit tests
 │   ├── validation/           # SHACL tests
-│   └── api/                  # API tests
+│   ├── api/                  # API tests
+│   └── integration/          # Integration tests
 ├── configs/                  # Configuration files
 │   ├── ontology/             # hvdc_ontology.ttl
 │   ├── shapes/               # SHACL shapes
 │   ├── sparql/               # SPARQL queries
 │   └── neo4j_config.yaml     # Neo4j config
-├── docs/                     # Documentation (7 files)
+├── docs/                     # Documentation (9 files)
 ├── docker-compose.yml        # Docker orchestration
 ├── Dockerfile                # Backend image
 ├── pyproject.toml            # v2.0.0
@@ -316,7 +324,7 @@ mypy src/
 ## Roadmap
 
 ### Phase 1: Backend Core (✅ Complete - 72%)
-- Protégé ontology
+- Ontology schema
 - Excel → RDF conversion
 - Neo4j integration
 - FastAPI REST API
@@ -369,14 +377,14 @@ MIT License - See [LICENSE](../LICENSE) file for details.
 - **Status**: Backend Core Complete (72%)
 - **Project**: HVDC Logistics & Ontology System
 - **Organization**: Samsung C&T Logistics (ADNOC·DSV Partnership)
-- **Last Updated**: 2025-10-26
+- **Last Updated**: 2025-11-01
 
 ---
 
 ## Support
 
-- [Issues](https://github.com/yourusername/logiontology/issues) - Bug reports & feature requests
-- [Discussions](https://github.com/yourusername/logiontology/discussions) - Q&A & ideas
+- [Issues](https://github.com/macho715/logi_ontol/issues) - Bug reports & feature requests
+- [Discussions](https://github.com/macho715/logi_ontol/discussions) - Q&A & ideas
 - Documentation: See [docs/](docs/) folder
 
 ---

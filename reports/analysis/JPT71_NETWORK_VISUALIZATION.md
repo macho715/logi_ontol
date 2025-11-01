@@ -809,7 +809,7 @@ pie title "JPT71 담당자 업무 분포"
 ### 시각화 도구
 
 - **Mermaid 다이어그램**: 모든 다이어그램은 Mermaid 문법으로 작성되어 GitHub/Markdown 뷰어에서 실시간 렌더링 가능
-- **RDF 브라우저**: Protégé, WebVOWL 등으로 온톨로지 탐색 가능
+- **RDF 브라우저**: WebVOWL 등으로 온톨로지 탐색 가능
 - **SPARQL 쿼리**: Fuseki 서버를 통한 실시간 데이터 조회 지원
 
 ---

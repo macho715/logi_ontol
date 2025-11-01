@@ -52,7 +52,7 @@
 ##### 단계 1: 온톨로지 구축 (1주)
 - **목표**: HVDC 클래스(RDF/OWL) 정의.
 - **로컬 작업**:
-  - Protégé (오픈 소스, 다운로드)로 OWL 파일 생성 → Python으로 로드.
+  - OWL/TTL 파일 생성 → Python으로 로드.
   - 코드 예시 (Cursor에서 생성):
     ```python
     from rdflib import Graph, Namespace, Literal

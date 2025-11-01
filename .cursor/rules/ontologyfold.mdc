@@ -1,0 +1,99 @@
+---
+alwaysApply: true
+---
+
+# Ontology Reference Rule
+
+**Primary context dir**: `${ONTOLOGY_DIR:-ontology/}`
+
+## Preflight Check
+- 코드 작성/분석 전 `ontology/` 폴더 구조 확인
+- 우선순위: 1) `ontology/HVDC.MD` 2) `ontology/core/*.md` 3) `ontology/extended/*.md`
+
+## HVDC Logistics Network (ontology/HVDC.MD)
+**v3.0 (2024-11-13 Workshop 기반, 사실 기반 정의)**
+
+### 6개 물류 노드
+1. **ZAYED PORT** - 중량/벌크 화물 처리항 (ADNOC 47150)
+2. **KHALIFA PORT** - 컨테이너 전용항
+3. **JEBEL ALI PORT** - Free Zone (특수케이스)
+4. **MOSB (Mussafah Offshore Supply Base)** - **중앙 물류 허브** (20,000㎡, SCT 본부)
+5. **MIR/SHU** - 육상 현장 (Mirfa/Shuweihat)
+6. **DAS/AGI** - 해상 현장 (Das Island/Al Ghallan Island)
+
+### Cargo Flow
+```
+Port (Zayed/Khalifa/Jebel Ali)
+  ↓
+MOSB (중앙 허브 - SCT 물류본부)
+  ↓
+Sites (MIR/SHU/DAS/AGI)
+```
+
+### 온톨로지 핵심 관계 (HVDC.MD 기준)
+- `(MOSB, hosts, SCT_Logistics_Team)`
+- `(MOSB, consolidates, Container_and_Bulk_Cargo)`
+- `(MOSB, dispatches, MIR|SHU|DAS|AGI)`
+- `(Zayed_Port, handles, Heavy_and_Bulk_Cargo)`
+- `(Khalifa_Port, handles, Container_Cargo)`
+- `(Jebel_Ali_Port, handles, Freezone_Shipments)`
+
+## Core Ontology Files (ontology/core/)
+1. **`1_CORE-01-hvdc-core-framework.md`** (v1.0)
+   - 핵심 물류 프레임워크
+   - 클래스: Party, Asset, Document, Process, Event, Contract, Regulation, Location, KPI
+   - 관계: hasDocument, references, involves, locatedAt, governs, measuredBy
+   - 표준: UN/CEFACT, WCO-DM, DCSA eBL 3.0, ICC Incoterms 2020, HS 2022, MOIAT, FANR
+
+2. **`1_CORE-02-hvdc-infra-nodes.md`** (v3.0) ⭐ **최신**
+   - HVDC 노드 인프라 (8거점 네트워크)
+   - Port → MOSB → Sites 구조
+   - Transport types: LCT, SPMT, Container, Bulk, Heavy
+   - HSE: DOT Permit, FANR, CICPA Gate Pass
+   - Preservation: Hitachi Spec (+5~40°C, RH ≤85%)
+
+3. `1_CORE-03-hvdc-warehouse-ops.md` - 창고 물류
+4. `1_CORE-04-hvdc-invoice-cost.md` - 청구서/비용 관리
+5. `1_CORE-05-hvdc-bulk-cargo-ops.md` - 벌크 화물 작업
+6. `1_CORE-06-hvdc-doc-guardian.md` - 문서 검증 시스템
+7. `1_CORE-07-hvdc-ocr-pipeline.md` - OCR 파이프라인
+
+## Extended Ontology Files (ontology/extended/)
+1. `2_EXT-01-hvdc-ofco-port-ops-en.md` - 항만 운영 (영문)
+2. `2_EXT-02-hvdc-ofco-port-ops-ko.md` - 항만 운영 (한글)
+3. `2_EXT-03-hvdc-comm-email.md` - 이메일 시스템
+4. `2_EXT-04-hvdc-comm-chat.md` - 채팅 시스템
+5. `2_EXT-05-hvdc-ops-management.md` - 운영 관리
+6. `2_EXT-06-hvdc-compliance-customs.md` - 규제/세관
+7. `2_EXT-07-hvdc-dev-tools.md` - 개발 도구
+
+## 규칙
+1. **코드 작성 시**: 온톨로지 클래스/관계 기준 준수
+   - Node (Port/Hub/Site), Party (SCT/ALS/ADNOC), Asset (Container/Bulk/Heavy), Process, Event, Document
+2. **네트워크 구축 시**: HVDC 6개 노드 반영
+   - **MOSB를 중앙 허브로 설정** (SCT 물류본부)
+   - 물류 흐름: Port → MOSB → Sites
+3. **관계 정의 시**: ontology 문서의 관계 타입 사용
+   - `hasDocument`, `references`, `consolidates`, `dispatches`, `located_at`, `governs`, `operated_by`
+4. **데이터 검증 시**: 온톨로지 표준 준수 확인
+   - UN/LOCODE, ISO 6346, BIMCO SUPPLYTIME 2017, DOT UAE Permit, CICPA Gate Pass
+   - FANR (방사선), MOIAT (통관), ADNOC 운영 규정
+
+## 우선순위
+1. ⭐ **`ontology/HVDC.MD`** (물류 노드 사실 기반 정의) - **가장 중요**
+2. `ontology/core/1_CORE-02-hvdc-infra-nodes.md` (v3.0 인프라, 8거점)
+3. `ontology/core/1_CORE-01-hvdc-core-framework.md` (핵심 프레임워크)
+4. 나머지 core/*.md 파일들
+5. extended/*.md 파일들
+
+## 금지 사항
+- 온톨로지 문서 없이 임의로 클래스/관계 정의 금지
+- HVDC 노드 구조 무시하고 네트워크 구축 금지
+- MOSB의 중앙 허브 역할 무시 금지
+- 물류 흐름 (Port → MOSB → Sites) 역전 금지
+
+## Phase 1 v1.2 적용
+- **온톨로지 클래스 매핑**: Node 타입을 온톨로지 클래스(Party, Asset, Location, Process, Document)에 매핑
+- **관계 타입 확장**: 4종 → 10종+ (ontological relations)
+- **중복 제거**: same_as 링크로 동일 엔티티 병합 (vessel, port, person)
+- **계층 구조**: 4단 (Root → Systems → Nodes → Entities)

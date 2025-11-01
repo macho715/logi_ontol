@@ -34,7 +34,7 @@ HVDC 프로젝트의 온톨로지 참조 문서 저장소. **물류 노드, 인�
 - **하위 디렉토리 수**: 2개 (core/, extended/)
 - **Core 문서**: 15개
 - **Extended 문서**: 7개
-- **루트 문서**: 6개
+- **루트 문서**: 4개
 
 ### 파일 타입별 분류
 - **.md**: 마크다운 문서 (모두)
@@ -46,7 +46,7 @@ HVDC 프로젝트의 온톨로지 참조 문서 저장소. **물류 노드, 인�
 
 ## 3. 주요 파일
 
-### 루트 문서 (6개)
+### 루트 문서 (4개)
 1. **HVDC.MD** ⭐⭐⭐⭐⭐ - HVDC Logistics Node Ontology v3.0 (사실 기반 정의)
    - 8개 물류 노드 정의 (Ports: Zayed, Khalifa, Jebel Ali / Hub: MOSB / Sites: MIR, SHU, DAS, AGI)
    - 물류 흐름 (Cargo Flow Ontology)
@@ -58,9 +58,6 @@ HVDC 프로젝트의 온톨로지 참조 문서 저장소. **물류 노드, 인�
 
 4. **HVDC 프로젝트 온톨로지 기반 통합 시스템 아키텍처 설계 보고서 .md** - 아키텍처 설계
 
-5. **Protégé 온톨로지 에디터.md** - Protégé 사용 가이드
-
-6. **VDC Full Stack MVP with Protégé Integration.md** - MVP 통합 가이드
 
 ### Core 문서 (15개)
 1. **00_Executive_Summary.md** - 핵심 요약
@@ -130,9 +127,7 @@ ontology/
 ├── HVDC.MD                                    # ⭐ 메인 정의
 ├── README.md                                  # 인덱스
 ├── HVDC 온톨로지 시스템 개발 Plan 문서.md           # 계획
-├── HVDC 프로젝트 온톨로지 기반 통합 시스템...     # 아키텍처
-├── Protégé 온톨로지 에디터.md                      # Protégé
-└── VDC Full Stack MVP...                      # MVP
+└── HVDC 프로젝트 온톨로지 기반 통합 시스템...     # 아키텍처
 ```
 
 ---
@@ -189,9 +184,8 @@ ontology/
 3. **문서 링크**: 프로젝트 내 교차 참조 링크 추가
 
 #### 중기 개선 (Medium Priority)
-1. **최신화**: Protégé 관련 문서 → legacy로 이동 고려
-2. **작성 기준**: 모든 문서에 YAML front matter 추가
-3. **검색 용이성**: 용어 사전(Glossary) 생성
+1. **작성 기준**: 모든 문서에 YAML front matter 추가
+2. **검색 용이성**: 용어 사전(Glossary) 생성
 
 #### 장기 개선 (Low Priority)
 1. **다국어 지원**: 영문 버전 일괄 제공

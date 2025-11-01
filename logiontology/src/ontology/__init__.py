@@ -1,3 +1,3 @@
-"""Ontology module for Protégé integration and validation."""
+"""Ontology module for ontology integration and validation."""
 
 

@@ -155,7 +155,6 @@ docs/ (통합 문서)
 ### 즉시 개선 (High Priority)
 1. **logiontology/**: API 실제 구현 (Neo4j 쿼리 연결)
 2. **archive/**: 정기 정리 및 .gitignore 강화
-3. **ontology/**: Protégé 문서 → legacy/ 이동
 
 ### 중기 개선 (Medium Priority)
 1. **output/**: TTL 파일 압축 또는 분할

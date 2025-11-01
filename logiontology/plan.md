@@ -12,7 +12,7 @@
 logiontology는 HVDC 프로젝트를 위한 **물류 온톨로지 시스템**입니다.
 
 **Stack**:
-- **Ontology**: Protégé (OWL/TTL)
+- **Ontology**: OWL/TTL
 - **Backend**: Python 3.13 + FastAPI
 - **Database**: Neo4j 5.14
 - **Frontend**: React (planned)
@@ -31,13 +31,13 @@ logiontology는 HVDC 프로젝트를 위한 **물류 온톨로지 시스템**입
   - Jinja2, WeasyPrint, matplotlib, httpx
   - python-multipart
 
-### Stage 1: Protégé Ontology (✅ Complete)
+### Stage 1: Ontology (✅ Complete)
 - [x] Created `configs/ontology/hvdc_ontology.ttl` (195 lines)
   - **Classes** (7): Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project
   - **Object Properties** (5): storedAt, destinedTo, hasFlowCode, relatesToBL, fromPort
   - **Datatype Properties** (6): hasHVDCCode, weight, flowCodeValue, siteName, warehouseName, portName
   - **Sample instances** (15): Sites (MIR, SHU, DAS, AGI), Warehouses (DSV INDOOR, MOSB), Ports (Zayed, Khalifa, Jebel Ali), FlowCodes (0-4)
-- [x] Implemented `src/ontology/protege_loader.py` (110 lines)
+- [x] Implemented `src/ontology/ontology_loader.py` (110 lines)
   - Load OWL/TTL files with format auto-detection
   - Extract classes, properties, hierarchy
   - Get ontology metadata
@@ -393,7 +393,7 @@ logiontology/
 │   ├── analytics/       # KPI calculator
 │   ├── mapping/         # Flow RDF mapper
 │   ├── integration/     # Site normalizer
-│   ├── ontology/        # Protégé loader, validator
+│   ├── ontology/        # Ontology loader, validator
 │   ├── ingest/          # Excel → RDF converter
 │   ├── graph/           # Neo4j store, loader
 │   ├── api/             # FastAPI endpoints

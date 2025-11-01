@@ -17,7 +17,7 @@
 - SHACL 검증
 
 **목표** (v2.0.0):
-- Protégé 온톨로지 통합
+- 온톨로지 통합
 - Excel → RDF 변환
 - Neo4j 그래프 DB
 - FastAPI REST API
@@ -48,7 +48,7 @@
 
 ---
 
-### 2. Protégé 온톨로지 생성
+### 2. 온톨로지 생성
 
 #### 파일: `configs/ontology/hvdc_ontology.ttl`
 **라인 수**: 195 lines
@@ -95,9 +95,9 @@
 
 ### 3. Ontology 로더 구현
 
-#### 파일: `src/ontology/protege_loader.py`
+#### 파일: `src/ontology/ontology_loader.py`
 **라인 수**: 110 lines
-**클래스**: `ProtegeLoader`
+**클래스**: `OntologyLoader`
 
 **주요 메서드**:
 ```python
@@ -893,7 +893,6 @@ lsof -ti:8000 | xargs kill -9
 - `docs/FLOW_CODE_IMPLEMENTATION_REPORT.md` - 구현 보고서
 
 ### 외부 문서
-- [Protégé 가이드](../ontology/Protégé 온톨로지 에디터.md)
 - [아키텍처 설계 보고서](../ontology/HVDC 프로젝트 온톨로지 기반 통합 시스템 아키텍처 설계 보고서.md)
 - [FastAPI 공식 문서](https://fastapi.tiangolo.com/)
 - [Neo4j 공식 문서](https://neo4j.com/docs/)
@@ -905,7 +904,7 @@ lsof -ti:8000 | xargs kill -9
 
 ### 완료된 작업
 - [x] pyproject.toml 업데이트
-- [x] Protégé 온톨로지 생성
+- [x] 온톨로지 생성
 - [x] Ontology 로더 구현
 - [x] SHACL Validator 구현
 - [x] Excel to RDF Converter
@@ -951,7 +950,7 @@ lsof -ti:8000 | xargs kill -9
 - **Docker**: 3개 서비스
 
 ### 정성적 성과
-- ✅ **Ontology-First 설계** - Protégé TTL 기반
+- ✅ **Ontology-First 설계** - OWL/TTL 기반
 - ✅ **Full Stack 아키텍처** - Excel → RDF → Neo4j → API
 - ✅ **Production Ready** - Docker, Testing, Documentation
 - ✅ **확장 가능** - Modular, Type-safe, Well-documented
@@ -973,7 +972,7 @@ lsof -ti:8000 | xargs kill -9
 **HVDC Full Stack MVP v2.0.0 Backend Core가 성공적으로 완료**되었습니다!
 
 **핵심 성과**:
-1. Protégé 온톨로지 기반 시스템 구축
+1. 온톨로지 기반 시스템 구축
 2. Excel → RDF → Neo4j 파이프라인 완성
 3. FastAPI REST API 8개 엔드포인트
 4. Docker Compose 배포 환경

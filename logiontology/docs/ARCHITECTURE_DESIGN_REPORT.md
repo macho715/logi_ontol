@@ -1,10 +1,10 @@
 ### HVDC 프로젝트 온톨로지 기반 통합 시스템 아키텍처 설계 보고서 – GitHub 리포지토리 통합
 
-귀하가 제공한 GitHub 리포지토리 [`https://github.com/macho715/logi_ontol`](https://github.com/macho715/logi_ontol) 를 분석한 결과, 이는 **HVDC 물류 온톨로지 시스템의 풀스택 MVP 구현**을 위한 완벽한 오픈 소스 프로젝트입니다. 이 리포지토리는 **Protégé 기반 온톨로지 → Excel/RDF 변환 → Neo4j 그래프 저장 → FastAPI API → Docker 배포**까지의 전체 파이프라인을 포함하며, 이전 보고서의 5계층 아키텍처와 **100% 호환**됩니다. 아래에서 리포지토리 분석 결과를 바탕으로 아키텍처를 **재설계 및 확장**하여 제시합니다. 이는 **즉시 클론하여 개발 가능한** 구조로, HVDC 프로젝트의 모든 업무 데이터(물류, 창고, 현장, 플로우코드, B/L, HVDC 코드 등)를 온톨로지로 데이터화하고, 단일 입력으로 자동 리포트/AI 인사이트/시각화를 제공합니다.
+귀하가 제공한 GitHub 리포지토리 [`https://github.com/macho715/logi_ontol`](https://github.com/macho715/logi_ontol) 를 분석한 결과, 이는 **HVDC 물류 온톨로지 시스템의 풀스택 MVP 구현**을 위한 완벽한 오픈 소스 프로젝트입니다. 이 리포지토리는 **온톨로지 기반 시스템 → Excel/RDF 변환 → Neo4j 그래프 저장 → FastAPI API → Docker 배포**까지의 전체 파이프라인을 포함하며, 이전 보고서의 5계층 아키텍처와 **100% 호환**됩니다. 아래에서 리포지토리 분석 결과를 바탕으로 아키텍처를 **재설계 및 확장**하여 제시합니다. 이는 **즉시 클론하여 개발 가능한** 구조로, HVDC 프로젝트의 모든 업무 데이터(물류, 창고, 현장, 플로우코드, B/L, HVDC 코드 등)를 온톨로지로 데이터화하고, 단일 입력으로 자동 리포트/AI 인사이트/시각화를 제공합니다.
 
 #### **리포지토리 분석 요약**
 - **목적**: HVDC 프로젝트 물류 데이터를 온톨로지 기반 지식 그래프로 관리. Excel 데이터를 RDF로 변환하고, Neo4j에 저장하여 쿼리 가능하게 함. AI 인사이트/PDF 리포트/React UI 확장 준비.
-- **주요 구성**: 10단계 로드맵(Protégé → ingestion → graph → API → AI → frontend → Docker). 핵심 파일: `hvdc_ontology.ttl` (온톨로지), `excel_to_rdf.py` (데이터 변환), `neo4j_store.py` (그래프 저장), `main.py` (FastAPI).
+- **주요 구성**: 10단계 로드맵(온톨로지 설계 → ingestion → graph → API → AI → frontend → Docker). 핵심 파일: `hvdc_ontology.ttl` (온톨로지), `excel_to_rdf.py` (데이터 변환), `neo4j_store.py` (그래프 저장), `main.py` (FastAPI).
 - **HVDC 연관성**: `Cargo`, `Site` (MIR/SHU), `Warehouse` (DSV/MOSB), `FlowCode` (0~4) 클래스 정의. SHACL 제약(무게 양수, FlowCode 범위) 포함.
 - **강점**: 90% 테스트 커버리지, Docker Compose 지원, CLI 명령어(ingest-excel 등). Phase 1 완료(72%), Phase 2 예정(10-12시간).
 - **확장 포인트**: AI (Grok/Claude 통합), PDF (WeasyPrint), React (검색 UI) – 이전 보고서와 일치.
@@ -18,7 +18,7 @@
 ```mermaid
 graph TD
     A[원본 데이터 소스<br/>PDF/Excel/ERP/WhatsApp] --> B[데이터 수집 및 정제<br/>excel_to_rdf.py + batch_processor.py]
-    B --> C[지식 그래프 핵심<br/>neo4j_store.py + loader.py<br/>hvdc_ontology.ttl (Protégé)]
+    B --> C[지식 그래프 핵심<br/>neo4j_store.py + loader.py<br/>hvdc_ontology.ttl]
     C --> D[AI 인사이트 & 리포트<br/>insights_service.py + pdf_generator.py]
     D --> E[사용자 인터페이스<br/>React: SearchFlow.tsx + KPIDashboard.tsx]
     E --> F[배포 & CLI<br/>docker-compose.yml + cli.py]
@@ -55,7 +55,7 @@ graph TD
        hvdc:flowCode 2 .
    ```
    - **그래프 DB**: Neo4j (리포지토리 `neo4j_store.py`로 연결).
-   - **온톨로지 관리**: Protégé (`hvdc_ontology.ttl` 로드).
+   - **온톨로지 관리**: OWL/TTL 파일 (`ontology_loader.py`로 로드).
    - **제약 검증**: SHACL (`validator.py`로 무결성 보장, e.g., weight > 0).
 
 3. **AI 인사이트 & 리포트 엔진**
@@ -96,7 +96,7 @@ graph TD
 
 | 단계 | 기간 | 내용 (리포지토리 활용) | 결과물 |
 |------|------|-----------------------|--------|
-| **1단계** | 1주 | Protégé 온톨로지 + Excel → RDF | `hvdc_ontology.ttl`, `excel_to_rdf.py` 실행 |
+| **1단계** | 1주 | 온톨로지 설계 + Excel → RDF | `hvdc_ontology.ttl`, `excel_to_rdf.py` 실행 |
 | **2단계** | 1주 | Neo4j + FastAPI | Neo4j DB, `/search` API (main.py) |
 | **3단계** | 1주 | AI + PDF 리포트 | `insights_service.py`, PDF 출력 (WeasyPrint) |
 | **4단계** | 1주 | React + Docker | 웹 UI, `docker-compose up` (전체 스택) |
@@ -108,7 +108,7 @@ graph TD
 | 계층 | 추천 기술 (리포지토리 파일) |
 |------|-----------------------------|
 | **데이터 수집** | Python, Pandas, openpyxl (`excel_to_rdf.py`) |
-| **온톨로지** | OWL, RDF, SHACL, Protégé (`hvdc_ontology.ttl`) |
+| **온톨로지** | OWL, RDF, SHACL (`hvdc_ontology.ttl`) |
 | **그래프 DB** | Neo4j (`neo4j_store.py`) |
 | **쿼리** | SPARQL/Cypher (`endpoints/sparql.py`) |
 | **백엔드** | FastAPI, Uvicorn (`main.py`) |
@@ -151,7 +151,7 @@ logi_ontol ingest-excel data/sample.xlsx  # 데이터 변환
 
 #### **결론 및 다음 행동 계획**
 
-이 리포지토리는 HVDC 프로젝트의 **디지털 트윈**을 실현하는 완벽한 기반입니다. **Protégé 온톨로지**가 모든 데이터의 중심이 되어, **FastAPI + Neo4j**로 쿼리, **AI**로 인사이트를 제공합니다.
+이 리포지토리는 HVDC 프로젝트의 **디지털 트윈**을 실현하는 완벽한 기반입니다. **온톨로지**가 모든 데이터의 중심이 되어, **FastAPI + Neo4j**로 쿼리, **AI**로 인사이트를 제공합니다.
 **즉시 시작**: 리포지토리 클론 → `docker-compose up` → `/docs` API 테스트 (localhost:8000/docs).
 
 **다음 단계**:

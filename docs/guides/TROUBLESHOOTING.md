@@ -513,7 +513,7 @@ logiontology batch-ingest data/ --output-dir output/ --pattern "*.xlsx"
 
 ### Q5: 온톨로지를 수정하려면?
 
-**A**: `logiontology/configs/ontology/hvdc_ontology.ttl` 파일을 Protégé 또는 텍스트 에디터로 수정 후, 데이터를 다시 로드합니다.
+**A**: `logiontology/configs/ontology/hvdc_ontology.ttl` 파일을 텍스트 에디터로 수정 후, 데이터를 다시 로드합니다.
 
 ---
 

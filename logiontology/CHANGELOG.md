@@ -26,12 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-#### Protégé Ontology Integration
+#### Ontology Integration
 - `configs/ontology/hvdc_ontology.ttl` (195 lines)
   - 7 OWL classes: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project
   - 11 properties: 5 Object Properties + 6 Datatype Properties
   - Sample instances: 15 (5 sites, 3 warehouses, 3 ports, 5 flow codes)
-- `src/ontology/protege_loader.py` - OWL/TTL file loader with hierarchy extraction
+- `src/ontology/ontology_loader.py` - OWL/TTL file loader with hierarchy extraction
 - `src/ontology/validator.py` - SHACL validation with pyshacl
 
 #### Excel → RDF Conversion

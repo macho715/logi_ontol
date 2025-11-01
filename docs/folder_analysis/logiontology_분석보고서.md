@@ -18,7 +18,7 @@ logiontology는 HVDC 프로젝트의 **핵심 구현 패키지**로, 물류 온�
 
 ### 프로젝트 내 역할
 - **메인 구현 코드**: 전체 시스템의 백엔드 코어 (72% 완료)
-- **온톨로지 통합**: Protégé 기반 OWL/TTL 온톨로지 로더
+- **온톨로지 통합**: OWL/TTL 온톨로지 로더
 - **데이터 변환**: Excel → RDF/TTL 변환 파이프라인
 - **그래프 DB**: Neo4j 통합 및 매핑
 - **REST API**: FastAPI 기반 8개 엔드포인트
@@ -56,7 +56,7 @@ logiontology는 HVDC 프로젝트의 **핵심 구현 패키지**로, 물류 온�
 2. **api/main.py** - FastAPI 애플리케이션 메인
 3. **ingest/excel_to_ttl_with_events.py** - Excel → TTL 변환 엔진 (Flow Code v3.5)
 4. **ingest/flow_code_calculator.py** - Flow Code v3.5 알고리즘
-5. **ontology/protege_loader.py** - 온톨로지 로더
+5. **ontology/ontology_loader.py** - 온톨로지 로더
 6. **ontology/validator.py** - SHACL 검증
 7. **graph/neo4j_store.py** - Neo4j 연결 및 매핑
 8. **graph/loader.py** - TTL → Neo4j 로더
@@ -67,7 +67,7 @@ logiontology는 HVDC 프로젝트의 **핵심 구현 패키지**로, 물류 온�
 1. **ontology/hvdc_ontology.ttl** - 핵심 온톨로지 스키마 (7 classes, 11 properties)
 2. **neo4j_config.yaml** - Neo4j 연결 설정
 3. **shapes/FlowCode.shape.ttl** - SHACL 제약 조건
-4. **protege/cellfie_hvdc_mapping.transform** - Protégé 매핑 규칙
+4. **protege/cellfie_hvdc_mapping.transform** - Cellfie 매핑 규칙
 
 ### 문서 (docs/)
 1. **ARCHITECTURE.md** - 시스템 아키텍처
@@ -120,7 +120,7 @@ tests/
 configs/
 ├── ontology/          # 온톨로지 TTL 파일
 ├── shapes/            # SHACL 제약 조건
-├── protege/           # Protégé 설정
+├── protege/           # Cellfie 매핑 설정
 ├── sparql/            # SPARQL 쿼리
 └── *.yaml             # 설정 파일
 ```
@@ -197,7 +197,7 @@ logiontology/
 3. **프로덕션 배포**: CI/CD, Kubernetes 설정
 
 ### 폴더 정리 필요 항목
-- `protégé/` 관련 문서 → legacy/로 이동 고려
+- `protege/` 관련 설정 → 유지 (Cellfie 매핑용)
 - `pipeline/`, `rdfio/`, `reasoning/` → 사용되지 않으면 archive/
 - `htmlcov/` → .gitignore로 제외 (CI에서 생성)
 

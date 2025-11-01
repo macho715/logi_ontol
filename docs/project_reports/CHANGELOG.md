@@ -24,16 +24,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### logiontology Full Stack MVP - Backend Core Complete
 
-**Major Release**: Protégé 온톨로지, Neo4j 그래프 DB, FastAPI REST API 통합
+**Major Release**: 온톨로지 기반 시스템, Neo4j 그래프 DB, FastAPI REST API 통합
 
 #### Added - Core Backend
 
-**Protégé Ontology Integration**
+**Ontology Integration**
 - `configs/ontology/hvdc_ontology.ttl` (195 lines)
   - 7 OWL classes: Cargo, Site, Warehouse, Port, FlowCode, BillOfLading, Project
   - 11 properties: 5 Object Properties + 6 Datatype Properties
   - 15 sample instances (sites, warehouses, ports, flow codes)
-- `src/ontology/protege_loader.py` (110 lines) - OWL/TTL loader with hierarchy extraction
+- `src/ontology/ontology_loader.py` (110 lines) - OWL/TTL loader with hierarchy extraction
 - `src/ontology/validator.py` (75 lines) - SHACL validation with pyshacl
 
 **Excel → RDF Conversion**

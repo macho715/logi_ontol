@@ -84,7 +84,7 @@ def validate_hvdc_data(data_graph: Graph) -> Tuple[bool, str]:
     validator = OntologyValidator()
 
     # Load HVDC ontology
-    from src.ontology.protege_loader import load_hvdc_ontology
+    from src.ontology.ontology_loader import load_hvdc_ontology
     ontology_graph = load_hvdc_ontology()
 
     return validator.validate(data_graph, ontology_graph)

@@ -110,7 +110,7 @@ hvdc-ontology-system/
 │   └── neo4j_config.yaml
 ├── src/
 │   ├── ontology/
-│   │   ├── protege_loader.py
+│   │   ├── ontology_loader.py
 │   │   └── validator.py
 │   ├── ingest/
 │   │   ├── excel_to_rdf.py
@@ -139,8 +139,8 @@ hvdc-ontology-system/
 │           └── KPIDashboard.tsx
 ├── docker-compose.yml
 └── requirements.txt
-text## Stage 0: Protégé Loader
-protege_loader.py: Protégé TTL 파일을 로드하고 Pydantic 모델 생성.
+text## Stage 0: Ontology Loader
+ontology_loader.py: OWL/TTL 파일을 로드하고 Pydantic 모델 생성.
 
 ## Stage 1: Excel to RDF
 excel_to_rdf.py: Pandas로 엑셀 읽기, FlowCode 계산, RDF 출력.
@@ -176,7 +176,7 @@ Cursor 사용 팁:
 5. 다음 단계 안내
 
 다운로드 및 설정 (5분): 위 파일들을 프로젝트 폴더에 저장.
-Protégé 연동: 이전 가이드 따라 온톨로지 TTL 내보내기.
+온톨로지 설정: OWL/TTL 파일로 온톨로지 정의 및 내보내기.
 로컬 테스트: pip install -r requirements.txt → npm install (프론트엔드).
 전체 빌드: docker-compose up으로 시스템 실행.
 
